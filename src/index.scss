@@ -1,13 +1,15 @@
 @font-face {
-  font-family: 'Pretendard-Regular';
-  src: url('./assets/fonts/Pretendard-Regular.woff') format('woff');
+  font-family: 'Pretendard Variable';
+  font-weight: 45 920;
+  font-style: normal;
+  font-display: swap;
+  src: url('./assets/fonts/PretendardVariable.woff2') format('woff2-variations');
 }
 
 :root {
-  font-family: 'Pretendard-Regular', Inter, system-ui, Avenir, Helvetica, Arial,
+  font-family: 'Pretendard Variable', Inter, system-ui, Avenir, Helvetica, Arial,
     sans-serif;
   line-height: 1.5;
-  font-weight: 400;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
