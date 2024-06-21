@@ -6,8 +6,8 @@ import ReactDOM from 'react-dom/client';
 
 import App from './App.tsx';
 
-import '@/styles/reset.css';
-import '@/index.css';
+import '@/styles/reset.scss';
+import '@/index.scss';
 
 const queryClient = new QueryClient();
 
