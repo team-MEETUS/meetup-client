@@ -1,13 +1,17 @@
-import { RouterProvider, createBrowserRouter } from 'react-router-dom';
+import { Outlet } from 'react-router-dom';
 
 import './App.scss';
-
-const router = createBrowserRouter([{ path: '/', element: <div>Home</div> }]);
+import Header from '@/components/header/Header';
+import Footer from '@/components/footer/Footer';
 
 function App() {
   return (
     <>
-      <RouterProvider router={router} />
+      <Header />
+      <div className="outlet-wrapper">
+        <Outlet />
+      </div>
+      <Footer />
     </>
   );
 }
