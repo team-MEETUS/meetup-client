@@ -26,26 +26,26 @@ const Header = () => {
       <>
         <header>
           <nav>
-            <Link to="#" className={styles.logo}>
+            <Link to="/" className={styles.logo}>
               <h1>MEETUP</h1>
             </Link>
           </nav>
         </header>
 
         <div className={styles.bottom_nav}>
-          <Link to="#" className={styles.nav_item}>
+          <Link to="/meeting" className={styles.nav_item}>
             모임
           </Link>
-          <Link to="#" className={styles.nav_item}>
+          <Link to="/regular-meeting" className={styles.nav_item}>
             정모
           </Link>
-          <Link to="#" className={styles.nav_item}>
+          <Link to="/place" className={styles.nav_item}>
             플레이스
           </Link>
           <Link to="/sign-in" className={styles.nav_item}>
             로그인
           </Link>
-          <Link to="#" className={styles.nav_item}>
+          <Link to="/sign-up" className={styles.nav_item}>
             회원가입
           </Link>
         </div>
@@ -57,17 +57,17 @@ const Header = () => {
     <header>
       <nav>
         <div className={styles.nav_left}>
-          <Link to="#" className={styles.logo}>
+          <Link to="/" className={styles.logo}>
             <h1>MEETUP</h1>
           </Link>
 
-          <Link to="#" className={styles.nav_item}>
+          <Link to="/meeting" className={styles.nav_item}>
             모임
           </Link>
-          <Link to="#" className={styles.nav_item}>
+          <Link to="/regular-meeting" className={styles.nav_item}>
             정모
           </Link>
-          <Link to="#" className={styles.nav_item}>
+          <Link to="/place" className={styles.nav_item}>
             플레이스
           </Link>
         </div>
@@ -76,7 +76,7 @@ const Header = () => {
           <Link to="/sign-in" className={styles.nav_item}>
             로그인
           </Link>
-          <Link to="#" className={styles.nav_item}>
+          <Link to="/sign-up" className={styles.nav_item}>
             회원가입
           </Link>
         </div>
