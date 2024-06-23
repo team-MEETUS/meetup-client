@@ -14,7 +14,8 @@ module.exports = {
     '.eslintrc.cjs',
     'vite.config.ts',
     'src',
-    'tailwind.config.ts',
+    'tailwind.config.js',
+    'postcss.config.js',
   ],
   parser: '@typescript-eslint/parser',
   parserOptions: {
