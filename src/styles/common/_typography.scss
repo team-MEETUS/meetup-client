@@ -1,21 +1,13 @@
 // Heading
 @mixin heading-1 {
-  font-size: toRem(50);
+  font-size: toRem(36);
 
   @media (max-width: $breakpoint-tablet) {
-    font-size: toRem(36);
+    font-size: toRem(30);
   }
 }
 
 @mixin heading-2 {
-  font-size: toRem(38);
-
-  @media (max-width: $breakpoint-tablet) {
-    font-size: toRem(32);
-  }
-}
-
-@mixin heading-3 {
   font-size: toRem(28);
 
   @media (max-width: $breakpoint-tablet) {
@@ -23,23 +15,35 @@
   }
 }
 
-@mixin heading-4 {
-  font-size: toRem(22);
+@mixin heading-3 {
+  font-size: toRem(21);
 
   @media (max-width: $breakpoint-tablet) {
-    font-size: toRem(21);
+    font-size: toRem(19);
   }
-}
-
-@mixin heading-5 {
-  font-size: toRem(18);
 }
 
 // Paragraph
 @mixin paragraph-1 {
-  font-size: toRem(16);
+  font-size: toRem(18);
+
+  @media (max-width: $breakpoint-tablet) {
+    font-size: toRem(16);
+  }
 }
 
 @mixin paragraph-2 {
+  font-size: toRem(16);
+
+  @media (max-width: $breakpoint-tablet) {
+    font-size: toRem(14);
+  }
+}
+
+@mixin paragraph-3 {
   font-size: toRem(14);
+
+  @media (max-width: $breakpoint-tablet) {
+    font-size: toRem(12);
+  }
 }
