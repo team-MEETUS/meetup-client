@@ -46,9 +46,6 @@ const Header = () => {
                 <Link to="/sign-in" className={styles.nav_item}>
                   로그인
                 </Link>
-                <Link to="/sign-up" className={styles.nav_item}>
-                  회원가입
-                </Link>
               </>
             ) : (
               <>

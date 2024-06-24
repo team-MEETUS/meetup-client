@@ -13,7 +13,7 @@
   }
 
   .title {
-    @include heading-3;
+    @include heading-2;
     font-weight: 500;
     color: var(--orange-500);
   }
