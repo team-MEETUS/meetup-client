@@ -30,7 +30,7 @@ const SignInPage = () => {
           <Link to="#">비밀번호 찾기</Link>
         </span>
         <span>
-          <Link to="sign-up">회원가입</Link>
+          <Link to="/sign-up">회원가입</Link>
         </span>
       </div>
     </div>
