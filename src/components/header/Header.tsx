@@ -41,22 +41,9 @@ const Header = () => {
             )}
           </div>
           <div className={styles.nav_right}>
-            {isMobile ? (
-              <>
-                <Link to="/sign-in" className={styles.nav_item}>
-                  로그인
-                </Link>
-              </>
-            ) : (
-              <>
-                <Link to="/sign-in" className={styles.nav_item}>
-                  로그인
-                </Link>
-                <Link to="/sign-up" className={styles.nav_item}>
-                  회원가입
-                </Link>
-              </>
-            )}
+            <Link to="/sign-in" className={styles.nav_item}>
+              로그인
+            </Link>
           </div>
         </nav>
       </header>
