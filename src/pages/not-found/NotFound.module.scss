@@ -18,8 +18,10 @@
   .home {
     cursor: pointer;
 
-    &:hover {
-      color: var(--orange-500);
+    @media (hover: hover) {
+      &:hover {
+        color: var(--orange-500);
+      }
     }
   }
 }

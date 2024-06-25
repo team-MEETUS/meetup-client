@@ -30,8 +30,10 @@ header {
       font-weight: 500;
       padding: 10px;
 
-      &:hover {
-        color: var(--orange-500);
+      @media (hover: hover) {
+        &:hover {
+          color: var(--orange-500);
+        }
       }
     }
   }

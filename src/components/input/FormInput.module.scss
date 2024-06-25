@@ -13,11 +13,11 @@
     @include paragraph-1;
     padding: 10px;
     border-radius: 5px;
-    border: 2px solid #00ff0000;
-
+    border: 1px solid var(--gray-400);
+    background-color: var(--gray-50);
     &:focus {
       outline: none;
-      border: 2px solid var(--orange-500);
+      border: 1px solid var(--orange-500);
     }
   }
 }

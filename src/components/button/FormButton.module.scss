@@ -6,7 +6,9 @@
   padding: 10px 0;
   border-radius: 5px;
 
-  &:hover {
-    background-color: var(--orange-600);
+  @media (hover: hover) {
+    &:hover {
+      background-color: var(--orange-600);
+    }
   }
 }

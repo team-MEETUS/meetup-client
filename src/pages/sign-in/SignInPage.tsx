@@ -2,6 +2,7 @@ import FormInput from '@/components/input/FormInput';
 
 import styles from './SignInPage.module.scss';
 import FormButton from '@/components/button/FormButton';
+import { Link } from 'react-router-dom';
 
 const SignInPage = () => {
   return (
@@ -25,8 +26,12 @@ const SignInPage = () => {
         <FormButton text="로그인" />
       </div>
       <div className={styles.sign_up}>
-        <span>비밀번호 찾기</span>
-        <span>회원가입</span>
+        <span>
+          <Link to="#">비밀번호 찾기</Link>
+        </span>
+        <span>
+          <Link to="sign-up">회원가입</Link>
+        </span>
       </div>
     </div>
   );
