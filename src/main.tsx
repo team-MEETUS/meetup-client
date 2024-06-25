@@ -12,6 +12,7 @@ import '@/index.scss';
 
 import NotFound from '@/pages/not-found/NotFound.tsx';
 import SignInPage from '@/pages/sign-in/SignInPage.tsx';
+import HomePage from '@/pages/home/HomePage.tsx';
 
 const queryClient = new QueryClient();
 
@@ -20,7 +21,10 @@ const router = createBrowserRouter([
     path: '/',
     element: <App />,
     errorElement: <NotFound />,
-    children: [{ path: '/sign-in', element: <SignInPage /> }],
+    children: [
+      { path: '/', element: <HomePage /> },
+      { path: '/sign-in', element: <SignInPage /> },
+    ],
   },
 ]);
 
