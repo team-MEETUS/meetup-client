@@ -56,6 +56,9 @@ header {
     padding: 10px 0;
 
     .nav_item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
       margin: 0;
       text-align: center;
       @include paragraph-3;

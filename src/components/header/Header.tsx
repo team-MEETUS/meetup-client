@@ -1,6 +1,9 @@
 import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import styles from './Header.module.scss';
+import MeetingIcon from '@/assets/icons/MeetingIcon.svg?react';
+import RegularMeetingIcon from '@/assets/icons/RegularMeetingIcon.svg?react';
+import PlaceIcon from '@/assets/icons/PlaceIcon.svg?react';
 
 const Header = () => {
   const [isMobile, setIsMobile] = useState(false);
@@ -50,12 +53,15 @@ const Header = () => {
       {isMobile && (
         <div className={styles.bottom_nav}>
           <Link to="/meeting" className={styles.nav_item}>
+            <MeetingIcon />
             모임
           </Link>
           <Link to="/regular-meeting" className={styles.nav_item}>
+            <RegularMeetingIcon />
             정모
           </Link>
           <Link to="/place" className={styles.nav_item}>
+            <PlaceIcon />
             플레이스
           </Link>
         </div>
