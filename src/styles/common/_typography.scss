@@ -1,49 +1,89 @@
-// Heading
-@mixin heading-1 {
-  font-size: toRem(36);
-
-  @media (max-width: $breakpoint-tablet) {
-    font-size: toRem(30);
-  }
+@mixin Bold-01 {
+  font-size: toRem(20);
+  font-weight: 700;
 }
 
-@mixin heading-2 {
-  font-size: toRem(28);
-
-  @media (max-width: $breakpoint-tablet) {
-    font-size: toRem(24);
-  }
-}
-
-@mixin heading-3 {
-  font-size: toRem(21);
-
-  @media (max-width: $breakpoint-tablet) {
-    font-size: toRem(19);
-  }
-}
-
-// Paragraph
-@mixin paragraph-1 {
+@mixin Bold-02 {
   font-size: toRem(18);
-
-  @media (max-width: $breakpoint-tablet) {
-    font-size: toRem(16);
-  }
+  font-weight: 700;
 }
 
-@mixin paragraph-2 {
+@mixin Medium-02 {
+  font-size: toRem(18);
+  font-weight: 600;
+}
+
+@mixin Bold-03 {
   font-size: toRem(16);
-
-  @media (max-width: $breakpoint-tablet) {
-    font-size: toRem(14);
-  }
+  font-weight: 700;
 }
 
-@mixin paragraph-3 {
-  font-size: toRem(14);
+@mixin Medium-03 {
+  font-size: toRem(16);
+  font-weight: 600;
+}
 
-  @media (max-width: $breakpoint-tablet) {
-    font-size: toRem(12);
-  }
+@mixin Regular-03 {
+  font-size: toRem(16);
+  font-weight: 400;
+}
+
+@mixin Light-03 {
+  font-size: toRem(16);
+  font-weight: 300;
+}
+
+@mixin Medium-04 {
+  font-size: toRem(14);
+  font-weight: 600;
+}
+
+@mixin Regular-04 {
+  font-size: toRem(14);
+  font-weight: 400;
+}
+
+@mixin Light-04 {
+  font-size: toRem(14);
+  font-weight: 300;
+}
+
+@mixin Bold-05 {
+  font-size: toReM(12);
+  font-weight: 700;
+}
+
+@mixin Medium-05 {
+  font-size: toReM(12);
+  font-weight: 600;
+}
+
+@mixin Regular-05 {
+  font-size: toReM(12);
+  font-weight: 400;
+}
+
+@mixin Light-05 {
+  font-size: toReM(12);
+  font-weight: 300;
+}
+
+@mixin Bold-06 {
+  font-size: toRem(10);
+  font-weight: 700;
+}
+
+@mixin Medium-06 {
+  font-size: toRem(10);
+  font-weight: 600;
+}
+
+@mixin Regular-06 {
+  font-size: toRem(10);
+  font-weight: 400;
+}
+
+@mixin Light-06 {
+  font-size: toRem(10);
+  font-weight: 300;
 }
