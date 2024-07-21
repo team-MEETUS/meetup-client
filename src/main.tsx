@@ -13,7 +13,7 @@ import '@/index.scss';
 import NotFound from '@/pages/not-found/NotFound.tsx';
 import HomePage from '@/pages/home/HomePage.tsx';
 import Footer from '@/components/footer/Footer.tsx';
-import BottomNavigation from '@/components/common/BottomNavigation/BottomNavigation.tsx';
+import BottomNavigation from '@/components/common/bottom-navigation/BottomNavigation.tsx';
 
 const queryClient = new QueryClient();
 
