@@ -1,17 +1,5 @@
 .footer {
-  background-color: #f8f8f8;
-  padding: 20px;
   text-align: center;
-  box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
-  margin: 0 auto;
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-
-  @media (max-width: 768px) {
-    margin-bottom: 50px;
-  }
 
   .footer_content {
     display: flex;
@@ -31,14 +19,6 @@
     display: flex;
     gap: 10px;
     flex-direction: row;
-  }
-
-  .footer_link {
-    font-weight: 500;
-
-    &:hover {
-      color: var(--orange-500);
-    }
   }
 
   .footer_bottom {
