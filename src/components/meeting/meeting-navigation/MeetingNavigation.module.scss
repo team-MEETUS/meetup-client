@@ -1,0 +1,19 @@
+.nav {
+  .nav_layout {
+    display: flex;
+    justify-content: space-around;
+    padding: 10px;
+  }
+
+  .nav_item {
+    @include Medium-04;
+    color: var(--gray-400);
+    flex: 1;
+    padding: 10px 0;
+  }
+
+  .active_nav_item {
+    color: var(--orange-400);
+    border-bottom: 2px solid var(--orange-400);
+  }
+}
