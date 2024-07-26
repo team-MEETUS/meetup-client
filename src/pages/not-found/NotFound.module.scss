@@ -6,13 +6,11 @@
   gap: 40px;
 
   .logo {
-    @include heading-2;
     font-weight: 600;
     color: var(--orange-500);
   }
 
   .content {
-    @include heading-3;
   }
 
   .home {
