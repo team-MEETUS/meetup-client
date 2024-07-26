@@ -1,0 +1,45 @@
+// Heading
+@mixin heading-1 {
+  font-size: toRem(50);
+
+  @media (max-width: $breakpoint-tablet) {
+    font-size: toRem(36);
+  }
+}
+
+@mixin heading-2 {
+  font-size: toRem(38);
+
+  @media (max-width: $breakpoint-tablet) {
+    font-size: toRem(32);
+  }
+}
+
+@mixin heading-3 {
+  font-size: toRem(28);
+
+  @media (max-width: $breakpoint-tablet) {
+    font-size: toRem(24);
+  }
+}
+
+@mixin heading-4 {
+  font-size: toRem(22);
+
+  @media (max-width: $breakpoint-tablet) {
+    font-size: toRem(21);
+  }
+}
+
+@mixin heading-5 {
+  font-size: toRem(18);
+}
+
+// Paragraph
+@mixin paragraph-1 {
+  font-size: toRem(16);
+}
+
+@mixin paragraph-2 {
+  font-size: toRem(14);
+}

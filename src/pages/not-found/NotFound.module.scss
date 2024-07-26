@@ -1,0 +1,25 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 40px;
+
+  .logo {
+    @include heading-2;
+    font-weight: 600;
+    color: var(--orange-500);
+  }
+
+  .content {
+    @include heading-5;
+  }
+
+  .home {
+    cursor: pointer;
+
+    &:hover {
+      color: var(--orange-500);
+    }
+  }
+}

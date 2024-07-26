@@ -1,0 +1,70 @@
+@import '../../styles/common/_typography.scss';
+
+header {
+  nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 30px;
+
+    .nav_left {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .nav_right {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .logo {
+      @include heading-2;
+      font-weight: 600;
+      color: var(--orange-500);
+    }
+
+    .nav_item {
+      @include heading-4;
+      font-weight: 500;
+      padding: 10px;
+
+      &:hover {
+        color: var(--orange-500);
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  header {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    nav {
+      padding: 30px;
+
+      .logo {
+        @include heading-2;
+        font-weight: 600;
+        color: var(--orange-500);
+      }
+    }
+  }
+
+  .bottom_nav {
+    display: flex;
+    justify-content: space-around;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #fff;
+    box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
+    padding: 10px 0;
+
+    .nav_item {
+      margin: 0;
+      text-align: center;
+    }
+  }
+}
