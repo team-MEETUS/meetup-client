@@ -1,0 +1,42 @@
+.nav {
+  position: relative;
+  margin-top: 60px;
+
+  .nav_layout {
+    display: flex;
+    justify-content: space-around;
+    position: fixed;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+    width: 100%;
+    max-width: 600px;
+    margin: 0px auto;
+    background-color: var(--white);
+
+    .nav_item {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+
+      .nav_icon {
+        display: flex;
+        width: 30px;
+        height: 30px;
+        -webkit-box-align: center;
+        align-items: center;
+        -webkit-box-pack: center;
+        justify-content: center;
+      }
+
+      .nav_text {
+        color: var(--gray-500);
+      }
+
+      .focused_nav_text {
+        @include Medium-03;
+      }
+    }
+  }
+}

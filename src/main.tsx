@@ -11,16 +11,24 @@ import '@/styles/reset.scss';
 import '@/index.scss';
 
 import NotFound from '@/pages/not-found/NotFound.tsx';
-import SignInPage from '@/pages/sign-in/SignInPage.tsx';
+import HomePage from '@/pages/home/HomePage.tsx';
+import Footer from '@/components/footer/Footer.tsx';
+import BottomNavigation from '@/components/common/bottom-navigation/BottomNavigation.tsx';
 
 const queryClient = new QueryClient();
 
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <App />,
+    element: (
+      <div className="container">
+        <App />
+        <Footer />
+        <BottomNavigation />
+      </div>
+    ),
     errorElement: <NotFound />,
-    children: [{ path: '/sign-in', element: <SignInPage /> }],
+    children: [{ path: '/', element: <HomePage /> }],
   },
 ]);
 
