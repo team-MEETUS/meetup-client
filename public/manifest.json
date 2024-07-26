@@ -1,0 +1,31 @@
+{
+  "name": "MEETUP",
+  "short_name": "MEETUP",
+  "description": "지역기반 모임 플랫폼",
+  "start_url": "/index.html",
+  "display": "fullscreen",
+  "theme_color": "#f97316",
+  "background_color": "#ffffff",
+  "icons": [
+    {
+      "src": "icons/icon-192-maskable.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icons/icon-512-maskable.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    }
+  ]
+}
