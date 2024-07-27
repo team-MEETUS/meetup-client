@@ -5,21 +5,24 @@ import svgr from 'vite-plugin-svgr';
 
 // https://vitejs.dev/config/
 export default ({ mode }: { mode: string }) => {
+  const isDevelop = mode === 'development';
   const env = loadEnv(mode, process.cwd(), '');
   const API_URL = env.VITE_API_URL;
 
   return defineConfig({
     plugins: [svgr(), react()],
-    server: {
-      port: 3000,
-      proxy: {
-        '/api': {
-          target: API_URL,
-          changeOrigin: true,
-          rewrite: (path) => path.replace(/^\/api/, ''),
-        },
-      },
-    },
+    server: isDevelop
+      ? {
+          port: 3000,
+          proxy: {
+            '/api': {
+              target: API_URL,
+              changeOrigin: true,
+              rewrite: (path) => path.replace(/^\/api/, ''),
+            },
+          },
+        }
+      : undefined,
     resolve: {
       alias: {
         '@': path.resolve(__dirname, './src'),
