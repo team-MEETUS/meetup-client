@@ -13,6 +13,7 @@ import Footer from '@/components/footer/Footer.tsx';
 import HomePage from '@/pages/home/HomePage.tsx';
 import MeetingPage from '@/pages/meeting/MeetingPage.tsx';
 import NotFound from '@/pages/not-found/NotFound.tsx';
+import TestPage from '@/pages/test/TestPage.tsx';
 
 import App from './App.tsx';
 
@@ -32,6 +33,7 @@ const router = createBrowserRouter([
     children: [
       { path: '/', element: <HomePage /> },
       { path: '/meeting', element: <MeetingPage /> },
+      { path: '/test', element: <TestPage /> },
     ],
   },
 ]);

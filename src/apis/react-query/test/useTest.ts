@@ -1,5 +1,6 @@
-import { GetTestDataAPI, PostTestDataAPI } from '@/apis/server/test/test';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+
+import { GetTestDataAPI, PostTestDataAPI } from '@/apis/server/test/test';
 
 const QUERY_KEY = {
   test: 'test',
@@ -23,8 +24,8 @@ export const usePostTestData = () => {
 
   return useMutation({
     mutationFn: PostTestDataAPI,
-    onSuccess: () => {
-      queryClient.invalidateQueries({
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({
         queryKey: [QUERY_KEY.test],
       });
     },

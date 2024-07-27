@@ -2,12 +2,23 @@ import api from '@/apis';
 
 const url = '/api';
 
+interface TestData {
+  data: string[];
+  success: boolean;
+  error: null;
+}
+
+interface RequestBody {
+  testId: number;
+  name: string;
+}
+
 export const GetTestDataAPI = async () => {
-  const { data } = await api.get(`${url}/test`);
+  const { data } = await api.get<TestData>(`${url}/test`);
   return data;
 };
 
-export const PostTestDataAPI = async (requestBody: any) => {
-  const { data } = await api.post(`${url}/test`, requestBody);
+export const PostTestDataAPI = async (requestBody: RequestBody) => {
+  const { data } = await api.post<TestData>(`${url}/test`, requestBody);
   return data;
 };
