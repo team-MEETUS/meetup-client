@@ -1,4 +1,5 @@
 import axios, { Axios } from 'axios';
+
 import type { AxiosInstance } from 'axios';
 
 const AxiosInstance = (baseURL: string = ''): Axios => {

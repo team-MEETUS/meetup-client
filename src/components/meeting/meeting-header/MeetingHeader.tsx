@@ -1,11 +1,12 @@
 import { useState } from 'react';
+
 import { useNavigate } from 'react-router-dom';
 
 import BackArrowIcon from '@/assets/icons/BackArrowIcon.svg?react';
-import FilledHeartIcon from '@/assets/icons/FilledHeartIcon.svg?react';
 import EmptyHeartIcon from '@/assets/icons/EmptyHeartIcon.svg?react';
-import ShareIcon from '@/assets/icons/ShareIcon.svg?react';
+import FilledHeartIcon from '@/assets/icons/FilledHeartIcon.svg?react';
 import MoreIcon from '@/assets/icons/MoreIcon.svg?react';
+import ShareIcon from '@/assets/icons/ShareIcon.svg?react';
 
 import styles from './MeetingHeader.module.scss';
 

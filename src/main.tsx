@@ -1,20 +1,20 @@
 import React from 'react';
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import ReactDOM from 'react-dom/client';
-
-import App from './App.tsx';
+import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 
 import '@/styles/reset.scss';
 import '@/index.scss';
 
-import NotFound from '@/pages/not-found/NotFound.tsx';
-import HomePage from '@/pages/home/HomePage.tsx';
-import Footer from '@/components/footer/Footer.tsx';
 import BottomNavigation from '@/components/common/bottom-navigation/BottomNavigation.tsx';
+import Footer from '@/components/footer/Footer.tsx';
+import HomePage from '@/pages/home/HomePage.tsx';
 import MeetingPage from '@/pages/meeting/MeetingPage.tsx';
+import NotFound from '@/pages/not-found/NotFound.tsx';
+
+import App from './App.tsx';
 
 const queryClient = new QueryClient();
 
@@ -24,7 +24,7 @@ const router = createBrowserRouter([
     element: (
       <div className="container">
         <App />
-        {/* <Footer /> */}
+        <Footer />
         <BottomNavigation />
       </div>
     ),

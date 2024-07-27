@@ -1,10 +1,10 @@
+import MeetingBanner from '@/components/meeting/meeting-banner/MeetingBanner';
 import MeetingHeader from '@/components/meeting/meeting-header/MeetingHeader';
 import MeetingLabel from '@/components/meeting/meeting-label/MeetingLabel';
 import MeetingNavigation from '@/components/meeting/meeting-navigation/MeetingNavigation';
+import MeetingTitle from '@/components/meeting/meeting-title/MeetingTitle';
 
 import styles from './MeetingPage.module.scss';
-import MeetingTitle from '@/components/meeting/meeting-title/MeetingTitle';
-import MeetingBanner from '@/components/meeting/meeting-banner/MeetingBanner';
 
 const MeetingPage = () => {
   return (
@@ -41,6 +41,24 @@ const MeetingPage = () => {
         <br />
         adipisci. Accusamus nemo reprehenderit asperiores distinctio id alias
         dolorem possimus temporibus ducimus atque.
+        <br />
+        consectetur, adipisicing elit. Fuga labore debitis molestiae quibusdam
+        tempore recusandae sunt soluta adipisci. Accusamus nemo reprehenderit
+        asperiores distinctio id alias dolorem possimus temporibus ducimus
+        atque.Lorem ipsum dolor sit amet consectetur, adipisicing elit. Fuga
+        labore debitis molestiae quibusdam tempore recusandae sunt soluta
+        <br /> <br />
+        consectetur, adipisicing elit. Fuga labore debitis molestiae quibusdam
+        tempore recusandae sunt soluta adipisci. Accusamus nemo reprehenderit
+        asperiores distinctio id alias dolorem possimus temporibus ducimus
+        atque.Lorem ipsum dolor sit amet consectetur, adipisicing elit. Fuga
+        labore debitis molestiae quibusdam tempore recusandae sunt soluta
+        <br /> <br />
+        consectetur, adipisicing elit. Fuga labore debitis molestiae quibusdam
+        tempore recusandae sunt soluta adipisci. Accusamus nemo reprehenderit
+        asperiores distinctio id alias dolorem possimus temporibus ducimus
+        atque.Lorem ipsum dolor sit amet consectetur, adipisicing elit. Fuga
+        labore debitis molestiae quibusdam tempore recusandae sunt soluta
         <br />
       </div>
     </div>

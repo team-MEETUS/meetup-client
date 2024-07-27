@@ -1,9 +1,10 @@
 import { Link, useLocation } from 'react-router-dom';
 
-import styles from './BottomNavigation.module.scss';
 import HomeIcon from '@/assets/icons/HomeIcon.svg?react';
 import MeetingIcon from '@/assets/icons/MeetingIcon.svg?react';
 import ProfileIcon from '@/assets/icons/ProfileIcon.svg?react';
+
+import styles from './BottomNavigation.module.scss';
 
 const BottomNavigation = () => {
   const location = useLocation();
