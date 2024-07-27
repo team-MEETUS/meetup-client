@@ -1,7 +1,4 @@
 [[redirects]];
 from = '/*';
 to = '/index.html';
-
-[[redirects]];
-from = '/test';
-to = '/test';
+status = 200;
