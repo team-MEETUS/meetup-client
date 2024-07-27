@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import BackArrowIcon from '@/assets/icons/BackArrowIcon.svg?react';
 import FilledHeartIcon from '@/assets/icons/FilledHeartIcon.svg?react';
@@ -14,14 +15,15 @@ interface MeetingHeaderProps {
 
 const MeetingHeader = (props: MeetingHeaderProps) => {
   const [isFilled, setIsFilled] = useState(false);
+  const navigate = useNavigate();
 
   const toggleHeart = () => setIsFilled(!isFilled);
 
   return (
     <header className={styles.meeting_header}>
       <div className={styles.header_right}>
-        <BackArrowIcon />
-        <span>{props.title}</span>
+        <BackArrowIcon onClick={() => navigate(-1)} />
+        <span className={styles.header_title}>{props.title}</span>
       </div>
       <div className={styles.header_left}>
         {isFilled ? (

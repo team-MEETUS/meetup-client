@@ -10,6 +10,10 @@
     align-items: center;
     justify-content: space-between;
     gap: 20px;
+
+    .header_title {
+      @include Bold-03;
+    }
   }
 
   .header_left {
