@@ -1,6 +1,6 @@
 [[redirects]];
-from = '/';
-to = '/';
+from = '/*';
+to = '/index.html';
 
 [[redirects]];
 from = '/test';
