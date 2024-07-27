@@ -7,21 +7,21 @@ module.exports = {
     'plugin:react-hooks/recommended',
     'plugin:@typescript-eslint/eslint-recommended',
     'plugin:@typescript-eslint/recommended-requiring-type-checking',
-    'prettier',
+    'plugin:prettier/recommended',
   ],
   ignorePatterns: [
     'dist',
     '.eslintrc.cjs',
     'vite.config.ts',
-    'src',
     'tailwind.config.js',
     'postcss.config.js',
+    'svg.d.ts',
   ],
   parser: '@typescript-eslint/parser',
   parserOptions: {
     project: ['./tsconfig.json'],
   },
-  plugins: ['react-refresh', 'import'],
+  plugins: ['react-refresh', 'import', 'unused-imports'],
   rules: {
     'react-refresh/only-export-components': [
       'warn',
@@ -29,6 +29,16 @@ module.exports = {
     ],
     'no-console': ['warn', { allow: ['warn', 'error', 'info'] }], // console.log() use warn
     'no-unused-vars': 'error', // 사용하지 않는 변수 error
+    'unused-imports/no-unused-imports': 'error', // 사용하지 않는 import error
+    'unused-imports/no-unused-vars': [
+      'warn',
+      {
+        vars: 'all',
+        varsIgnorePattern: '^_',
+        args: 'after-used',
+        argsIgnorePattern: '^_',
+      },
+    ],
     'import/order': [
       'error',
       {
