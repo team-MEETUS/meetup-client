@@ -2,7 +2,6 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 60px;
   margin: 10px 20px 0 20px;
 
   .header_right {
@@ -13,6 +12,10 @@
 
     .header_title {
       @include Bold-03;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 160px;
     }
   }
 
