@@ -2,7 +2,8 @@
   .nav_layout {
     display: flex;
     justify-content: space-around;
-    padding: 10px;
+    padding: 10px 0 0 0;
+    margin: 0 20px;
   }
 
   .nav_item {
@@ -14,6 +15,6 @@
 
   .active_nav_item {
     color: var(--orange-400);
-    border-bottom: 2px solid var(--orange-400);
+    border-bottom: 3px solid var(--orange-400);
   }
 }
