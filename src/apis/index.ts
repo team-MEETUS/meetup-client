@@ -2,7 +2,12 @@ import axios, { Axios } from 'axios';
 
 import type { AxiosInstance } from 'axios';
 
-const AxiosInstance = (baseURL: string = ''): Axios => {
+const baseURL =
+  import.meta.env.MODE === 'development'
+    ? import.meta.env.BASE_URL
+    : (import.meta.env.VITE_API_URL as string);
+
+const AxiosInstance = (baseURL: string): Axios => {
   const instance = axios.create({
     baseURL,
     timeout: 15000,
@@ -15,7 +20,7 @@ const AxiosInstance = (baseURL: string = ''): Axios => {
   return instance;
 };
 
-const api = AxiosInstance();
+const api = AxiosInstance(baseURL);
 
 // const api = {
 //   get: async <T = any>(

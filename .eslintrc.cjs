@@ -16,6 +16,7 @@ module.exports = {
     'tailwind.config.js',
     'postcss.config.js',
     'svg.d.ts',
+    'env.d.ts',
     'netlify.toml',
   ],
   parser: '@typescript-eslint/parser',
