@@ -1,6 +1,6 @@
 import api from '@/apis';
 
-const url = '/api';
+const url = import.meta.env.MODE === 'development' ? '/api' : '';
 
 interface TestData {
   data: string[];
