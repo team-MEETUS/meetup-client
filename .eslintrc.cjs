@@ -1,9 +1,15 @@
 module.exports = {
+  parserOptions: {
+    ecmaVersion: 'latest',
+    sourceType: 'module',
+    project: ['./tsconfig.json', './tsconfig.node.json'],
+    tsconfigRootDir: __dirname,
+  },
   root: true,
   env: { browser: true, es2020: true },
   extends: [
     'eslint:recommended',
-    'plugin:@typescript-eslint/recommended',
+    'plugin:@typescript-eslint/recommended-type-checked',
     'plugin:react-hooks/recommended',
     'plugin:@typescript-eslint/eslint-recommended',
     'plugin:@typescript-eslint/recommended-requiring-type-checking',
@@ -17,7 +23,6 @@ module.exports = {
     'postcss.config.js',
     'svg.d.ts',
     'env.d.ts',
-    'netlify.toml',
   ],
   parser: '@typescript-eslint/parser',
   parserOptions: {
