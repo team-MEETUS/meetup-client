@@ -2,4 +2,25 @@
   display: grid;
   gap: 20px;
   padding: 20px;
+  position: relative;
+  max-width: 600px;
+
+  .button_container {
+    position: fixed;
+    bottom: calc(10px + 46px + env(safe-area-inset-bottom));
+    right: 30px;
+    background-color: var(--orange-500);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3); /* Add shadow */
+
+    @media (min-width: 600px) {
+      right: calc(50% - 220px);
+    }
+  }
 }
