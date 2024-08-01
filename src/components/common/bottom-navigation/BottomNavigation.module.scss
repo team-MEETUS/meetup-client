@@ -1,6 +1,6 @@
 .nav {
   position: relative;
-  margin-top: 60px;
+  margin-top: calc(46px + env(safe-area-inset-bottom));
 
   .nav_layout {
     display: flex;
@@ -8,7 +8,7 @@
     position: fixed;
     left: 0px;
     right: 0px;
-    bottom: 0px;
+    bottom: calc(0px + env(safe-area-inset-bottom));
     width: 100%;
     max-width: 600px;
     margin: 0px auto;
