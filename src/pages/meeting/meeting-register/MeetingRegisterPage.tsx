@@ -21,7 +21,7 @@ const MeetingRegisterPage = () => {
   const location = useLocation();
 
   const [meetingLocation, setMeetingLocation] = useState<string>('');
-  const [meetingGeoID, setMeetingGeoID] = useState<number>(0);
+  const [, setMeetingGeoID] = useState<number>(0);
   const [meetingInterest, setMeetingInterest] = useState<string>('');
   const [meetingImage, setMeetingImage] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
