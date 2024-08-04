@@ -2,10 +2,7 @@ import axios, { Axios } from 'axios';
 
 import type { AxiosInstance } from 'axios';
 
-const baseURL =
-  import.meta.env.MODE === 'development'
-    ? import.meta.env.BASE_URL
-    : (import.meta.env.VITE_API_URL as string);
+const API_URL = import.meta.env.VITE_API_URL;
 
 const AxiosInstance = (baseURL: string): Axios => {
   const instance = axios.create({
@@ -20,7 +17,7 @@ const AxiosInstance = (baseURL: string): Axios => {
   return instance;
 };
 
-const api = AxiosInstance(baseURL);
+const api = AxiosInstance(API_URL);
 
 // const api = {
 //   get: async <T = any>(
