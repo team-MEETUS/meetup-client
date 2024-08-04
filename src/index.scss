@@ -6,9 +6,14 @@
   src: url('./assets/fonts/PretendardVariable.woff2') format('woff2-variations');
 }
 
+@font-face {
+  font-family: 'Tossface';
+  src: url('./assets/icons/TossFaceFontMac.ttf') format('woff2-variations');
+}
+
 :root {
   font-family: 'Pretendard Variable', Inter, system-ui, Avenir, Helvetica, Arial,
-    sans-serif;
+    sans-serif, 'Tossface';
   line-height: 1.5;
 
   font-synthesis: none;
