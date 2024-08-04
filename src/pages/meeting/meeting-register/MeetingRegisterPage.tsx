@@ -1,6 +1,7 @@
-import React, { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import classNames from 'classnames/bind';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import LocationIcon from '@/assets/icons/LocationIcon.svg?react';
 import MeetingImageIcon from '@/assets/icons/MeetingImageIcon.svg?react';
@@ -9,11 +10,19 @@ import CommonHeader from '@/components/header/CommonHeader';
 
 import styles from './MeetingRegisterPage.module.scss';
 
-const MeetingRegisterPage: React.FC = () => {
-  const cx = classNames.bind(styles);
+interface LocationState {
+  selectedLocation?: string;
+  geoId?: number;
+}
 
-  const [location, setLocation] = useState<string>('');
-  const [interest, setInterest] = useState<string>('');
+const MeetingRegisterPage = () => {
+  const cx = classNames.bind(styles);
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const [meetingLocation, setMeetingLocation] = useState<string>('');
+  const [meetingGeoID, setMeetingGeoID] = useState<number>(0);
+  const [meetingInterest, setMeetingInterest] = useState<string>('');
   const [meetingImage, setMeetingImage] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [meetingName, setMeetingName] = useState<string>('');
@@ -35,6 +44,14 @@ const MeetingRegisterPage: React.FC = () => {
     }
   };
 
+  useEffect(() => {
+    const state = location.state as LocationState;
+    if (state.selectedLocation && state.geoId) {
+      setMeetingLocation(state.selectedLocation);
+      setMeetingGeoID(Number(state.geoId));
+    }
+  }, [location.state]);
+
   return (
     <div className={styles.container}>
       <div className={styles.header}>
@@ -42,7 +59,7 @@ const MeetingRegisterPage: React.FC = () => {
       </div>
       <form className={styles.form}>
         <div className={styles.form_item}>
-          <label className={styles.label} htmlFor="location">
+          <label className={styles.label} htmlFor="meetingLocation">
             <LocationIcon />
             중심지역
           </label>
@@ -50,22 +67,24 @@ const MeetingRegisterPage: React.FC = () => {
             id="location"
             type="text"
             placeholder="동 · 읍 · 면 찾기"
-            value={location}
-            onChange={(e) => setLocation(e.target.value)}
+            value={meetingLocation}
+            onChange={(e) => setMeetingLocation(e.target.value)}
+            onClick={() => navigate('location')}
+            readOnly
             className={styles.input}
           />
         </div>
         <div className={styles.form_item}>
-          <label className={styles.label} htmlFor="interest">
+          <label className={styles.label} htmlFor="meetingInterest">
             <button className={styles.location_button}></button>
             상세관심사
           </label>
           <input
-            id="interest"
+            id="meetingInterest"
             type="text"
             placeholder="없음"
-            value={interest}
-            onChange={(e) => setInterest(e.target.value)}
+            value={meetingInterest}
+            onChange={(e) => setMeetingInterest(e.target.value)}
             className={styles.input}
           />
         </div>
