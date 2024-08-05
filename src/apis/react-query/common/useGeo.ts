@@ -1,16 +1,14 @@
 import { useQuery } from '@tanstack/react-query';
 
+import useGeoQueryKey from '@/apis/query-key/useGeoQueryKey';
 import { GetAllGeoAPI } from '@/apis/server/common/geoAPI';
-
-const QUERY_KEY = {
-  geos: 'geos',
-};
 
 export const useGetAllGeoData = () => {
   const { data, isLoading, error } = useQuery({
-    queryKey: [QUERY_KEY.geos],
+    queryKey: useGeoQueryKey.geoList(),
     queryFn: GetAllGeoAPI,
     select: (response) => response.data,
+    gcTime: 1000 * 60 * 60 * 24,
   });
 
   return {
