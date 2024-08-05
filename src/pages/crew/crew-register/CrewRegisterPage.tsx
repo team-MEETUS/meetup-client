@@ -71,6 +71,7 @@ const CrewRegisterPage = () => {
             onChange={(e) => setCrewLocation(e.target.value)}
             onClick={() => navigate('location')}
             readOnly
+            autoComplete="off"
             className={styles.input}
           />
         </div>
@@ -85,6 +86,7 @@ const CrewRegisterPage = () => {
             placeholder="없음"
             value={crewInterest}
             onChange={(e) => setCrewInterest(e.target.value)}
+            autoComplete="off"
             className={styles.input}
           />
         </div>
@@ -122,6 +124,7 @@ const CrewRegisterPage = () => {
             placeholder="모임 이름"
             value={crewName}
             onChange={(e) => setCrewName(e.target.value)}
+            autoComplete="off"
             className={styles.input}
           />
         </div>
@@ -134,6 +137,7 @@ const CrewRegisterPage = () => {
           placeholder="모임 목표를 설명해주세요."
           value={crewDescription}
           onChange={(e) => setCrewDescription(e.target.value)}
+          autoComplete="off"
           className={styles.form_description}
         />
 
@@ -147,7 +151,12 @@ const CrewRegisterPage = () => {
             type="text"
             placeholder="300"
             value={maxPeople}
-            onChange={(e) => setMaxPeople(e.target.value)}
+            onChange={(e) =>
+              setMaxPeople(
+                Number(e.target.value) > 300 ? '300' : e.target.value,
+              )
+            }
+            autoComplete="off"
             className={cx('input', 'max_people')}
           />
         </div>
