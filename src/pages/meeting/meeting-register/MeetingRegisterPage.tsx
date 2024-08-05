@@ -46,7 +46,7 @@ const MeetingRegisterPage = () => {
 
   useEffect(() => {
     const state = location.state as LocationState;
-    if (state.selectedLocation && state.geoId) {
+    if (state && state.selectedLocation && state.geoId) {
       setMeetingLocation(state.selectedLocation);
       setMeetingGeoID(Number(state.geoId));
     }
