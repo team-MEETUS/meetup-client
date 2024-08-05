@@ -8,20 +8,20 @@ import FilledHeartIcon from '@/assets/icons/FilledHeartIcon.svg?react';
 import MoreIcon from '@/assets/icons/MoreIcon.svg?react';
 import ShareIcon from '@/assets/icons/ShareIcon.svg?react';
 
-import styles from './MeetingHeader.module.scss';
+import styles from './CrewHeader.module.scss';
 
-interface MeetingHeaderProps {
+interface CrewHeaderProps {
   title: string;
 }
 
-const MeetingHeader = (props: MeetingHeaderProps) => {
+const CrewHeader = (props: CrewHeaderProps) => {
   const [isFilled, setIsFilled] = useState(false);
   const navigate = useNavigate();
 
   const toggleHeart = () => setIsFilled(!isFilled);
 
   return (
-    <header className={styles.meeting_header}>
+    <header className={styles.crew_header}>
       <div className={styles.header_right}>
         <BackArrowIcon onClick={() => navigate(-1)} />
         <span className={styles.header_title}>{props.title}</span>
@@ -39,4 +39,4 @@ const MeetingHeader = (props: MeetingHeaderProps) => {
   );
 };
 
-export default MeetingHeader;
+export default CrewHeader;

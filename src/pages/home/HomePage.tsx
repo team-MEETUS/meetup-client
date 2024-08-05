@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 
-import MeetingAddIcon from '@/assets/icons/MeetingAddIcon.svg?react';
+import CrewAddIcon from '@/assets/icons/CrewAddIcon.svg?react';
 
 import styles from './HomePage.module.scss';
 
@@ -9,8 +9,8 @@ const HomePage = () => {
     <div className={styles.container}>
       홈
       <button className={styles.button_container}>
-        <Link to="/meeting/register">
-          <MeetingAddIcon />
+        <Link to="/crew/register">
+          <CrewAddIcon />
         </Link>
       </button>
     </div>

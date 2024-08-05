@@ -1,12 +1,12 @@
 import { NavLink } from 'react-router-dom';
 
-import styles from './MeetingNavigation.module.scss';
-const MeetingNavigation = () => {
+import styles from './CrewNavigation.module.scss';
+const CrewNavigation = () => {
   return (
     <nav className={styles.nav}>
       <div className={styles.nav_layout}>
         <NavLink
-          to="/meeting"
+          to="/crew"
           className={({ isActive }) =>
             [styles.nav_item, isActive ? styles.active_nav_item : ''].join(' ')
           }
@@ -14,7 +14,7 @@ const MeetingNavigation = () => {
           홈
         </NavLink>
         <NavLink
-          to="/meeting/board"
+          to="/crew/board"
           className={({ isActive }) =>
             [styles.nav_item, isActive ? styles.active_nav_item : ''].join(' ')
           }
@@ -22,7 +22,7 @@ const MeetingNavigation = () => {
           게시판
         </NavLink>
         <NavLink
-          to="/meeting/album"
+          to="/crew/album"
           className={({ isActive }) =>
             [styles.nav_item, isActive ? styles.active_nav_item : ''].join(' ')
           }
@@ -30,7 +30,7 @@ const MeetingNavigation = () => {
           사진첩
         </NavLink>
         <NavLink
-          to="/meeting/chat"
+          to="/crew/chat"
           className={({ isActive }) =>
             [styles.nav_item, isActive ? styles.active_nav_item : ''].join(' ')
           }
@@ -42,4 +42,4 @@ const MeetingNavigation = () => {
   );
 };
 
-export default MeetingNavigation;
+export default CrewNavigation;

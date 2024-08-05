@@ -12,7 +12,7 @@ const CommonHeader = (props: HeaderProps) => {
   const navigate = useNavigate();
 
   return (
-    <header className={styles.meeting_header}>
+    <header className={styles.crew_header}>
       <div className={styles.header_left}>
         <BackArrowIcon onClick={() => navigate(-1)} />
       </div>

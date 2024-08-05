@@ -1,27 +1,27 @@
-import MeetingBanner from '@/components/meeting/meeting-banner/MeetingBanner';
-import MeetingHeader from '@/components/meeting/meeting-header/MeetingHeader';
-import MeetingLabel from '@/components/meeting/meeting-label/MeetingLabel';
-import MeetingNavigation from '@/components/meeting/meeting-navigation/MeetingNavigation';
-import MeetingTitle from '@/components/meeting/meeting-title/MeetingTitle';
+import CrewBanner from '@/components/crew/crew-banner/CrewBanner';
+import CrewHeader from '@/components/crew/crew-header/CrewHeader';
+import CrewLabel from '@/components/crew/crew-label/CrewLabel';
+import CrewNavigation from '@/components/crew/crew-navigation/CrewNavigation';
+import CrewTitle from '@/components/crew/crew-title/CrewTitle';
 
-import styles from './MeetingPage.module.scss';
+import styles from './CrewPage.module.scss';
 
-const MeetingPage = () => {
+const CrewPage = () => {
   return (
     <div className={styles.container}>
       <div className={styles.header}>
-        <MeetingHeader title="MEETUP - 지역기반 모임 플랫폼" />
-        <MeetingNavigation />
+        <CrewHeader title="MEETUP - 지역기반 모임 플랫폼" />
+        <CrewNavigation />
       </div>
 
-      <MeetingBanner imgSrc="/images/crew-banner.png" />
+      <CrewBanner imgSrc="/images/crew-banner.png" />
       <div className={styles.content}>
         <div className={styles.label_container}>
-          <MeetingLabel text="종로구" />
-          <MeetingLabel text="운동/스포츠" />
-          <MeetingLabel text="멤버 294" />
+          <CrewLabel text="종로구" />
+          <CrewLabel text="운동/스포츠" />
+          <CrewLabel text="멤버 294" />
         </div>
-        <MeetingTitle title="MEETUP - 지역기반 모임 플랫폼" />
+        <CrewTitle title="MEETUP - 지역기반 모임 플랫폼" />
         🌸 봄 여름 가을 겨울!! MEETUP 팀원들과 함께 달려요! 🌸
         <br />
         <br />
@@ -65,4 +65,4 @@ const MeetingPage = () => {
   );
 };
 
-export default MeetingPage;
+export default CrewPage;

@@ -3,30 +3,30 @@ import { useEffect, useRef, useState } from 'react';
 import classNames from 'classnames/bind';
 import { useLocation, useNavigate } from 'react-router-dom';
 
+import CrewImageIcon from '@/assets/icons/CrewImageIcon.svg?react';
 import LocationIcon from '@/assets/icons/LocationIcon.svg?react';
-import MeetingImageIcon from '@/assets/icons/MeetingImageIcon.svg?react';
 import PersonIcon from '@/assets/icons/PersonIcon.svg?react';
 import CommonHeader from '@/components/header/CommonHeader';
 
-import styles from './MeetingRegisterPage.module.scss';
+import styles from './CrewRegisterPage.module.scss';
 
 interface LocationState {
   selectedLocation?: string;
   geoId?: number;
 }
 
-const MeetingRegisterPage = () => {
+const CrewRegisterPage = () => {
   const cx = classNames.bind(styles);
   const navigate = useNavigate();
   const location = useLocation();
 
-  const [meetingLocation, setMeetingLocation] = useState<string>('');
-  const [, setMeetingGeoID] = useState<number>(0);
-  const [meetingInterest, setMeetingInterest] = useState<string>('');
-  const [meetingImage, setMeetingImage] = useState<string | null>(null);
+  const [crewLocation, setCrewLocation] = useState<string>('');
+  const [, setCrewGeoID] = useState<number>(0);
+  const [crewInterest, setCrewInterest] = useState<string>('');
+  const [crewImage, setCrewImage] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
-  const [meetingName, setMeetingName] = useState<string>('');
-  const [meetingDescription, setMeetingDescription] = useState<string>('');
+  const [crewName, setCrewName] = useState<string>('');
+  const [crewDescription, setCrewDescription] = useState<string>('');
   const [maxPeople, setMaxPeople] = useState<string>('');
 
   const handleClick = () => {
@@ -38,7 +38,7 @@ const MeetingRegisterPage = () => {
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
-        setMeetingImage(reader.result as string);
+        setCrewImage(reader.result as string);
       };
       reader.readAsDataURL(file);
     }
@@ -47,8 +47,8 @@ const MeetingRegisterPage = () => {
   useEffect(() => {
     const state = location.state as LocationState;
     if (state && state.selectedLocation && state.geoId) {
-      setMeetingLocation(state.selectedLocation);
-      setMeetingGeoID(Number(state.geoId));
+      setCrewLocation(state.selectedLocation);
+      setCrewGeoID(Number(state.geoId));
     }
   }, [location.state]);
 
@@ -59,7 +59,7 @@ const MeetingRegisterPage = () => {
       </div>
       <form className={styles.form}>
         <div className={styles.form_item}>
-          <label className={styles.label} htmlFor="meetingLocation">
+          <label className={styles.label} htmlFor="crewLocation">
             <LocationIcon />
             중심지역
           </label>
@@ -67,48 +67,44 @@ const MeetingRegisterPage = () => {
             id="location"
             type="text"
             placeholder="동 · 읍 · 면 찾기"
-            value={meetingLocation}
-            onChange={(e) => setMeetingLocation(e.target.value)}
+            value={crewLocation}
+            onChange={(e) => setCrewLocation(e.target.value)}
             onClick={() => navigate('location')}
             readOnly
             className={styles.input}
           />
         </div>
         <div className={styles.form_item}>
-          <label className={styles.label} htmlFor="meetingInterest">
+          <label className={styles.label} htmlFor="crewInterest">
             <button className={styles.location_button}></button>
             상세관심사
           </label>
           <input
-            id="meetingInterest"
+            id="crewInterest"
             type="text"
             placeholder="없음"
-            value={meetingInterest}
-            onChange={(e) => setMeetingInterest(e.target.value)}
+            value={crewInterest}
+            onChange={(e) => setCrewInterest(e.target.value)}
             className={styles.input}
           />
         </div>
         <div className={styles.form_image} onClick={handleClick}>
-          {!meetingImage ? (
+          {!crewImage ? (
             <>
               <div className={styles.no_image}>
-                <MeetingImageIcon fill={'var(--orange-400)'} />
+                <CrewImageIcon fill={'var(--orange-400)'} />
                 우리 모임의 사진을 올려보세요.
               </div>
               <span className={styles.image_ratio}>비율 20:9</span>
             </>
           ) : (
-            <img
-              src={meetingImage}
-              alt="모임 사진"
-              className={styles.has_image}
-            />
+            <img src={crewImage} alt="모임 사진" className={styles.has_image} />
           )}
-          <label className={cx('label', 'a11yHidden')} htmlFor="meetingBanner">
+          <label className={cx('label', 'a11yHidden')} htmlFor="crewBanner">
             모임 사진
           </label>
           <input
-            id="meetingBanner"
+            id="crewBanner"
             type="file"
             accept="image/*"
             ref={fileInputRef}
@@ -117,27 +113,27 @@ const MeetingRegisterPage = () => {
           />
         </div>
         <div className={styles.form_item}>
-          <label className={styles.label} htmlFor="meetingName">
+          <label className={styles.label} htmlFor="crewName">
             모임명
           </label>
           <input
-            id="meetingName"
+            id="crewName"
             type="text"
             placeholder="모임 이름"
-            value={meetingName}
-            onChange={(e) => setMeetingName(e.target.value)}
+            value={crewName}
+            onChange={(e) => setCrewName(e.target.value)}
             className={styles.input}
           />
         </div>
 
-        <label className={cx('a11yHidden')} htmlFor="meetingDescription">
+        <label className={cx('a11yHidden')} htmlFor="crewDescription">
           모임 설명
         </label>
         <textarea
-          id="meetingDescription"
+          id="crewDescription"
           placeholder="모임 목표를 설명해주세요."
-          value={meetingDescription}
-          onChange={(e) => setMeetingDescription(e.target.value)}
+          value={crewDescription}
+          onChange={(e) => setCrewDescription(e.target.value)}
           className={styles.form_description}
         />
 
@@ -164,4 +160,4 @@ const MeetingRegisterPage = () => {
   );
 };
 
-export default MeetingRegisterPage;
+export default CrewRegisterPage;

@@ -1,7 +1,7 @@
 import { Link, useLocation } from 'react-router-dom';
 
+import CrewIcon from '@/assets/icons/CrewIcon.svg?react';
 import HomeIcon from '@/assets/icons/HomeIcon.svg?react';
-import MeetingIcon from '@/assets/icons/MeetingIcon.svg?react';
 import ProfileIcon from '@/assets/icons/ProfileIcon.svg?react';
 
 import styles from './BottomNavigation.module.scss';
@@ -30,19 +30,15 @@ const BottomNavigation = () => {
             홈
           </span>
         </Link>
-        <Link to="/meeting" className={styles.nav_item}>
+        <Link to="/crew" className={styles.nav_item}>
           <div role="button" className={styles.nav_icon}>
-            <MeetingIcon
-              fill={
-                isCurrentPath('/meeting') ? 'var(--black)' : 'var(--gray-500)'
-              }
+            <CrewIcon
+              fill={isCurrentPath('/crew') ? 'var(--black)' : 'var(--gray-500)'}
             />
           </div>
           <span
             className={
-              isCurrentPath('/meeting')
-                ? styles.focused_nav_text
-                : styles.nav_text
+              isCurrentPath('/crew') ? styles.focused_nav_text : styles.nav_text
             }
           >
             내모임

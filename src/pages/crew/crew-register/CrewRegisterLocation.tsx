@@ -8,9 +8,9 @@ import LoadingSpinner from '@/components/common/loading-spinner/LoadingSpinner';
 import CommonHeader from '@/components/header/CommonHeader';
 import { debounce } from '@/utils/debounce';
 
-import styles from './MeetingRegisterLocation.module.scss';
+import styles from './CrewRegisterLocation.module.scss';
 
-const MeetingRegisterLocation = () => {
+const CrewRegisterLocation = () => {
   const { GetAllGeoData, isLoading } = useGetAllGeoData();
   const [search, setSearch] = useState<string>('');
   const [filteredData, setFilteredData] = useState<GetAllGeoAPIResponseBody[]>(
@@ -42,7 +42,7 @@ const MeetingRegisterLocation = () => {
   }, [search, GetAllGeoData, debounceFilter]);
 
   const handleSelectLocation = (location: string, geoId: number) => {
-    navigate('/meeting/register', {
+    navigate('/crew/register', {
       state: { selectedLocation: location, geoId },
     });
   };
@@ -97,4 +97,4 @@ const MeetingRegisterLocation = () => {
   );
 };
 
-export default MeetingRegisterLocation;
+export default CrewRegisterLocation;
