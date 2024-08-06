@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 
 import { useNavigate } from 'react-router-dom';
 
-import { useGetAllGeoData } from '@/apis/react-query/common/useGeo';
+import { useGetAllGeoDataQuery } from '@/apis/react-query/common/useGeoQuery';
 import { GetAllGeoAPIResponseBody } from '@/apis/server/common/geoAPI';
 import LoadingSpinner from '@/components/common/loading-spinner/LoadingSpinner';
 import CommonHeader from '@/components/header/CommonHeader';
@@ -11,7 +11,7 @@ import { debounce } from '@/utils/debounce';
 import styles from './CrewRegisterLocation.module.scss';
 
 const CrewRegisterLocation = () => {
-  const { GetAllGeoData, isLoading } = useGetAllGeoData();
+  const { GetAllGeoData, isLoading } = useGetAllGeoDataQuery();
   const [search, setSearch] = useState<string>('');
   const [filteredData, setFilteredData] = useState<GetAllGeoAPIResponseBody[]>(
     [],
