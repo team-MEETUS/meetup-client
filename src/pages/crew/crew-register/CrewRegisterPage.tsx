@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 
 import classNames from 'classnames/bind';
 import { useNavigate } from 'react-router-dom';
@@ -52,6 +52,8 @@ const CrewRegisterPage = () => {
     updateImage: state.updateImage,
   }));
 
+  const [imageURL, setImageURL] = useState<string | undefined>();
+
   const handleInterestSmallClick = () => {
     if (!interestBig.interestBigId) {
       // interestBig이 선택되지 않은 경우
@@ -70,8 +72,8 @@ const CrewRegisterPage = () => {
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
-
     if (file) {
+      setImageURL(URL.createObjectURL(file));
       updateImage(file);
     }
   };
@@ -84,8 +86,8 @@ const CrewRegisterPage = () => {
       content,
       max: Number(max),
       geoId: geoInfo.geoId,
-      interestBig: interestBig.interestBigId,
-      interestSmall: interestSmall.interestSmallId,
+      interestBigId: interestBig.interestBigId,
+      interestSmallId: interestSmall.interestSmallId,
     };
 
     if (image) {
@@ -161,11 +163,7 @@ const CrewRegisterPage = () => {
               <span className={styles.image_ratio}>비율 20:9</span>
             </>
           ) : (
-            <img
-              src={URL.createObjectURL(image)}
-              alt="모임 사진"
-              className={styles.has_image}
-            />
+            <img src={imageURL} alt="모임 사진" className={styles.has_image} />
           )}
           <label className={cx('label', 'a11yHidden')} htmlFor="crewBanner">
             모임 사진
