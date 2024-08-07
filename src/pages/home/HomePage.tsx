@@ -9,7 +9,7 @@ const HomePage = () => {
     <div className={styles.container}>
       홈
       <button className={styles.button_container}>
-        <Link to="/crew/register">
+        <Link to="/crew/register/interest-big">
           <CrewAddIcon />
         </Link>
       </button>

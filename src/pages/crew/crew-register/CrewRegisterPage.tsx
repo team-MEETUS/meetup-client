@@ -1,63 +1,119 @@
-import { useEffect, useRef, useState } from 'react';
+import { useRef } from 'react';
 
 import classNames from 'classnames/bind';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
+import { useCrewMutation } from '@/apis/react-query/crew/useCrewQuery';
 import CrewImageIcon from '@/assets/icons/CrewImageIcon.svg?react';
 import LocationIcon from '@/assets/icons/LocationIcon.svg?react';
 import PersonIcon from '@/assets/icons/PersonIcon.svg?react';
 import CommonHeader from '@/components/header/CommonHeader';
+import useCrewRegisterStore from '@/stores/crew/useCrewRegisterStore';
 
 import styles from './CrewRegisterPage.module.scss';
-
-interface LocationState {
-  selectedLocation?: string;
-  geoId?: number;
-}
 
 const CrewRegisterPage = () => {
   const cx = classNames.bind(styles);
   const navigate = useNavigate();
-  const location = useLocation();
 
-  const [crewLocation, setCrewLocation] = useState<string>('');
-  const [, setCrewGeoID] = useState<number>(0);
-  const [crewInterest, setCrewInterest] = useState<string>('');
-  const [crewImage, setCrewImage] = useState<string | null>(null);
+  const { postAddCrew } = useCrewMutation();
+
+  const {
+    name,
+    // intro,
+    content,
+    max,
+    // originalImg,
+    // saveImg,
+    geoInfo,
+    interestBig,
+    interestSmall,
+    image,
+    updateName,
+    // updateIntro,
+    updateContent,
+    updateMax,
+    updateImage,
+  } = useCrewRegisterStore((state) => ({
+    name: state.name,
+    intro: state.intro,
+    content: state.content,
+    max: state.max,
+    originalImg: state.originalImg,
+    saveImg: state.saveImg,
+    geoInfo: state.geoInfo,
+    interestBig: state.interestBig,
+    interestSmall: state.interestSmall,
+    image: state.image,
+    updateName: state.updateName,
+    updateIntro: state.updateIntro,
+    updateContent: state.updateContent,
+    updateMax: state.updateMax,
+    updateImage: state.updateImage,
+  }));
+
+  const handleInterestSmallClick = () => {
+    if (!interestBig.interestBigId) {
+      // interestBig이 선택되지 않은 경우
+      alert('관심사를 먼저 선택해주세요.');
+      navigate('/crew/register/interest-big');
+    } else {
+      navigate('/crew/register/interest-small');
+    }
+  };
+
   const fileInputRef = useRef<HTMLInputElement | null>(null);
-  const [crewName, setCrewName] = useState<string>('');
-  const [crewDescription, setCrewDescription] = useState<string>('');
-  const [maxPeople, setMaxPeople] = useState<string>('');
 
-  const handleClick = () => {
+  const handleFileClick = () => {
     fileInputRef.current?.click();
   };
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
+
     if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setCrewImage(reader.result as string);
-      };
-      reader.readAsDataURL(file);
+      updateImage(file);
     }
   };
 
-  useEffect(() => {
-    const state = location.state as LocationState;
-    if (state && state.selectedLocation && state.geoId) {
-      setCrewLocation(state.selectedLocation);
-      setCrewGeoID(Number(state.geoId));
+  const handleMakeCrew = async (): Promise<void> => {
+    const formData = new FormData();
+
+    const data = {
+      name,
+      content,
+      max: Number(max),
+      geoId: geoInfo.geoId,
+      interestBig: interestBig.interestBigId,
+      interestSmall: interestSmall.interestSmallId,
+    };
+
+    if (image) {
+      formData.append('image', image);
     }
-  }, [location.state]);
+
+    formData.append(
+      'crewSaveReqDto',
+      new Blob([JSON.stringify(data)], {
+        type: 'application/json',
+      }),
+    );
+
+    await postAddCrew.mutateAsync(formData);
+  };
+
+  const handleClick = () => {
+    handleMakeCrew().catch((error) => {
+      console.error('Failed to create crew', error);
+    });
+  };
 
   return (
     <div className={styles.container}>
       <div className={styles.header}>
         <CommonHeader title="모임 개설" />
       </div>
-      <form className={styles.form}>
+      <div className={styles.form}>
         <div className={styles.form_item}>
           <label className={styles.label} htmlFor="crewLocation">
             <LocationIcon />
@@ -67,9 +123,8 @@ const CrewRegisterPage = () => {
             id="location"
             type="text"
             placeholder="동 · 읍 · 면 찾기"
-            value={crewLocation}
-            onChange={(e) => setCrewLocation(e.target.value)}
-            onClick={() => navigate('location')}
+            value={geoInfo.city && `${geoInfo.city} ${geoInfo.district}`}
+            onClick={() => navigate('/crew/register/location')}
             readOnly
             autoComplete="off"
             className={styles.input}
@@ -77,21 +132,27 @@ const CrewRegisterPage = () => {
         </div>
         <div className={styles.form_item}>
           <label className={styles.label} htmlFor="crewInterest">
-            <button className={styles.location_button}></button>
+            <span
+              className={styles.interest_icon}
+              onClick={() => navigate('/crew/register/interest-big')}
+            >
+              {interestBig.icon}
+            </span>
             상세관심사
           </label>
           <input
             id="crewInterest"
             type="text"
             placeholder="없음"
-            value={crewInterest}
-            onChange={(e) => setCrewInterest(e.target.value)}
+            value={interestSmall.name}
+            onClick={handleInterestSmallClick}
+            readOnly
             autoComplete="off"
             className={styles.input}
           />
         </div>
-        <div className={styles.form_image} onClick={handleClick}>
-          {!crewImage ? (
+        <div className={styles.form_image} onClick={handleFileClick}>
+          {!image ? (
             <>
               <div className={styles.no_image}>
                 <CrewImageIcon fill={'var(--orange-400)'} />
@@ -100,7 +161,11 @@ const CrewRegisterPage = () => {
               <span className={styles.image_ratio}>비율 20:9</span>
             </>
           ) : (
-            <img src={crewImage} alt="모임 사진" className={styles.has_image} />
+            <img
+              src={URL.createObjectURL(image)}
+              alt="모임 사진"
+              className={styles.has_image}
+            />
           )}
           <label className={cx('label', 'a11yHidden')} htmlFor="crewBanner">
             모임 사진
@@ -122,25 +187,23 @@ const CrewRegisterPage = () => {
             id="crewName"
             type="text"
             placeholder="모임 이름"
-            value={crewName}
-            onChange={(e) => setCrewName(e.target.value)}
+            value={name}
+            onChange={(e) => updateName(e.target.value)}
             autoComplete="off"
             className={styles.input}
           />
         </div>
-
         <label className={cx('a11yHidden')} htmlFor="crewDescription">
           모임 설명
         </label>
         <textarea
           id="crewDescription"
           placeholder="모임 목표를 설명해주세요."
-          value={crewDescription}
-          onChange={(e) => setCrewDescription(e.target.value)}
+          value={content}
+          onChange={(e) => updateContent(e.target.value)}
           autoComplete="off"
           className={styles.form_description}
         />
-
         <div className={styles.form_item}>
           <label className={styles.label} htmlFor="maxPeople">
             <PersonIcon />
@@ -150,21 +213,18 @@ const CrewRegisterPage = () => {
             id="maxPeople"
             type="text"
             placeholder="300"
-            value={maxPeople}
+            value={max}
             onChange={(e) =>
-              setMaxPeople(
-                Number(e.target.value) > 300 ? '300' : e.target.value,
-              )
+              updateMax(Number(e.target.value) > 300 ? '300' : e.target.value)
             }
             autoComplete="off"
             className={cx('input', 'max_people')}
           />
         </div>
-
-        <button type="submit" className={styles.submit_button}>
+        <button className={styles.submit_button} onClick={handleClick}>
           모임 만들기
         </button>
-      </form>
+      </div>
     </div>
   );
 };
