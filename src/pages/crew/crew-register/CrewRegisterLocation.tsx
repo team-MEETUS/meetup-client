@@ -6,18 +6,28 @@ import { useGetAllGeoDataQuery } from '@/apis/react-query/common/useGeoQuery';
 import { GetAllGeoAPIResponseBody } from '@/apis/server/common/geoAPI';
 import LoadingSpinner from '@/components/common/loading-spinner/LoadingSpinner';
 import CommonHeader from '@/components/header/CommonHeader';
+import useCrewRegisterStore from '@/stores/crew/useCrewRegisterStore';
 import { debounce } from '@/utils/debounce';
 
 import styles from './CrewRegisterLocation.module.scss';
 
 const CrewRegisterLocation = () => {
+  const navigate = useNavigate();
+
+  const { updateGeoInfo } = useCrewRegisterStore((state) => ({
+    updateGeoInfo: state.updateGeoInfo,
+  }));
+
   const { GetAllGeoData, isLoading } = useGetAllGeoDataQuery();
   const [search, setSearch] = useState<string>('');
   const [filteredData, setFilteredData] = useState<GetAllGeoAPIResponseBody[]>(
     [],
   );
 
-  const navigate = useNavigate();
+  const handleSelectLocation = (item: GetAllGeoAPIResponseBody) => {
+    updateGeoInfo(item);
+    navigate('/crew/register/register');
+  };
 
   const debounceFilter = debounce((searchTerm: string) => {
     if (searchTerm === '' && GetAllGeoData) {
@@ -40,13 +50,6 @@ const CrewRegisterLocation = () => {
   useEffect(() => {
     debounceFilter(search);
   }, [search, GetAllGeoData, debounceFilter]);
-
-  const handleSelectLocation = (location: string, geoId: number) => {
-    navigate('/crew/register', {
-      state: { selectedLocation: location, geoId },
-    });
-  };
-
   if (isLoading)
     return (
       <div>
@@ -74,12 +77,7 @@ const CrewRegisterLocation = () => {
             filteredData.map((item) => (
               <div
                 key={item.geoId}
-                onClick={() =>
-                  handleSelectLocation(
-                    `${item.city} ${item.district}`,
-                    item.geoId,
-                  )
-                }
+                onClick={() => handleSelectLocation(item)}
                 className={styles.result_item}
               >
                 <span className={styles.item_left}>{item.county}</span>
