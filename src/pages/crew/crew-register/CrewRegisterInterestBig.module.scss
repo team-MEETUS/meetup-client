@@ -1,0 +1,52 @@
+.container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  margin-top: 64px;
+  padding: 20px;
+
+  .header {
+    position: fixed;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    max-width: 600px;
+    z-index: 10;
+    background-color: var(--white);
+  }
+
+  .interest_list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    gap: 10px;
+
+    .interest_item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      margin: 10px;
+      gap: 10px;
+      flex-basis: calc(25% - 30px);
+
+      .interest_icon {
+        font-family: Tossface;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 50px;
+        height: 50px;
+        background-color: var(--gray-200);
+        border-radius: 50%;
+        font-size: 24px;
+      }
+
+      .interest_name {
+        @include Medium-06;
+        white-space: nowrap;
+      }
+    }
+  }
+}
