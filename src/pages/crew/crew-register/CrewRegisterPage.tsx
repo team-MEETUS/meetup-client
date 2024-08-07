@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import classNames from 'classnames/bind';
 import { useNavigate } from 'react-router-dom';
@@ -54,8 +54,14 @@ const CrewRegisterPage = () => {
 
   const [imageURL, setImageURL] = useState<string | undefined>();
 
+  useEffect(() => {
+    if (image) {
+      setImageURL(URL.createObjectURL(image));
+    }
+  }, [image]);
+
   const handleInterestSmallClick = () => {
-    if (!interestBig.interestBigId) {
+    if (interestBig.interestBigId === 0) {
       // interestBig이 선택되지 않은 경우
       alert('관심사를 먼저 선택해주세요.');
       navigate('/crew/register/interest-big');
