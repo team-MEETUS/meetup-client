@@ -6,8 +6,8 @@ export interface GetAllGeoAPIResponseBody {
   city: string;
   district: string;
   county: string;
-  latitude: string;
-  longitude: string;
+  latitude?: string;
+  longitude?: string;
 }
 
 export const GetAllGeoAPI = async () => {
