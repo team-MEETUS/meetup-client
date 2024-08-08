@@ -215,11 +215,13 @@ const CrewRegisterPage = () => {
           </label>
           <input
             id="maxPeople"
-            type="text"
+            type="number"
             placeholder="300"
-            value={max}
+            value={max || undefined}
             onChange={(e) =>
-              updateMax(Number(e.target.value) > 300 ? '300' : e.target.value)
+              updateMax(
+                Number(e.target.value) > 300 ? 300 : Number(e.target.value),
+              )
             }
             autoComplete="off"
             className={cx('input', 'max_people')}

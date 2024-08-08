@@ -2,13 +2,13 @@ import api from '@/apis';
 import { ApiResponse } from '@/apis/server/type';
 
 interface GetInterestBigAPI {
-  interestBigId: number;
+  interestBigId: number | null;
   name: string;
   icon: string;
 }
 
 interface GetInterestSmallAPI {
-  interestSmallId: number;
+  interestSmallId: number | null;
   name: string;
 }
 

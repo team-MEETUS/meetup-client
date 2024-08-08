@@ -2,7 +2,7 @@ import api from '@/apis';
 import { ApiResponse } from '@/apis/server/type';
 
 export interface GetAllGeoAPIResponseBody {
-  geoId: number;
+  geoId: number | null;
   city: string;
   district: string;
   county: string;

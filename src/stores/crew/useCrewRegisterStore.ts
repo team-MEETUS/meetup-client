@@ -11,7 +11,7 @@ interface State1 {
   name: string;
   intro: string;
   content: string;
-  max: string;
+  max: number | null;
   originalImg: string;
   saveImg: string;
   geoInfo: GetAllGeoAPIResponseBody;
@@ -40,17 +40,17 @@ const useCrewRegisterStore = create<State1 & Action & State2>((set) => ({
   name: '',
   intro: '',
   content: '',
-  max: '',
+  max: null,
   originalImg: '',
   saveImg: '',
   geoInfo: {
-    geoId: 0,
+    geoId: null,
     city: '',
     district: '',
     county: '',
   },
-  interestBig: { interestBigId: 0, name: '', icon: '' },
-  interestSmall: { interestSmallId: 0, name: '' },
+  interestBig: { interestBigId: null, name: '', icon: '' },
+  interestSmall: { interestSmallId: null, name: '' },
   image: null,
 
   updateName: (name) => set(() => ({ name })),
