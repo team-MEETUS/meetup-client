@@ -1,0 +1,12 @@
+.home_header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 20px;
+
+  .header_left {
+    @include Medium-02;
+    display: flex;
+    align-items: center;
+  }
+}
