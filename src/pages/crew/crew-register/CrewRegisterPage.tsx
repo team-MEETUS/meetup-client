@@ -85,12 +85,23 @@ const CrewRegisterPage = () => {
   };
 
   const handleMakeCrew = async (): Promise<void> => {
+    if (!name) {
+      alert('모임명을 입력해주세요.');
+      return;
+    } else if (!geoInfo.geoId) {
+      alert('지역을 선택해주세요.');
+      return;
+    } else if (!interestBig.interestBigId) {
+      alert('관심사를 선택해주세요.');
+      return;
+    }
+
     const formData = new FormData();
 
     const data = {
       name,
       content,
-      max: Number(max),
+      max: Number(max) || 300,
       geoId: geoInfo.geoId,
       interestBigId: interestBig.interestBigId,
       interestSmallId: interestSmall.interestSmallId,
