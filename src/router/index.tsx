@@ -1,6 +1,6 @@
 import React, { Suspense } from 'react';
 
-import { createBrowserRouter } from 'react-router-dom';
+import { createBrowserRouter, useLocation } from 'react-router-dom';
 
 import App from '@/App.tsx';
 import BottomNavigation from '@/components/common/bottom-navigation/BottomNavigation.tsx';
@@ -21,15 +21,22 @@ const HomePage = React.lazy(() => import('@/pages/home/HomePage.tsx'));
 const NotFound = React.lazy(() => import('@/pages/not-found/NotFound.tsx'));
 const TestPage = React.lazy(() => import('@/pages/test/TestPage.tsx'));
 
+const Layout = () => {
+  const location = useLocation();
+  const hideBottomNav = location.pathname.startsWith('/crew/register');
+
+  return (
+    <div className="container">
+      <App />
+      {!hideBottomNav && <BottomNavigation />}
+    </div>
+  );
+};
+
 const router = createBrowserRouter([
   {
     path: '/',
-    element: (
-      <div className="container">
-        <App />
-        <BottomNavigation />
-      </div>
-    ),
+    element: <Layout />,
     errorElement: (
       <Suspense fallback={<LoadingSpinner />}>
         <NotFound />
@@ -60,7 +67,12 @@ const router = createBrowserRouter([
             children: [
               {
                 path: 'interest-big',
-                element: <CrewRegisterInterestBig />,
+
+                element: (
+                  <Suspense fallback={<LoadingSpinner />}>
+                    <CrewRegisterInterestBig />
+                  </Suspense>
+                ),
               },
               {
                 path: 'interest-small',
