@@ -6,10 +6,9 @@ import App from '@/App.tsx';
 import BottomNavigation from '@/components/common/bottom-navigation/BottomNavigation.tsx';
 import LoadingSpinner from '@/components/common/loading-spinner/LoadingSpinner';
 
+import CrewRegisterInterestBig from '@/pages/crew/crew-register/CrewRegisterInterestBig';
+
 const CrewPage = React.lazy(() => import('@/pages/crew/CrewPage'));
-const CrewRegisterInterestBig = React.lazy(
-  () => import('@/pages/crew/crew-register/CrewRegisterInterestBig'),
-);
 const CrewRegisterInterestSmall = React.lazy(
   () => import('@/pages/crew/crew-register/CrewRegisterInterestSmall'),
 );
@@ -62,11 +61,7 @@ const router = createBrowserRouter([
             children: [
               {
                 path: 'interest-big',
-                element: (
-                  <Suspense fallback={<LoadingSpinner />}>
-                    <CrewRegisterInterestBig />
-                  </Suspense>
-                ),
+                element: <CrewRegisterInterestBig />,
               },
               {
                 path: 'interest-small',
