@@ -32,7 +32,7 @@ export default ({ mode }: { mode: string }) => {
       preprocessorOptions: {
         scss: {
           additionalData:
-            '@import "./src/styles/common/_utils.scss"; @import "./src/styles/common/_typography.scss";  @import "./src/styles/common/variable.scss";',
+            '@import "./src/styles/common/_utils.scss"; @import "./src/styles/common/_typography.scss";  @import "./src/styles/common/_variable.scss"; @import "./src/styles/common/_fontface.scss";',
         },
       },
     },
