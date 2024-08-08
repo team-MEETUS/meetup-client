@@ -2,7 +2,7 @@
   "name": "MEETUP",
   "short_name": "MEETUP",
   "description": "지역기반 모임 플랫폼",
-  "start_url": "/index.html",
+  "start_url": "/",
   "display": "fullscreen",
   "theme_color": "#f97316",
   "background_color": "#ffffff",
