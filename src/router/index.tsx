@@ -5,7 +5,6 @@ import { createBrowserRouter } from 'react-router-dom';
 import App from '@/App.tsx';
 import BottomNavigation from '@/components/common/bottom-navigation/BottomNavigation.tsx';
 import LoadingSpinner from '@/components/common/loading-spinner/LoadingSpinner';
-
 import CrewRegisterInterestBig from '@/pages/crew/crew-register/CrewRegisterInterestBig';
 
 const CrewPage = React.lazy(() => import('@/pages/crew/CrewPage'));

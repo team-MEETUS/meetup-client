@@ -1,9 +1,12 @@
-import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import styles from './Header.module.scss';
+
+import { Link } from 'react-router-dom';
+
 import MeetingIcon from '@/assets/icons/MeetingIcon.svg?react';
-import RegularMeetingIcon from '@/assets/icons/RegularMeetingIcon.svg?react';
 import PlaceIcon from '@/assets/icons/PlaceIcon.svg?react';
+import RegularMeetingIcon from '@/assets/icons/RegularMeetingIcon.svg?react';
+
+import styles from './Header.module.scss';
 
 const Header = () => {
   const [isMobile, setIsMobile] = useState(false);
