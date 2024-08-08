@@ -34,6 +34,7 @@ interface Action {
   updateInterestBig: (interestBig: State1['interestBig']) => void;
   updateInterestSmall: (interestSmall: State1['interestSmall']) => void;
   updateImage: (image: State2['image']) => void;
+  crewRegisterReset: () => void;
 }
 
 const useCrewRegisterStore = create<State1 & Action & State2>((set) => ({
@@ -63,6 +64,22 @@ const useCrewRegisterStore = create<State1 & Action & State2>((set) => ({
   updateInterestBig: (interestBig) => set(() => ({ interestBig })),
   updateInterestSmall: (interestSmall) => set(() => ({ interestSmall })),
   updateImage: (image) => set(() => ({ image })),
+
+  crewRegisterReset: () =>
+    set({
+      name: '',
+      content: '',
+      max: null,
+      geoInfo: {
+        geoId: null,
+        city: '',
+        district: '',
+        county: '',
+      },
+      interestBig: { interestBigId: null, name: '', icon: '' },
+      interestSmall: { interestSmallId: null, name: '' },
+      image: null,
+    }),
 }));
 
 export default useCrewRegisterStore;
