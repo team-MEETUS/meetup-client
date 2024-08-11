@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 import classNames from 'classnames/bind';
 import { useNavigate } from 'react-router-dom';
 
-import { useCrewMutation } from '@/apis/react-query/crew/useCrewQuery';
+import { useCrewMutation } from '@/apis/react-query/crew/useCrewMutation';
 import CrewImageIcon from '@/assets/icons/CrewImageIcon.svg?react';
 import LocationIcon from '@/assets/icons/LocationIcon.svg?react';
 import PersonIcon from '@/assets/icons/PersonIcon.svg?react';
@@ -34,6 +34,7 @@ const CrewRegisterPage = () => {
     updateContent,
     updateMax,
     updateImage,
+    resetRegisterStore,
   } = useCrewRegisterStore((state) => ({
     name: state.name,
     intro: state.intro,
@@ -50,6 +51,7 @@ const CrewRegisterPage = () => {
     updateContent: state.updateContent,
     updateMax: state.updateMax,
     updateImage: state.updateImage,
+    resetRegisterStore: state.resetRegisterStore,
   }));
 
   const [imageURL, setImageURL] = useState<string | undefined>();
@@ -59,6 +61,11 @@ const CrewRegisterPage = () => {
       setImageURL(URL.createObjectURL(image));
     }
   }, [image]);
+
+  const handleClickBack = () => {
+    navigate('/');
+    resetRegisterStore();
+  };
 
   const handleInterestSmallClick = () => {
     if (interestBig.interestBigId === 0) {
@@ -102,13 +109,15 @@ const CrewRegisterPage = () => {
       name,
       content,
       max: Number(max) || 300,
-      geoId: geoInfo.geoId,
-      interestBigId: interestBig.interestBigId,
-      interestSmallId: interestSmall.interestSmallId,
+      geoId: geoInfo.geoId ?? null,
+      interestBigId: interestBig.interestBigId ?? null,
+      interestSmallId: interestSmall.interestSmallId ?? null,
     };
 
     if (image) {
       formData.append('image', image);
+    } else {
+      formData.append('image', new Blob());
     }
 
     formData.append(
@@ -130,7 +139,7 @@ const CrewRegisterPage = () => {
   return (
     <div className={styles.container}>
       <div className={styles.header}>
-        <CommonHeader title="모임 개설" />
+        <CommonHeader title="모임 개설" onClick={handleClickBack} />
       </div>
       <div className={styles.form}>
         <div className={styles.form_item}>
