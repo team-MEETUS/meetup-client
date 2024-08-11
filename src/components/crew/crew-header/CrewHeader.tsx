@@ -12,18 +12,21 @@ import styles from './CrewHeader.module.scss';
 
 interface CrewHeaderProps {
   title: string;
+  onClick?: () => void;
 }
 
 const CrewHeader = (props: CrewHeaderProps) => {
-  const [isFilled, setIsFilled] = useState(false);
   const navigate = useNavigate();
+  const handleClick = props.onClick || (() => navigate(-1));
+
+  const [isFilled, setIsFilled] = useState(false);
 
   const toggleHeart = () => setIsFilled(!isFilled);
 
   return (
     <header className={styles.crew_header}>
       <div className={styles.header_right}>
-        <BackArrowIcon onClick={() => navigate(-1)} />
+        <BackArrowIcon onClick={handleClick} />
         <span className={styles.header_title}>{props.title}</span>
       </div>
       <div className={styles.header_left}>
