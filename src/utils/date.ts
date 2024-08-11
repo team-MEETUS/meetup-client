@@ -1,4 +1,11 @@
-const formatDate = (dateString: string) => {
+/* eslint-disable no-unused-vars */
+export enum DateType {
+  DATE,
+  TIME,
+  DATE_TIME,
+}
+
+export const formatDate = (type: DateType, dateString: string) => {
   const date = new Date(dateString);
 
   // 2024년 01월 01일 형식으로 변환
@@ -15,7 +22,17 @@ const formatDate = (dateString: string) => {
     hour12: true, // 12시간제(오전/오후)를 사용
   });
 
-  return `${formattedDate} ${formattedTime}`;
-};
+  switch (type) {
+    case DateType.DATE:
+      return formattedDate;
 
-export default formatDate;
+    case DateType.TIME:
+      return formattedTime;
+
+    case DateType.DATE_TIME:
+      return `${formattedDate} ${formattedTime}`;
+
+    default:
+      return formattedDate;
+  }
+};
