@@ -36,3 +36,18 @@ export const formatDate = (type: DateType, dateString: string) => {
       return formattedDate;
   }
 };
+
+export const getDay = (dateString: string) => {
+  const date = new Date(dateString);
+
+  // 요일 계산 함수
+  const getDayOfWeek = (date: Date) => {
+    const days = ['일', '월', '화', '수', '목', '금', '토'];
+    return days[date.getDay()];
+  };
+
+  // 요일 추가
+  const dayOfWeek = getDayOfWeek(date);
+
+  return dayOfWeek;
+};
