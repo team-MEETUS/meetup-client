@@ -1,14 +1,31 @@
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 
 import crewQueryKey from '@/apis/query-key/crewQueryKey';
 import {
-  DeleteCrewAPI,
+  GetAllCrewAPI,
   GetCrewDetailAPI,
-  PostAddCrewAPI,
-  PutUpdateCrewAPI,
+  GetCrewMemberAPI,
+  GetCrewMemberSignUpAPI,
+  GetIsLikeCrewAPI,
 } from '@/apis/server/crew/crewAPI';
 
-export const useCrewQuery = (crewId: number) => {
+// 모임 목록 조회
+export const useCrewListQuery = (params: {
+  city?: string;
+  interestBigId?: number;
+  interestSmallId?: number;
+}) => {
+  const { data, isLoading, error } = useQuery({
+    queryKey: crewQueryKey.crewList(params),
+    queryFn: () => GetAllCrewAPI(params),
+    select: (response) => response.data,
+  });
+
+  return { data, isLoading, error };
+};
+
+// 모임 상세 조회
+export const useCrewDetailQuery = (crewId: string) => {
   const { data, isLoading, error } = useQuery({
     queryKey: crewQueryKey.crewDetail(String(crewId)),
     queryFn: () => GetCrewDetailAPI(crewId),
@@ -18,24 +35,35 @@ export const useCrewQuery = (crewId: number) => {
   return { data, isLoading, error };
 };
 
-export const useCrewMutation = () => {
-  const postAddCrew = useMutation({
-    mutationFn: (formData: FormData) => PostAddCrewAPI(formData),
-    onSuccess: () => {},
-    onError: () => {},
+// 모임 멤버 조회
+export const useCrewMemberQuery = (crewId: string) => {
+  const { data, isLoading, error } = useQuery({
+    queryKey: crewQueryKey.crewMember(crewId),
+    queryFn: () => GetCrewMemberAPI(crewId),
+    select: (response) => response.data,
   });
 
-  const putUpdateCrew = useMutation({
-    mutationFn: (params: { crewId: number; params: PutUpdateCrewAPI }) =>
-      PutUpdateCrewAPI(params.crewId, params.params),
-    onSuccess: () => {},
-    onError: () => {},
+  return { data, isLoading, error };
+};
+
+// 모임 좋아요 조회
+export const useCrewLikeQuery = (crewId: string) => {
+  const { data, isLoading, error } = useQuery({
+    queryKey: crewQueryKey.crewLike(crewId),
+    queryFn: () => GetIsLikeCrewAPI(crewId),
+    select: (response) => response.data,
   });
 
-  const deleteCrew = useMutation({
-    mutationFn: DeleteCrewAPI,
-    onSuccess: () => {},
-    onError: () => {},
+  return { data, isLoading, error };
+};
+
+// 모임 가입 조회
+export const useCrewSignUpQuery = (crewId: string) => {
+  const { data, isLoading, error } = useQuery({
+    queryKey: crewQueryKey.crewSignUp(crewId),
+    queryFn: () => GetCrewMemberSignUpAPI(crewId),
+    select: (response) => response.data,
   });
-  return { postAddCrew, putUpdateCrew, deleteCrew };
+
+  return { data, isLoading, error };
 };
