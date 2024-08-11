@@ -8,15 +8,39 @@ interface GetCrewAPIResponseBody {
   name: string;
   intro: string;
   content: string;
-  max: string;
-  totalMember: string;
+  max: number;
   originalImg: string;
   saveImg: string;
+  totalMember: number;
+  totalLike: number;
   createDate: string;
   updateDate: string;
-  geo: string;
-  interestBig: number;
-  interestSmall: number;
+
+  geo: {
+    geoId: number;
+    city: string;
+    district: string;
+    county: string;
+    latitude: string;
+    longitude: string;
+  };
+
+  interestBig: {
+    interestBigId: number;
+    name: string;
+    icon: string;
+  };
+
+  interestSmall: {
+    interestSmallId: number;
+    name: string;
+
+    interestBig: {
+      interestBigId: number;
+      name: string;
+      icon: string;
+    };
+  };
 }
 
 interface PostAddCrewAPI {
@@ -52,9 +76,9 @@ interface GetCrewMemberAPIResponseBody {
  * @description 관심사 별 모임 조회
  */
 const GetAllCrewAPI = async (params: {
-  city: string;
-  interestBigId: number;
-  interestSmallId: number;
+  city?: string;
+  interestBigId?: number;
+  interestSmallId?: number;
 }) => {
   const { data } = await api.get<ApiResponse<GetCrewAPIResponseBody[]>>(
     `/crews`,
@@ -67,8 +91,8 @@ const GetAllCrewAPI = async (params: {
 /**
  * @description 특정 모임 조회
  */
-const GetCrewDetailAPI = async (crewId: number) => {
-  const { data } = await api.get<ApiResponse<GetCrewAPIResponseBody[]>>(
+const GetCrewDetailAPI = async (crewId: string) => {
+  const { data } = await api.get<ApiResponse<GetCrewAPIResponseBody>>(
     `/crews/${crewId}`,
   );
 
@@ -79,7 +103,7 @@ const GetCrewDetailAPI = async (crewId: number) => {
  * @description 모임 등록
  */
 const PostAddCrewAPI = async (body: FormData) => {
-  const { data } = await api.post<ApiResponse<{ crewId: number }>>(
+  const { data } = await api.post<ApiResponse<{ crewId: string }>>(
     `/crews`,
     body,
   );
@@ -90,8 +114,8 @@ const PostAddCrewAPI = async (body: FormData) => {
 /**
  * @description 모임 수정
  */
-const PutUpdateCrewAPI = async (crewId: number, params: PutUpdateCrewAPI) => {
-  const { data } = await api.put<ApiResponse<{ crewId: number }>>(
+const PutUpdateCrewAPI = async (crewId: string, params: PutUpdateCrewAPI) => {
+  const { data } = await api.put<ApiResponse<{ crewId: string }>>(
     `/crews/${crewId}`,
     params,
   );
@@ -102,7 +126,7 @@ const PutUpdateCrewAPI = async (crewId: number, params: PutUpdateCrewAPI) => {
 /**
  * @description 모임 삭제
  */
-const DeleteCrewAPI = async (crewId: number) => {
+const DeleteCrewAPI = async (crewId: string) => {
   const { data } = await api.delete<ApiResponse<HttpStatusCode>>(
     `/crews/${crewId}`,
   );
@@ -113,7 +137,7 @@ const DeleteCrewAPI = async (crewId: number) => {
 /**
  * @description 모임 가입 신청
  */
-const PostCrewMemberJoinAPI = async (crewId: number) => {
+const PostCrewMemberSignUpAPI = async (crewId: string) => {
   const { data } = await api.post<ApiResponse<HttpStatusCode>>(
     `/crews/${crewId}`,
   );
@@ -124,7 +148,7 @@ const PostCrewMemberJoinAPI = async (crewId: number) => {
 /**
  * @description 모임원 조회
  */
-const GetCrewMemberAPI = async (crewId: number) => {
+const GetCrewMemberAPI = async (crewId: string) => {
   const { data } = await api.get<ApiResponse<GetCrewMemberAPIResponseBody[]>>(
     `/crews/${crewId}/members`,
   );
@@ -135,7 +159,7 @@ const GetCrewMemberAPI = async (crewId: number) => {
 /**
  * @description 모임 찜 여부 조회
  */
-const GetIsLikeCrewAPI = async (crewId: number) => {
+const GetIsLikeCrewAPI = async (crewId: string) => {
   const { data } = await api.get<ApiResponse<boolean>>(
     `/crews/${crewId}/likes`,
   );
@@ -146,7 +170,7 @@ const GetIsLikeCrewAPI = async (crewId: number) => {
 /**
  * @description 모임 찜하기
  */
-const PostLikeCrewAPI = async (crewId: number) => {
+const PostLikeCrewAPI = async (crewId: string) => {
   const { data } = await api.post<ApiResponse<{ crewLikeId: number }>>(
     `/crews/${crewId}/likes`,
   );
@@ -157,7 +181,7 @@ const PostLikeCrewAPI = async (crewId: number) => {
 /**
  * @description 모임 찜 취소
  */
-const DeleteLikeCrewAPI = async (crewId: number) => {
+const DeleteLikeCrewAPI = async (crewId: string) => {
   const { data } = await api.delete<ApiResponse<HttpStatusCode>>(
     `/crews/${crewId}/likes`,
   );
@@ -169,7 +193,7 @@ const DeleteLikeCrewAPI = async (crewId: number) => {
  * @description 모임원 권한 수정
  */
 const PutUpdateCrewMemberAPI = async (
-  crewId: number,
+  crewId: string,
   body: { memberId: number; newRoleStatus: number },
 ) => {
   const { data } = await api.put<ApiResponse<{ memberId: number }>>(
@@ -183,7 +207,7 @@ const PutUpdateCrewMemberAPI = async (
 /**
  * @description 모임 가입 신청 조회
  */
-const GetCrewMemberJoinAPI = async (crewId: number) => {
+const GetCrewMemberSignUpAPI = async (crewId: string) => {
   const { data } = await api.get<ApiResponse<GetCrewMemberAPIResponseBody[]>>(
     `/crews/${crewId}/signup-members`,
   );
@@ -197,11 +221,11 @@ export {
   PostAddCrewAPI,
   PutUpdateCrewAPI,
   DeleteCrewAPI,
-  PostCrewMemberJoinAPI,
+  PostCrewMemberSignUpAPI,
   GetCrewMemberAPI,
   GetIsLikeCrewAPI,
   PostLikeCrewAPI,
   DeleteLikeCrewAPI,
   PutUpdateCrewMemberAPI,
-  GetCrewMemberJoinAPI,
+  GetCrewMemberSignUpAPI,
 };
