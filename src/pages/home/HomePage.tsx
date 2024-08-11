@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import { useInterestBigQuery } from '@/apis/react-query/interest/useInterestQuery';
 import CrewAddIcon from '@/assets/icons/CrewAddIcon.svg?react';
@@ -6,13 +6,24 @@ import HomeHeader from '@/components/header/HomeHeader';
 
 import styles from './HomePage.module.scss';
 
-const HomePage = () => {
-  const { data: interestData } = useInterestBigQuery();
+export interface CrewData {
+  image: string;
+  id: number;
+  name: string;
+  intro: string;
+  label: string;
+  city: string;
+  member: number;
+}
 
+const HomePage = () => {
+  const navigate = useNavigate();
+
+  const { data: interestData } = useInterestBigQuery();
   const crewData = [
     {
       image: 'https://via.placeholder.com/150',
-      id: 1,
+      id: 49,
       name: '🎶💖우리동네 예체능💖🎶',
       intro: '우리모임은..이것저것 이모저모 등등asdasdasdsad등등asdasdasdsad',
       label: '운동/스포츠',
@@ -21,10 +32,16 @@ const HomePage = () => {
     },
   ];
 
-  const repeatedCrewData = Array.from({ length: 10 }, (_, i) => ({
+  const repeatedCrewData = Array.from({ length: 1 }, (_, i) => ({
     ...crewData[0],
-    id: `${crewData[0].id}-${i}`, // 유니크한 key를 위해 id에 인덱스를 붙입니다.
+    // id: `${crewData[0].id}-${i}`, // 유니크한 key를 위해 id에 인덱스를 붙입니다.
+    id: 50,
   }));
+
+  const handleClickCrew = (crew: CrewData) => {
+    navigate(`/crew/${crew.id}/home`, { state: { crewId: crew.id } });
+  };
+
   return (
     <div className={styles.container}>
       <div className={styles.header}>
@@ -41,7 +58,11 @@ const HomePage = () => {
 
       <div className={styles.crew_list}>
         {repeatedCrewData.map((crew) => (
-          <div key={crew.id} className={styles.crew_item}>
+          <div
+            key={crew.id}
+            className={styles.crew_item}
+            onClick={() => handleClickCrew(crew)}
+          >
             <div className={styles.crew_image}>
               <img src={crew.image} alt="crew" />
             </div>

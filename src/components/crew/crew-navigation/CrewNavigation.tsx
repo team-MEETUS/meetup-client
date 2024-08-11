@@ -1,12 +1,17 @@
 import { NavLink } from 'react-router-dom';
 
 import styles from './CrewNavigation.module.scss';
-const CrewNavigation = () => {
+
+interface CrewNavigationProps {
+  id: string;
+}
+
+const CrewNavigation = (props: CrewNavigationProps) => {
   return (
     <nav className={styles.nav}>
       <div className={styles.nav_layout}>
         <NavLink
-          to="/crew"
+          to={`/crew/${props.id}/home`}
           className={({ isActive }) =>
             [styles.nav_item, isActive ? styles.active_nav_item : ''].join(' ')
           }
@@ -14,7 +19,7 @@ const CrewNavigation = () => {
           홈
         </NavLink>
         <NavLink
-          to="/crew/board"
+          to={`/crew/${props.id}/board`}
           className={({ isActive }) =>
             [styles.nav_item, isActive ? styles.active_nav_item : ''].join(' ')
           }
@@ -22,7 +27,7 @@ const CrewNavigation = () => {
           게시판
         </NavLink>
         <NavLink
-          to="/crew/album"
+          to={`/crew/${props.id}/album`}
           className={({ isActive }) =>
             [styles.nav_item, isActive ? styles.active_nav_item : ''].join(' ')
           }
@@ -30,7 +35,7 @@ const CrewNavigation = () => {
           사진첩
         </NavLink>
         <NavLink
-          to="/crew/chat"
+          to={`/crew/${props.id}/chat`}
           className={({ isActive }) =>
             [styles.nav_item, isActive ? styles.active_nav_item : ''].join(' ')
           }

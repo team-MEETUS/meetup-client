@@ -1,3 +1,8 @@
+import { useEffect, useState } from 'react';
+
+import { useLocation, useNavigate } from 'react-router-dom';
+
+import { useCrewDetailQuery } from '@/apis/react-query/crew/useCrewQuery';
 import CrewBanner from '@/components/crew/crew-banner/CrewBanner';
 import CrewHeader from '@/components/crew/crew-header/CrewHeader';
 import CrewLabel from '@/components/crew/crew-label/CrewLabel';
@@ -6,60 +11,60 @@ import CrewTitle from '@/components/crew/crew-title/CrewTitle';
 
 import styles from './CrewPage.module.scss';
 
+interface CrewState {
+  crewId?: string;
+}
+
 const CrewPage = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const [crewId, setCrewId] = useState<string>('50');
+
+  const { data: crewDetailData } = useCrewDetailQuery(crewId);
+  // const { data: crewMemberData } = useCrewMemberQuery(crewId);
+
+  useEffect(() => {
+    const state = location.state as CrewState;
+
+    if (state.crewId) {
+      setCrewId(state.crewId);
+    }
+  }, [location.state]);
+
   return (
     <div className={styles.container}>
-      <div className={styles.header}>
-        <CrewHeader title="MEETUP - 지역기반 모임 플랫폼" />
-        <CrewNavigation />
-      </div>
+      {/* 모임 정보 */}
 
-      <CrewBanner imgSrc="/images/crew-banner.png" />
-      <div className={styles.content}>
-        <div className={styles.label_container}>
-          <CrewLabel text="종로구" />
-          <CrewLabel text="운동/스포츠" />
-          <CrewLabel text="멤버 294" />
+      {crewDetailData && (
+        <div className={styles.crew_detail}>
+          <div className={styles.header}>
+            <CrewHeader
+              title={crewDetailData.name}
+              onClick={() => navigate('/')}
+            />
+            <CrewNavigation id={crewId} />
+          </div>
+
+          <CrewBanner imgSrc={crewDetailData.saveImg} />
+          <div className={styles.content}>
+            <div className={styles.label_container}>
+              <CrewLabel text={crewDetailData.geo.district} />
+              <CrewLabel text={crewDetailData.interestBig.name} />
+              <CrewLabel text={`멤버 ${crewDetailData.totalMember}`} />
+            </div>
+            <CrewTitle title={crewDetailData.name} />
+            <div>{crewDetailData.content}</div>
+          </div>
         </div>
-        <CrewTitle title="MEETUP - 지역기반 모임 플랫폼" />
-        🌸 봄 여름 가을 겨울!! MEETUP 팀원들과 함께 달려요! 🌸
-        <br />
-        <br />
-        🔷 프로젝트 기반으로 성장하실분 ! <br />
-        🔷 백엔드/프론트엔드와 협업하여 성장하실분 !<br />
-        🔷 개발경험이 적지만 열심히 달리실 분 모두 환영합니다~! <br />
-        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Fuga labore
-        debitis molestiae quibusdam tempore recusandae sunt soluta adipisci.
-        Accusamus nemo reprehenderit asperiores distinctio id alias dolorem
-        possimus temporibus ducimus atque. Lorem ipsum dolor sit amet
-        <br />
-        consectetur, adipisicing elit. Fuga labore debitis molestiae quibusdam
-        tempore recusandae sunt soluta adipisci. Accusamus nemo reprehenderit
-        asperiores distinctio id alias dolorem possimus temporibus ducimus
-        atque.Lorem ipsum dolor sit amet consectetur, adipisicing elit. Fuga
-        labore debitis molestiae quibusdam tempore recusandae sunt soluta
-        <br />
-        adipisci. Accusamus nemo reprehenderit asperiores distinctio id alias
-        dolorem possimus temporibus ducimus atque.
-        <br />
-        consectetur, adipisicing elit. Fuga labore debitis molestiae quibusdam
-        tempore recusandae sunt soluta adipisci. Accusamus nemo reprehenderit
-        asperiores distinctio id alias dolorem possimus temporibus ducimus
-        atque.Lorem ipsum dolor sit amet consectetur, adipisicing elit. Fuga
-        labore debitis molestiae quibusdam tempore recusandae sunt soluta
-        <br /> <br />
-        consectetur, adipisicing elit. Fuga labore debitis molestiae quibusdam
-        tempore recusandae sunt soluta adipisci. Accusamus nemo reprehenderit
-        asperiores distinctio id alias dolorem possimus temporibus ducimus
-        atque.Lorem ipsum dolor sit amet consectetur, adipisicing elit. Fuga
-        labore debitis molestiae quibusdam tempore recusandae sunt soluta
-        <br /> <br />
-        consectetur, adipisicing elit. Fuga labore debitis molestiae quibusdam
-        tempore recusandae sunt soluta adipisci. Accusamus nemo reprehenderit
-        asperiores distinctio id alias dolorem possimus temporibus ducimus
-        atque.Lorem ipsum dolor sit amet consectetur, adipisicing elit. Fuga
-        labore debitis molestiae quibusdam tempore recusandae sunt soluta
-        <br />
+      )}
+
+      {/* 정기모임 */}
+      <div className={styles.crew_meeting}></div>
+
+      {/* 모임 멤버 */}
+      <div className={styles.crew_member}>
+        <span></span>
       </div>
     </div>
   );
