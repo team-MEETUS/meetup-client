@@ -23,7 +23,7 @@ const TestPage = React.lazy(() => import('@/pages/test/TestPage.tsx'));
 
 const Layout = () => {
   const location = useLocation();
-  const hideBottomNav = location.pathname.startsWith('/crew/register');
+  const hideBottomNav = location.pathname.startsWith('/crew');
 
   return (
     <div className="container">
@@ -55,7 +55,31 @@ const router = createBrowserRouter([
         path: 'crew',
         children: [
           {
-            path: '',
+            path: ':crewId/home',
+            element: (
+              <Suspense fallback={<LoadingSpinner />}>
+                <CrewPage />
+              </Suspense>
+            ),
+          },
+          {
+            path: ':crewId/board',
+            element: (
+              <Suspense fallback={<LoadingSpinner />}>
+                <CrewPage />
+              </Suspense>
+            ),
+          },
+          {
+            path: ':crewId/album',
+            element: (
+              <Suspense fallback={<LoadingSpinner />}>
+                <CrewPage />
+              </Suspense>
+            ),
+          },
+          {
+            path: ':crewId/chat',
             element: (
               <Suspense fallback={<LoadingSpinner />}>
                 <CrewPage />
