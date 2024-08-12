@@ -17,6 +17,7 @@ const CrewRegisterLocation = React.lazy(
 const CrewRegisterPage = React.lazy(
   () => import('@/pages/crew/crew-register/CrewRegisterPage'),
 );
+const LoginPage = React.lazy(() => import('@/pages/user/login/LoginPage'));
 const HomePage = React.lazy(() => import('@/pages/home/HomePage.tsx'));
 const NotFound = React.lazy(() => import('@/pages/not-found/NotFound.tsx'));
 const TestPage = React.lazy(() => import('@/pages/test/TestPage.tsx'));
@@ -50,6 +51,19 @@ const router = createBrowserRouter([
             <HomePage />
           </Suspense>
         ),
+      },
+      {
+        path: '/user',
+        children: [
+          {
+            path: 'login',
+            element: (
+              <Suspense fallback={<LoadingSpinner />}>
+                <LoginPage />
+              </Suspense>
+            ),
+          },
+        ],
       },
       {
         path: 'crew',
