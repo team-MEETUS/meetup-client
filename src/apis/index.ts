@@ -1,6 +1,8 @@
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import axios, { Axios } from 'axios';
 
-import type { AxiosInstance } from 'axios';
+import type { AxiosError, AxiosInstance, AxiosResponse } from 'axios';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -14,41 +16,53 @@ const AxiosInstance = (baseURL: string): Axios => {
     },
   });
 
+  instance.interceptors.request.use(
+    function (config) {
+      const token = config.headers.Authorization;
+      const accessToken = sessionStorage.getItem('ACCESS_TOKEN');
+
+      if (!token && accessToken) {
+        config.headers['Authorization'] = `Bearer ${accessToken}`;
+      }
+
+      return config;
+    },
+    function (error) {
+      return Promise.reject(error);
+    },
+  );
+
+  instance.interceptors.response.use(
+    (res: AxiosResponse) => {
+      const { data, status, config } = res;
+
+      if (config.url === '/login' && status === 200) {
+        instance.defaults.headers['Authorization'] =
+          `Bearer ${data.data.accessToken}`;
+      }
+
+      return res;
+    },
+    (error: AxiosError) => {
+      if (error.response && error.response.status === 401) {
+        window.location.href = '/';
+      }
+
+      // if (error.response && error.config) {
+      //   const { url } = error.config;
+      //   const { pathname } = window.location;
+
+      //   console.log(`[${pathname}][${url}] : ${error.response.statusText}`);
+      //   throw new Error(error.response.statusText);
+      // }
+      throw new Error(error.message);
+      // throw new Error('An error occurred');
+    },
+  );
+
   return instance;
 };
 
 const api = AxiosInstance(API_URL);
-
-// const api = {
-//   get: async <T = any>(
-//     url: string,
-//     config?: AxiosRequestConfig,
-//   ): Promise<AxiosResponse<T>> => {
-//     return await axiosInstance.get<T>(url, config);
-//   },
-
-//   post: async <T = any>(
-//     url: string,
-//     data?: any,
-//     config?: AxiosRequestConfig,
-//   ): Promise<AxiosResponse<T>> => {
-//     return await axiosInstance.post<T>(url, data, config);
-//   },
-
-//   put: async <T = any>(
-//     url: string,
-//     data?: any,
-//     config?: AxiosRequestConfig,
-//   ): Promise<AxiosResponse<T>> => {
-//     return await axiosInstance.put<T>(url, data, config);
-//   },
-
-//   delete: async <T = any>(
-//     url: string,
-//     config?: AxiosRequestConfig,
-//   ): Promise<AxiosResponse<T>> => {
-//     return await axiosInstance.delete<T>(url, config);
-//   },
-// };
 
 export default api;
