@@ -27,9 +27,10 @@ export const useCrewListQuery = (params: {
 // 모임 상세 조회
 export const useCrewDetailQuery = (crewId: string) => {
   const { data, isLoading, error } = useQuery({
-    queryKey: crewQueryKey.crewDetail(String(crewId)),
+    queryKey: crewQueryKey.crewDetail(crewId),
     queryFn: () => GetCrewDetailAPI(crewId),
     select: (response) => response.data,
+    enabled: !!crewId,
   });
 
   return { data, isLoading, error };

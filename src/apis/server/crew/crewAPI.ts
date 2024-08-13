@@ -3,7 +3,7 @@ import { HttpStatusCode } from 'axios';
 import api from '@/apis';
 import { ApiResponse } from '@/apis/server/type';
 
-interface GetCrewAPIResponseBody {
+export interface GetCrewAPIResponseBody {
   crewId: string;
   name: string;
   intro: string;
