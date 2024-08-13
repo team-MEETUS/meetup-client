@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import axios, { Axios } from 'axios';
 
-import type { AxiosError, AxiosInstance, AxiosResponse } from 'axios';
+import type { AxiosInstance } from 'axios';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -32,33 +32,31 @@ const AxiosInstance = (baseURL: string): Axios => {
     },
   );
 
-  instance.interceptors.response.use(
-    (res: AxiosResponse) => {
-      const { data, status, config } = res;
+  // instance.interceptors.response.use(
+  //   (res: AxiosResponse) => {
+  //     const { data, status, config } = res;
 
-      if (config.url === '/login' && status === 200) {
-        instance.defaults.headers['Authorization'] =
-          `Bearer ${data.data.accessToken}`;
-      }
+  //     if (config.url === '/login' && status === 200) {
+  //       instance.defaults.headers['Authorization'] =
+  //         `Bearer ${data.data.accessToken}`;
+  //     }
 
-      return res;
-    },
-    (error: AxiosError) => {
-      if (error.response && error.response.status === 401) {
-        window.location.href = '/';
-      }
-
-      // if (error.response && error.config) {
-      //   const { url } = error.config;
-      //   const { pathname } = window.location;
-
-      //   console.log(`[${pathname}][${url}] : ${error.response.statusText}`);
-      //   throw new Error(error.response.statusText);
-      // }
-      throw new Error(error.message);
-      // throw new Error('An error occurred');
-    },
-  );
+  //     return res;
+  //   },
+  // (error: AxiosError) => {
+  // if (error.response && error.response.status === 401) {
+  //   window.location.href = '/';
+  // }
+  // if (error.response && error.config) {
+  //   const { url } = error.config;
+  //   const { pathname } = window.location;
+  //   console.log(`[${pathname}][${url}] : ${error.response.statusText}`);
+  //   throw new Error(error.response.statusText);
+  // }
+  // throw new Error(error.message);
+  // throw new Error('An error occurred');
+  // },
+  // );
 
   return instance;
 };
