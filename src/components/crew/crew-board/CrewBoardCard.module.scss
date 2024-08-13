@@ -1,0 +1,44 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 10px;
+  width: 100%;
+  .board_info {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+
+    // .info_left {
+    // }
+    // .info_right {
+    // }
+  }
+
+  .board_title {
+    @include Medium-03;
+    text-align: left;
+  }
+
+  .board_content {
+    text-align: left;
+  }
+
+  .board_status {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+
+    // .status_left {
+    //   .like {
+    //   }
+
+    //   .comment {
+    //   }
+    // }
+
+    // .status_right {
+    // }
+  }
+}

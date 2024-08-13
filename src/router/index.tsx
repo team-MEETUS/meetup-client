@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 import React, { Suspense } from 'react';
 
 import { createBrowserRouter, useLocation } from 'react-router-dom';
@@ -16,6 +17,12 @@ const CrewRegisterLocation = React.lazy(
 );
 const CrewRegisterPage = React.lazy(
   () => import('@/pages/crew/crew-register/CrewRegisterPage'),
+);
+const CrewBoardDetailPage = React.lazy(
+  () => import('@/pages/crew/board/CrewBoardDetailPage'),
+);
+const CrewBoardPage = React.lazy(
+  () => import('@/pages/crew/board/CrewBoardPage'),
 );
 const LoginPage = React.lazy(() => import('@/pages/user/login/LoginPage'));
 const HomePage = React.lazy(() => import('@/pages/home/HomePage.tsx'));
@@ -78,11 +85,24 @@ const router = createBrowserRouter([
           },
           {
             path: ':crewId/board',
-            element: (
-              <Suspense fallback={<LoadingSpinner />}>
-                <CrewPage />
-              </Suspense>
-            ),
+            children: [
+              {
+                path: '',
+                element: (
+                  <Suspense fallback={<LoadingSpinner />}>
+                    <CrewBoardPage />
+                  </Suspense>
+                ),
+              },
+              {
+                path: ':boardId',
+                element: (
+                  <Suspense fallback={<LoadingSpinner />}>
+                    <CrewBoardDetailPage />
+                  </Suspense>
+                ),
+              },
+            ],
           },
           {
             path: ':crewId/album',
