@@ -12,6 +12,7 @@ const CrewNavigation = (props: CrewNavigationProps) => {
       <div className={styles.nav_layout}>
         <NavLink
           to={`/crew/${props.id}/home`}
+          state={{ crewId: props.id }}
           className={({ isActive }) =>
             [styles.nav_item, isActive ? styles.active_nav_item : ''].join(' ')
           }
@@ -20,6 +21,7 @@ const CrewNavigation = (props: CrewNavigationProps) => {
         </NavLink>
         <NavLink
           to={`/crew/${props.id}/board`}
+          state={{ crewId: props.id }}
           className={({ isActive }) =>
             [styles.nav_item, isActive ? styles.active_nav_item : ''].join(' ')
           }
@@ -28,6 +30,7 @@ const CrewNavigation = (props: CrewNavigationProps) => {
         </NavLink>
         <NavLink
           to={`/crew/${props.id}/album`}
+          state={{ crewId: props.id }}
           className={({ isActive }) =>
             [styles.nav_item, isActive ? styles.active_nav_item : ''].join(' ')
           }
@@ -36,6 +39,7 @@ const CrewNavigation = (props: CrewNavigationProps) => {
         </NavLink>
         <NavLink
           to={`/crew/${props.id}/chat`}
+          state={{ crewId: props.id }}
           className={({ isActive }) =>
             [styles.nav_item, isActive ? styles.active_nav_item : ''].join(' ')
           }
