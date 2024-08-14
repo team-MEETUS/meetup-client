@@ -1,10 +1,11 @@
 import { useState } from 'react';
 
 import classNames from 'classnames/bind';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 
 import { useCrewBoardListQuery } from '@/apis/react-query/crew/useCrewBoardQuery';
 import { useCrewDetailQuery } from '@/apis/react-query/crew/useCrewQuery';
+import CrewAddIcon from '@/assets/icons/CrewAddIcon.svg?react';
 import CrewBoardCard from '@/components/crew/crew-board/CrewBoardCard';
 import CrewHeader from '@/components/crew/crew-header/CrewHeader';
 import CrewNavigation from '@/components/crew/crew-navigation/CrewNavigation';
@@ -36,32 +37,35 @@ const CrewBoardPage = () => {
   };
 
   return (
-    <>
-      <div>
-        <div>
-          {crewDetailData && (
-            <div className={cn('crew_detail')}>
-              <div className={cn('header')}>
-                <CrewHeader
-                  title={crewDetailData.name}
-                  onClick={() => navigate('/')}
-                />
-                <CrewNavigation id={crewId} />
-              </div>
-            </div>
-          )}
-
-          {crewBoardData &&
-            crewBoardData.map((board) => (
-              <CrewBoardCard
-                key={board.boardId}
-                {...board}
-                onClick={() => handleClickBoard(String(board.boardId))}
-              />
-            ))}
+    <div className={styles.container}>
+      {crewDetailData && (
+        <div className={cn('crew_detail')}>
+          <div className={cn('header')}>
+            <CrewHeader
+              title={crewDetailData.name}
+              onClick={() => navigate('/')}
+            />
+            <CrewNavigation id={crewId} />
+          </div>
         </div>
-      </div>
-    </>
+      )}
+
+      {crewBoardData &&
+        crewBoardData.map((board) => (
+          <CrewBoardCard
+            key={board.boardId}
+            {...board}
+            onClick={() => handleClickBoard(String(board.boardId))}
+          />
+        ))}
+      <NavLink
+        className={styles.button_container}
+        to={`/crew/${crewId}/board/register`}
+        state={{ crewId: crewId }}
+      >
+        <CrewAddIcon />
+      </NavLink>
+    </div>
   );
 };
 

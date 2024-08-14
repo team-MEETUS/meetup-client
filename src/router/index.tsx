@@ -24,6 +24,10 @@ const CrewBoardDetailPage = React.lazy(
 const CrewBoardPage = React.lazy(
   () => import('@/pages/crew/board/CrewBoardPage'),
 );
+const CrewBoardRegisterPage = React.lazy(
+  () => import('@/pages/crew/board/CrewBoardRegisterPage'),
+);
+
 const LoginPage = React.lazy(() => import('@/pages/user/login/LoginPage'));
 const HomePage = React.lazy(() => import('@/pages/home/HomePage.tsx'));
 const NotFound = React.lazy(() => import('@/pages/not-found/NotFound.tsx'));
@@ -99,6 +103,14 @@ const router = createBrowserRouter([
                 element: (
                   <Suspense fallback={<LoadingSpinner />}>
                     <CrewBoardDetailPage />
+                  </Suspense>
+                ),
+              },
+              {
+                path: 'register',
+                element: (
+                  <Suspense fallback={<LoadingSpinner />}>
+                    <CrewBoardRegisterPage />
                   </Suspense>
                 ),
               },
