@@ -12,7 +12,7 @@ import CrewTitle from '@/components/crew/crew-title/CrewTitle';
 import styles from './CrewPage.module.scss';
 
 interface CrewState {
-  crewId?: string;
+  crewId: string;
 }
 
 const CrewPage = () => {

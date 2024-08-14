@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import classNames from 'classnames/bind';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -12,7 +12,7 @@ import CrewNavigation from '@/components/crew/crew-navigation/CrewNavigation';
 import styles from './CrewBoardPage.module.scss';
 
 interface BoardState {
-  crewId?: string;
+  crewId: string;
 }
 
 const CrewBoardPage = () => {
@@ -21,7 +21,9 @@ const CrewBoardPage = () => {
 
   const cn = classNames.bind(styles);
 
-  const [crewId, setCrewId] = useState<string>('');
+  const state = location.state as BoardState;
+
+  const [crewId] = useState<string>(state.crewId || '');
 
   const { data: crewBoardData } = useCrewBoardListQuery(crewId);
 
@@ -33,13 +35,6 @@ const CrewBoardPage = () => {
     });
   };
 
-  useEffect(() => {
-    const state = location.state as BoardState;
-
-    if (state.crewId) {
-      setCrewId(state.crewId);
-    }
-  }, [location.state]);
   return (
     <>
       <div>

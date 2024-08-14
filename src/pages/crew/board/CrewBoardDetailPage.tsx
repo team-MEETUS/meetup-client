@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import { useLocation } from 'react-router-dom';
 
@@ -11,19 +11,13 @@ interface BoardState {
 
 const CrewBoardDetailPage = () => {
   const location = useLocation();
-  const [crewId, setCrewId] = useState<string>('');
-  const [boardId, setBoardId] = useState<string>('');
+
+  const state = location.state as BoardState;
+
+  const [crewId] = useState<string>(state.crewId || '');
+  const [boardId] = useState<string>(state.boardId || '');
 
   const { data: crewBoardData } = useCrewBoardDetailQuery(crewId, boardId);
-
-  useEffect(() => {
-    const state = location.state as BoardState;
-
-    if (state.crewId) {
-      setCrewId(state.crewId);
-      setBoardId(state.boardId);
-    }
-  }, [location.state]);
 
   return (
     <div>
