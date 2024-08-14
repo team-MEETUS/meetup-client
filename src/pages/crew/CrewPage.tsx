@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import { useLocation, useNavigate } from 'react-router-dom';
 
@@ -19,18 +19,12 @@ const CrewPage = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const [crewId, setCrewId] = useState<string>('50');
+  const state = location.state as CrewState;
+
+  const [crewId] = useState<string>(state.crewId || '');
 
   const { data: crewDetailData } = useCrewDetailQuery(crewId);
   // const { data: crewMemberData } = useCrewMemberQuery(crewId);
-
-  useEffect(() => {
-    const state = location.state as CrewState;
-
-    if (state.crewId) {
-      setCrewId(state.crewId);
-    }
-  }, [location.state]);
 
   return (
     <div className={styles.container}>
