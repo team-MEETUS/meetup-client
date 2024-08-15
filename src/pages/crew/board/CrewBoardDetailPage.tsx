@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 
 import { useCrewBoardDetailQuery } from '@/apis/react-query/crew/useCrewBoardQuery';
+import { sanitizeHTML } from '@/utils/sanitizeHTML';
 
 interface BoardState {
   crewId: string;
@@ -33,7 +34,11 @@ const CrewBoardDetailPage = () => {
           <div>
             <div>
               <h2>{crewBoardData.title}</h2>
-              <p>{crewBoardData.content}</p>
+              <div
+                dangerouslySetInnerHTML={{
+                  __html: sanitizeHTML(crewBoardData.content),
+                }}
+              />
             </div>
           </div>
         )}
