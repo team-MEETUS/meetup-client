@@ -14,4 +14,49 @@
     z-index: 10;
     background-color: var(--white);
   }
+
+  .button_container {
+    position: fixed;
+    bottom: calc(10px + 46px + env(safe-area-inset-bottom));
+    right: 30px;
+    background-color: var(--orange-500);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+
+    @media (min-width: 600px) {
+      right: calc(50% - 220px);
+    }
+  }
+
+  .board_list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 10px;
+  }
+
+  .board_list > * {
+    position: relative;
+    padding-bottom: 10px;
+  }
+
+  .board_list > *::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 1px;
+    background-color: var(--gray-400);
+  }
+
+  .board_list > *:last-child::after {
+    content: none;
+  }
 }

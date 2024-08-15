@@ -5,6 +5,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 
 import { useCrewBoardListQuery } from '@/apis/react-query/crew/useCrewBoardQuery';
 import { useCrewDetailQuery } from '@/apis/react-query/crew/useCrewQuery';
+import CrewAddIcon from '@/assets/icons/CrewAddIcon.svg?react';
 import CrewBoardCard from '@/components/crew/crew-board/CrewBoardCard';
 import CrewHeader from '@/components/crew/crew-header/CrewHeader';
 import CrewNavigation from '@/components/crew/crew-navigation/CrewNavigation';
@@ -33,6 +34,12 @@ const CrewBoardPage = () => {
     });
   };
 
+  const handleClickBoardRegister = () => {
+    navigate(`/crew/${crewId}/board/register`, {
+      state: { crewId: crewId },
+    });
+  };
+
   useEffect(() => {
     const state = location.state as BoardState;
 
@@ -42,7 +49,7 @@ const CrewBoardPage = () => {
   }, [location.state]);
   return (
     <>
-      <div>
+      <div className={cn('container')}>
         <div>
           {crewDetailData && (
             <div className={cn('crew_detail')}>
@@ -56,15 +63,23 @@ const CrewBoardPage = () => {
             </div>
           )}
 
-          {crewBoardData &&
-            crewBoardData.map((board) => (
-              <CrewBoardCard
-                key={board.boardId}
-                {...board}
-                onClick={() => handleClickBoard(String(board.boardId))}
-              />
-            ))}
+          <div className={cn('board_list')}>
+            {crewBoardData &&
+              crewBoardData.map((board) => (
+                <CrewBoardCard
+                  key={board.boardId}
+                  {...board}
+                  onClick={() => handleClickBoard(String(board.boardId))}
+                />
+              ))}
+          </div>
         </div>
+        <span
+          className={styles.button_container}
+          onClick={handleClickBoardRegister}
+        >
+          <CrewAddIcon />
+        </span>
       </div>
     </>
   );
