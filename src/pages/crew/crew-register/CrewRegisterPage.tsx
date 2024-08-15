@@ -139,7 +139,7 @@ const CrewRegisterPage = () => {
   return (
     <div className={styles.container}>
       <div className={styles.header}>
-        <CommonHeader title="모임 개설" onClick={handleClickBack} />
+        <CommonHeader title="모임 개설" onBackClick={handleClickBack} />
       </div>
       <div className={styles.form}>
         <div className={styles.form_item}>
