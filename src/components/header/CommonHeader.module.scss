@@ -4,6 +4,7 @@
   justify-content: space-between;
   // margin: 10px 20px 0 20px;
   padding: 20px 10px;
+
   .header_left {
     display: flex;
   }
@@ -18,7 +19,14 @@
     }
   }
 
-  .aria_hidden {
+  .header_right {
+    display: flex;
+    justify-content: center;
     width: 24px;
+    white-space: nowrap;
+
+    .option_container {
+      @include Medium-02;
+    }
   }
 }

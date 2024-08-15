@@ -6,13 +6,20 @@ import styles from './CommonHeader.module.scss';
 
 interface HeaderProps {
   title: string;
-  onClick?: () => void;
+  option?: React.ReactNode;
+  onBackClick?: () => void;
+  onOptionClick?: () => void;
 }
 
-const CommonHeader = (props: HeaderProps) => {
+const CommonHeader = ({
+  title,
+  option,
+  onBackClick,
+  onOptionClick,
+}: HeaderProps) => {
   const navigate = useNavigate();
 
-  const handleClick = props.onClick || (() => navigate(-1));
+  const handleClick = onBackClick || (() => navigate(-1));
 
   return (
     <header className={styles.crew_header}>
@@ -20,9 +27,15 @@ const CommonHeader = (props: HeaderProps) => {
         <BackArrowIcon onClick={handleClick} />
       </div>
       <div className={styles.header_center}>
-        <span className={styles.header_title}>{props.title}</span>
+        <span className={styles.header_title}>{title}</span>
       </div>
-      <span className={styles.aria_hidden} aria-hidden="true"></span>
+      <div className={styles.header_right}>
+        {option && (
+          <div onClick={onOptionClick} className={styles.option_container}>
+            {typeof option === 'string' ? <span>{option}</span> : option}
+          </div>
+        )}
+      </div>
     </header>
   );
 };
