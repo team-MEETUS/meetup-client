@@ -35,7 +35,7 @@ const PostCreateBoardAPI = async (
 };
 
 const PostCreateBoardImageAPI = async (crewId: string, images: FormData) => {
-  const { data } = await api.post<ApiResponse<{ images: string[] }>>(
+  const { data } = await api.post<ApiResponse<string[]>>(
     `/crews/${crewId}/boards/images`,
     images,
   );
@@ -62,7 +62,7 @@ const PutUpdateBoardAPI = async (
 
 const DeleteBoardAPI = async (crewId: string, boardId: string) => {
   const { data } = await api.delete<ApiResponse<{ boardId: number }>>(
-    `/crews/${crewId}/boards/${boardId}`,
+    `/crews/${crewId}/boards/details/${boardId}`,
   );
 
   return data;
