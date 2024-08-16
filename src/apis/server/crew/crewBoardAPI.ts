@@ -16,7 +16,7 @@ const GetAllBoardAPI = async (crewId: string, category?: string) => {
 
 const GetBoardDetailAPI = async (crewId: string, boardId: string) => {
   const { data } = await api.get<ApiResponse<GetAllBoardAPIResponseBody>>(
-    `/crews/${crewId}/boards/details/${boardId}`,
+    `/crews/${crewId}/boards/${boardId}`,
   );
 
   return data;
@@ -62,7 +62,7 @@ const PutUpdateBoardAPI = async (
 
 const DeleteBoardAPI = async (crewId: string, boardId: string) => {
   const { data } = await api.delete<ApiResponse<{ boardId: number }>>(
-    `/crews/${crewId}/boards/details/${boardId}`,
+    `/crews/${crewId}/boards/${boardId}`,
   );
 
   return data;

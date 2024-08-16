@@ -9,7 +9,7 @@ import {
 
 const GetBoardCommentAPI = async (crewId: string, boardId: string) => {
   const { data } = await api.get<ApiResponse<GetBoardCommentResponseBody>>(
-    `/crews/${crewId}/boards/details/${boardId}/comments`,
+    `/crews/${crewId}/boards/${boardId}/comments`,
   );
 
   return data;
@@ -21,7 +21,7 @@ const PostCreateBoardCommentAPI = async (
   body: PostBoardCommentRequestBody,
 ) => {
   const { data } = await api.post<ApiResponse<{ boardCommentId: string }>>(
-    `/crews/${crewId}/boards/details/${boardId}/comments`,
+    `/crews/${crewId}/boards/${boardId}/comments`,
     body,
   );
 

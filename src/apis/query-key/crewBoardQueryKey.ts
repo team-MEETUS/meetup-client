@@ -3,6 +3,6 @@ export default {
     `/crews/${crewId}/boards/?category=${category}`,
   ],
   crewBoardDetail: (crewID: string, boardID: string) => [
-    `/crews/${crewID}/boards/details/${boardID}`,
+    `/crews/${crewID}/boards/${boardID}`,
   ],
 };
