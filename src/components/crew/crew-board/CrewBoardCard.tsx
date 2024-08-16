@@ -46,7 +46,7 @@ const CrewBoardCard = (props: CrewBoardCardProps) => {
 
       <div className={cn('board_status')}>
         <div className={cn('status_left')}>
-          <span className={cn('like')}>좋아요 {props.hit}</span>
+          <span className={cn('like')}>조회 {props.hit}</span>
           <span className={cn('comment')}></span>
         </div>
         <span className={cn('status_right')}>{props.category}</span>
