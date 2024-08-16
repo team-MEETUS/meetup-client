@@ -18,6 +18,9 @@ const CrewRegisterLocation = React.lazy(
 const CrewRegisterPage = React.lazy(
   () => import('@/pages/crew/crew-register/CrewRegisterPage'),
 );
+const CrewUpdatePage = React.lazy(
+  () => import('@/pages/crew/crew-register/CrewUpdatePage'),
+);
 const CrewBoardDetailPage = React.lazy(
   () => import('@/pages/crew/board/CrewBoardDetailPage'),
 );
@@ -156,6 +159,14 @@ const router = createBrowserRouter([
                 element: (
                   <Suspense fallback={<LoadingSpinner />}>
                     <CrewRegisterPage />
+                  </Suspense>
+                ),
+              },
+              {
+                path: 'update',
+                element: (
+                  <Suspense fallback={<LoadingSpinner />}>
+                    <CrewUpdatePage />
                   </Suspense>
                 ),
               },

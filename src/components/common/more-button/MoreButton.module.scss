@@ -9,6 +9,7 @@
   z-index: 1000;
 
   .menu_item {
+    @include Medium-03;
     padding: 8px 16px;
     cursor: pointer;
     white-space: nowrap;

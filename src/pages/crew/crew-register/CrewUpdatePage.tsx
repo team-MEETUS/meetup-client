@@ -1,9 +1,11 @@
 import { useEffect, useRef, useState } from 'react';
 
 import classNames from 'classnames/bind';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 import { useCrewMutation } from '@/apis/react-query/crew/useCrewMutation';
+import { useCrewDetailQuery } from '@/apis/react-query/crew/useCrewQuery';
 import CrewImageIcon from '@/assets/icons/CrewImageIcon.svg?react';
 import LocationIcon from '@/assets/icons/LocationIcon.svg?react';
 import PersonIcon from '@/assets/icons/PersonIcon.svg?react';
@@ -12,19 +14,27 @@ import useCrewRegisterStore from '@/stores/crew/useCrewRegisterStore';
 
 import styles from './CrewRegisterPage.module.scss';
 
+interface CrewEditState {
+  isEditing: boolean;
+  crewId: string;
+}
+
 const CrewRegisterPage = () => {
   const cx = classNames.bind(styles);
   const navigate = useNavigate();
+  const location = useLocation();
+  const state = location.state as CrewEditState;
 
-  const { postAddCrew } = useCrewMutation();
+  const { data: crewDetailData } = useCrewDetailQuery(state.crewId);
+  const { putUpdateCrew } = useCrewMutation();
 
   const {
     name,
     // intro,
     content,
     max,
-    // originalImg,
-    // saveImg,
+    originalImg,
+    saveImg,
     geoInfo,
     interestBig,
     interestSmall,
@@ -34,6 +44,7 @@ const CrewRegisterPage = () => {
     updateContent,
     updateMax,
     updateImage,
+    setInitialData,
     resetRegisterStore,
   } = useCrewRegisterStore((state) => ({
     name: state.name,
@@ -51,26 +62,45 @@ const CrewRegisterPage = () => {
     updateContent: state.updateContent,
     updateMax: state.updateMax,
     updateImage: state.updateImage,
+    setInitialData: state.setInitialData,
     resetRegisterStore: state.resetRegisterStore,
   }));
 
+  const [crewId] = useState<string>(state.crewId);
+  useEffect(() => {
+    const initializeData = () => {
+      if (crewDetailData && state.isEditing) {
+        try {
+          setInitialData({
+            name: crewDetailData.name,
+            content: crewDetailData.content,
+            max: crewDetailData.max,
+            originalImg: crewDetailData.originalImg,
+            saveImg: crewDetailData.saveImg,
+            geoInfo: crewDetailData.geo,
+            interestBig: crewDetailData.interestBig,
+            interestSmall: crewDetailData.interestSmall,
+          });
+          setImageURL(crewDetailData.saveImg);
+        } catch (error) {
+          console.error('Failed to initialize data:', error);
+        }
+      }
+    };
+
+    void initializeData(); // void 연산자를 사용해 Promise 경고 제거
+  }, [crewDetailData, state.isEditing, setInitialData]);
+
   const [imageURL, setImageURL] = useState<string | undefined>();
 
-  useEffect(() => {
-    if (image) {
-      setImageURL(URL.createObjectURL(image));
-    }
-  }, [image]);
-
   const handleClickBack = () => {
-    navigate('/');
+    navigate(-1);
     resetRegisterStore();
   };
 
   const handleInterestSmallClick = () => {
     if (interestBig.interestBigId === 0) {
-      // interestBig이 선택되지 않은 경우
-      alert('관심사를 먼저 선택해주세요.');
+      toast.info('관심사를 먼저 선택해주세요.');
       navigate('/crew/register/interest-big');
     } else {
       navigate('/crew/register/interest-small');
@@ -91,7 +121,7 @@ const CrewRegisterPage = () => {
     }
   };
 
-  const handleMakeCrew = async (): Promise<void> => {
+  const handleUpdateCrew = async (): Promise<void> => {
     if (!name) {
       alert('모임명을 입력해주세요.');
       return;
@@ -109,6 +139,8 @@ const CrewRegisterPage = () => {
       name,
       content,
       max: Number(max) || 300,
+      originalImg,
+      saveImg,
       geoId: geoInfo.geoId ?? null,
       interestBigId: interestBig.interestBigId ?? null,
       interestSmallId: interestSmall.interestSmallId ?? null,
@@ -127,19 +159,13 @@ const CrewRegisterPage = () => {
       }),
     );
 
-    await postAddCrew.mutateAsync(formData);
-  };
-
-  const handleClick = () => {
-    handleMakeCrew().catch((error) => {
-      console.error('Failed to create crew', error);
-    });
+    await putUpdateCrew.mutateAsync({ crewId, body: formData });
   };
 
   return (
     <div className={styles.container}>
       <div className={styles.header}>
-        <CommonHeader title="모임 개설" onBackClick={handleClickBack} />
+        <CommonHeader title="모임 수정" onBackClick={handleClickBack} />
       </div>
       <div className={styles.form}>
         <div className={styles.form_item}>
@@ -180,7 +206,7 @@ const CrewRegisterPage = () => {
           />
         </div>
         <div className={styles.form_image} onClick={handleFileClick}>
-          {!image ? (
+          {!imageURL ? (
             <>
               <div className={styles.no_image}>
                 <CrewImageIcon fill={'var(--orange-400)'} />
@@ -247,8 +273,8 @@ const CrewRegisterPage = () => {
             className={cx('input', 'max_people')}
           />
         </div>
-        <button className={styles.submit_button} onClick={handleClick}>
-          모임 만들기
+        <button className={styles.submit_button} onClick={handleUpdateCrew}>
+          모임 수정하기
         </button>
       </div>
     </div>

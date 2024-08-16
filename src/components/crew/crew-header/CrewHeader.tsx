@@ -1,14 +1,15 @@
 import { useEffect, useState } from 'react';
 
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 import { useCrewMutation } from '@/apis/react-query/crew/useCrewMutation';
-import { useCrewLikeQuery } from '@/apis/react-query/crew/useCrewQuery'; // 좋아요 여부 조회 API
+import { useCrewLikeQuery } from '@/apis/react-query/crew/useCrewQuery';
 import BackArrowIcon from '@/assets/icons/BackArrowIcon.svg?react';
 import EmptyHeartIcon from '@/assets/icons/EmptyHeartIcon.svg?react';
 import FilledHeartIcon from '@/assets/icons/FilledHeartIcon.svg?react';
-import MoreIcon from '@/assets/icons/MoreIcon.svg?react';
 import ShareIcon from '@/assets/icons/ShareIcon.svg?react';
+import MoreMenuButton from '@/components/common/more-button/MoreButton';
 
 import styles from './CrewHeader.module.scss';
 
@@ -16,6 +17,11 @@ interface CrewHeaderProps {
   crewId: string;
   title: string;
   onClick?: () => void;
+}
+
+interface MenuItem {
+  label: string;
+  onClick: () => void;
 }
 
 const CrewHeader = ({ crewId, title, onClick }: CrewHeaderProps) => {
@@ -30,6 +36,34 @@ const CrewHeader = ({ crewId, title, onClick }: CrewHeaderProps) => {
   const toggleHeart = async () => {
     await postCrewLike.mutateAsync(crewId);
   };
+
+  const menuItems: MenuItem[] = [
+    {
+      label: '모임 삭제',
+      onClick: () => {
+        const isConfirmed = window.confirm(
+          '정말로 이 모임을 삭제하시겠습니까?',
+        );
+        if (isConfirmed) {
+          toast.info('해당 기능은 준비중입니다.');
+        } else {
+          return;
+        }
+      },
+    },
+    {
+      label: '모임 수정',
+      onClick: () => {
+        navigate(`/crew/register/update`, {
+          state: { isEditing: true, crewId },
+        });
+      },
+    },
+    {
+      label: '공유하기',
+      onClick: () => toast.info('해당 기능은 준비중입니다.'),
+    },
+  ];
 
   useEffect(() => {
     if (isLiked !== undefined) {
@@ -50,7 +84,7 @@ const CrewHeader = ({ crewId, title, onClick }: CrewHeaderProps) => {
           <EmptyHeartIcon onClick={toggleHeart} />
         )}
         <ShareIcon />
-        <MoreIcon />
+        <MoreMenuButton items={menuItems} />
       </div>
     </header>
   );

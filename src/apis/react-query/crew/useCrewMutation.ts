@@ -21,9 +21,17 @@ export const useCrewMutation = () => {
   });
 
   const putUpdateCrew = useMutation({
-    mutationFn: (params: { crewId: string; params: FormData }) =>
-      PutUpdateCrewAPI(params.crewId, params.params),
-    onSuccess: () => {},
+    mutationFn: (params: { crewId: string; body: FormData }) =>
+      PutUpdateCrewAPI(params.crewId, params.body),
+    onSuccess: async (data, params) => {
+      await queryClient.invalidateQueries({
+        queryKey: crewQueryKey.crewDetail(params.crewId),
+      });
+
+      navigate(`/crew/${data.data.crewId}/home`, {
+        state: { crewId: data.data.crewId },
+      });
+    },
     onError: () => {},
   });
 
