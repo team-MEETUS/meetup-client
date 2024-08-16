@@ -13,6 +13,11 @@ interface BoardState {
   boardId: string;
 }
 
+interface MenuItem {
+  label: string;
+  onClick: () => void;
+}
+
 const CrewBoardDetailPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -30,10 +35,6 @@ const CrewBoardDetailPage = () => {
       setBoardId(state.boardId);
     }
   }, [location.state]);
-  type MenuItem = {
-    label: string;
-    onClick: () => void;
-  };
 
   const menuItems: MenuItem[] = [
     {
