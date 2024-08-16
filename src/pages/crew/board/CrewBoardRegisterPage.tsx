@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import { Editor } from '@tinymce/tinymce-react';
 import classNames from 'classnames/bind';
@@ -7,6 +7,7 @@ import { toast } from 'react-toastify';
 import { Editor as TinyMCEEditor } from 'tinymce';
 
 import { useCrewBoardMutation } from '@/apis/react-query/crew/useCrewBoardMutation';
+import { useCrewBoardDetailQuery } from '@/apis/react-query/crew/useCrewBoardQuery';
 import DropDown from '@/components/common/dropdown/DropDown';
 import CommonHeader from '@/components/header/CommonHeader';
 import { CrewState } from '@/types/crew/crewType';
@@ -20,8 +21,6 @@ const CrewBoardRegister = () => {
   const location = useLocation();
   const state = location.state as CrewState;
 
-  const { PostCreateBoard, PostCreateBoardImage } = useCrewBoardMutation();
-
   // 드롭다운 옵션
   const categoryOptions = [
     { value: '공지', label: '공지' },
@@ -31,11 +30,20 @@ const CrewBoardRegister = () => {
   ];
 
   const [crewId] = useState<string>(state.crewId || '');
+  const [boardId] = useState<string>(state.boardId || '');
+
   const [title, setTitle] = useState<string>('');
   const [category, setCategory] = useState<string>(categoryOptions[0].value);
 
   const editorRef = useRef<TinyMCEEditor | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const { PostCreateBoard, PostCreateBoardImage, PutUpdateBoard } =
+    useCrewBoardMutation();
+  const { data: crewBoardDetailData } = useCrewBoardDetailQuery(
+    crewId,
+    boardId,
+  );
 
   const onTriggerImage = () => {
     fileInputRef.current?.click();
@@ -57,7 +65,7 @@ const CrewBoardRegister = () => {
           images: formData,
         });
 
-        const imageUrl = data?.data?.images?.[0];
+        const imageUrl = data?.data?.[0];
 
         if (imageUrl) {
           insertImg(imageUrl);
@@ -79,18 +87,38 @@ const CrewBoardRegister = () => {
     }
   };
 
-  const handleCreateBoard = async () => {
+  const handleSaveBoard = async () => {
     const body = {
       title,
       content: editorRef.current?.getContent() || '',
       category,
     };
 
-    await PostCreateBoard.mutateAsync({
-      crewId,
-      body,
-    });
+    if (boardId) {
+      // 수정 상태인 경우
+      await PutUpdateBoard.mutateAsync({
+        crewId,
+        boardId,
+        body,
+      });
+    } else {
+      // 새 게시글 작성인 경우
+      await PostCreateBoard.mutateAsync({
+        crewId,
+        body,
+      });
+    }
   };
+
+  useEffect(() => {
+    if (crewBoardDetailData) {
+      setTitle(crewBoardDetailData.title);
+      setCategory(crewBoardDetailData.category || categoryOptions[0].value);
+      if (editorRef.current) {
+        editorRef.current.setContent(crewBoardDetailData.content);
+      }
+    }
+  }, [crewBoardDetailData]);
 
   return (
     <div className={cn('container')}>
@@ -98,7 +126,7 @@ const CrewBoardRegister = () => {
         <CommonHeader
           title="게시글 작성"
           option="저장"
-          onOptionClick={handleCreateBoard}
+          onOptionClick={handleSaveBoard}
         />
       </div>
       <div className={cn('title')}>
@@ -147,7 +175,7 @@ const CrewBoardRegister = () => {
 
       <input
         type="file"
-        multiple={true}
+        multiple={false}
         name="image"
         id="image"
         ref={fileInputRef}

@@ -4,8 +4,10 @@ import { toast } from 'react-toastify';
 
 import crewBoardQueryKey from '@/apis/query-key/crewBoardQueryKey';
 import {
+  DeleteBoardAPI,
   PostCreateBoardAPI,
   PostCreateBoardImageAPI,
+  PutUpdateBoardAPI,
 } from '@/apis/server/crew/crewBoardAPI';
 import { PostCreateBoardBody } from '@/types/crew/crewBoardType';
 
@@ -16,14 +18,14 @@ export const useCrewBoardMutation = () => {
   const PostCreateBoard = useMutation({
     mutationFn: (params: { crewId: string; body: PostCreateBoardBody }) =>
       PostCreateBoardAPI(params.crewId, params.body),
-    onSuccess: async (_, params) => {
+    onSuccess: async (data, params) => {
       await queryClient.invalidateQueries({
         queryKey: crewBoardQueryKey.crewBoardList(params.crewId),
       });
 
       toast.success('게시글이 작성되었습니다.');
-      navigate(`/crew/${params.crewId}/board`, {
-        state: { crewId: params.crewId },
+      navigate(`/crew/${params.crewId}/board/${data.data.boardId}`, {
+        state: { crewId: params.crewId, boardId: data.data.boardId },
       });
     },
     onError: () => {},
@@ -36,8 +38,45 @@ export const useCrewBoardMutation = () => {
     onError: () => {},
   });
 
+  const PutUpdateBoard = useMutation({
+    mutationFn: (params: {
+      crewId: string;
+      boardId: string;
+      body: { title: string; content: string; category: string };
+    }) => PutUpdateBoardAPI(params.crewId, params.boardId, params.body),
+    onSuccess: async (_, params) => {
+      await queryClient.invalidateQueries({
+        queryKey: crewBoardQueryKey.crewBoardList(params.crewId),
+      });
+
+      toast.success('게시글이 수정되었습니다.');
+      navigate(`/crew/${params.crewId}/board/${params.boardId}`, {
+        state: { crewId: params.crewId, boardId: params.boardId },
+      });
+    },
+    onError: () => {},
+  });
+
+  const PostDeleteBoard = useMutation({
+    mutationFn: (params: { crewId: string; boardId: string }) =>
+      DeleteBoardAPI(params.crewId, params.boardId),
+    onSuccess: async (_, params) => {
+      await queryClient.invalidateQueries({
+        queryKey: crewBoardQueryKey.crewBoardList(params.crewId),
+      });
+
+      toast.success('게시글이 삭제되었습니다.');
+      navigate(`/crew/${params.crewId}/board`, {
+        state: { crewId: params.crewId },
+      });
+    },
+    onError: () => {},
+  });
+
   return {
     PostCreateBoard,
     PostCreateBoardImage,
+    PutUpdateBoard,
+    PostDeleteBoard,
   };
 };
