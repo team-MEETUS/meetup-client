@@ -5,7 +5,7 @@ export interface GetAllGeoAPIResponseBody {
   geoId: number | null;
   city: string;
   district: string;
-  county: string;
+  county?: string;
   latitude?: string;
   longitude?: string;
 }
