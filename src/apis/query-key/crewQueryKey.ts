@@ -1,7 +1,10 @@
 export default {
   crewList: (data: object) => [`/crews`, data],
   crewDetail: (crewID: string) => [`/crews`, crewID],
-  crewMember: (crewID: string) => [`/crews/member`, crewID],
+  crewMember: (crewID: string, status: 'members' | 'signup') => [
+    `/crews/member`,
+    crewID,
+    status,
+  ],
   crewLike: (crewID: string) => [`/crews/likes`, crewID],
-  crewSignUp: (crewID: string) => [`/crews/sign-up`, crewID],
 };

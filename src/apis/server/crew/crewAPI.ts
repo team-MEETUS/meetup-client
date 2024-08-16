@@ -2,6 +2,10 @@ import { HttpStatusCode } from 'axios';
 
 import api from '@/apis';
 import { ApiResponse } from '@/apis/server/type';
+import {
+  GetAllCrewAPIResponseBody,
+  GetCrewMemberAPIResponseBody,
+} from '@/types/crew/crewAPIType';
 
 export interface GetCrewAPIResponseBody {
   crewId: string;
@@ -67,22 +71,17 @@ interface PutUpdateCrewAPI {
   interestSmall: number;
 }
 
-interface GetCrewMemberAPIResponseBody {
-  crewMemberId: number;
-  status: number;
-  member: number;
-}
 /**
  * @description 관심사 별 모임 조회
  */
-const GetAllCrewAPI = async (params: {
-  city?: string;
+const GetAllCrewAPI = async (body: {
   interestBigId?: number;
   interestSmallId?: number;
+  page?: number;
 }) => {
-  const { data } = await api.get<ApiResponse<GetCrewAPIResponseBody[]>>(
+  const { data } = await api.post<ApiResponse<GetAllCrewAPIResponseBody[]>>(
     `/crews`,
-    { params },
+    body,
   );
 
   return data;
@@ -92,7 +91,7 @@ const GetAllCrewAPI = async (params: {
  * @description 특정 모임 조회
  */
 const GetCrewDetailAPI = async (crewId: string) => {
-  const { data } = await api.get<ApiResponse<GetCrewAPIResponseBody>>(
+  const { data } = await api.get<ApiResponse<GetAllCrewAPIResponseBody>>(
     `/crews/${crewId}`,
   );
 
@@ -101,6 +100,7 @@ const GetCrewDetailAPI = async (crewId: string) => {
 
 /**
  * @description 모임 등록
+ *
  */
 const PostAddCrewAPI = async (body: FormData) => {
   const { data } = await api.post<ApiResponse<{ crewId: string }>>(
@@ -113,11 +113,12 @@ const PostAddCrewAPI = async (body: FormData) => {
 
 /**
  * @description 모임 수정
+ *
  */
-const PutUpdateCrewAPI = async (crewId: string, params: PutUpdateCrewAPI) => {
+const PutUpdateCrewAPI = async (crewId: string, body: FormData) => {
   const { data } = await api.put<ApiResponse<{ crewId: string }>>(
     `/crews/${crewId}`,
-    params,
+    body,
   );
 
   return data;
@@ -138,18 +139,7 @@ const DeleteCrewAPI = async (crewId: string) => {
  * @description 모임 가입 신청
  */
 const PostCrewMemberSignUpAPI = async (crewId: string) => {
-  const { data } = await api.post<ApiResponse<HttpStatusCode>>(
-    `/crews/${crewId}`,
-  );
-
-  return data;
-};
-
-/**
- * @description 모임원 조회
- */
-const GetCrewMemberAPI = async (crewId: string) => {
-  const { data } = await api.get<ApiResponse<GetCrewMemberAPIResponseBody[]>>(
+  const { data } = await api.post<ApiResponse<{ memberId: number }>>(
     `/crews/${crewId}/members`,
   );
 
@@ -168,21 +158,10 @@ const GetIsLikeCrewAPI = async (crewId: string) => {
 };
 
 /**
- * @description 모임 찜하기
+ * @description 모임 찜하기/찜취소
  */
 const PostLikeCrewAPI = async (crewId: string) => {
-  const { data } = await api.post<ApiResponse<{ crewLikeId: number }>>(
-    `/crews/${crewId}/likes`,
-  );
-
-  return data;
-};
-
-/**
- * @description 모임 찜 취소
- */
-const DeleteLikeCrewAPI = async (crewId: string) => {
-  const { data } = await api.delete<ApiResponse<HttpStatusCode>>(
+  const { data } = await api.post<ApiResponse<HttpStatusCode>>(
     `/crews/${crewId}/likes`,
   );
 
@@ -196,8 +175,8 @@ const PutUpdateCrewMemberAPI = async (
   crewId: string,
   body: { memberId: number; newRoleStatus: number },
 ) => {
-  const { data } = await api.put<ApiResponse<{ memberId: number }>>(
-    `/crews/${crewId}/signup-members`,
+  const { data } = await api.put<ApiResponse<{ crewMemberId: number }>>(
+    `/crews/${crewId}/members`,
     body,
   );
 
@@ -205,11 +184,25 @@ const PutUpdateCrewMemberAPI = async (
 };
 
 /**
- * @description 모임 가입 신청 조회
+ * @description 모임원 조회 및 가입 신청 조회
  */
-const GetCrewMemberSignUpAPI = async (crewId: string) => {
+const GetCrewMemberAPI = async (
+  crewId: string,
+  status: 'members' | 'signup',
+) => {
   const { data } = await api.get<ApiResponse<GetCrewMemberAPIResponseBody[]>>(
-    `/crews/${crewId}/signup-members`,
+    `/crews/${crewId}/members?status=${status}`,
+  );
+
+  return data;
+};
+
+/**
+ * @description 모임 가입 여부 조회
+ */
+const GetIsCrewMemberAPI = async (crewId: string) => {
+  const { data } = await api.get<ApiResponse<boolean>>(
+    `/crews/${crewId}/members/me`,
   );
 
   return data;
@@ -225,7 +218,6 @@ export {
   GetCrewMemberAPI,
   GetIsLikeCrewAPI,
   PostLikeCrewAPI,
-  DeleteLikeCrewAPI,
   PutUpdateCrewMemberAPI,
-  GetCrewMemberSignUpAPI,
+  GetIsCrewMemberAPI,
 };

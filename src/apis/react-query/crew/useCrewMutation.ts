@@ -1,9 +1,9 @@
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 
+import crewQueryKey from '@/apis/query-key/crewQueryKey';
 import {
   DeleteCrewAPI,
-  DeleteLikeCrewAPI,
   PostAddCrewAPI,
   PostCrewMemberSignUpAPI,
   PostLikeCrewAPI,
@@ -12,6 +12,7 @@ import {
 
 export const useCrewMutation = () => {
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
 
   const postAddCrew = useMutation({
     mutationFn: (formData: FormData) => PostAddCrewAPI(formData),
@@ -20,7 +21,7 @@ export const useCrewMutation = () => {
   });
 
   const putUpdateCrew = useMutation({
-    mutationFn: (params: { crewId: string; params: PutUpdateCrewAPI }) =>
+    mutationFn: (params: { crewId: string; params: FormData }) =>
       PutUpdateCrewAPI(params.crewId, params.params),
     onSuccess: () => {},
     onError: () => {},
@@ -34,14 +35,36 @@ export const useCrewMutation = () => {
 
   const postCrewLike = useMutation({
     mutationFn: (crewId: string) => PostLikeCrewAPI(crewId),
-    onSuccess: () => {},
-    onError: () => {},
-  });
+    onMutate: async (crewId) => {
+      await queryClient.cancelQueries({
+        queryKey: crewQueryKey.crewLike(crewId),
+      });
 
-  const deleteCrewLike = useMutation({
-    mutationFn: (crewId: string) => DeleteLikeCrewAPI(crewId),
-    onSuccess: () => {},
-    onError: () => {},
+      // 기존 데이터
+      const previousLike = queryClient.getQueryData(
+        crewQueryKey.crewLike(crewId),
+      );
+
+      // mutate parameter로 업데이트
+      queryClient.setQueryData(crewQueryKey.crewLike(crewId), crewId);
+
+      return { previousLike };
+    },
+    // 실패 시 원래 상태로 복구
+    onError: (_, crewId, context) => {
+      if (context) {
+        queryClient.setQueryData(
+          crewQueryKey.crewLike(crewId),
+          context.previousLike,
+        );
+      }
+    },
+    // 성공 실패와 상관없이 완료 시, 캐시 재호출
+    onSettled: async (_, __, crewId) => {
+      await queryClient.invalidateQueries({
+        queryKey: crewQueryKey.crewLike(crewId),
+      });
+    },
   });
 
   const postCrewMemberSignUp = useMutation({
@@ -55,7 +78,6 @@ export const useCrewMutation = () => {
     putUpdateCrew,
     deleteCrew,
     postCrewLike,
-    deleteCrewLike,
     postCrewMemberSignUp,
   };
 };

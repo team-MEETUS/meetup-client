@@ -5,7 +5,6 @@ import {
   GetAllCrewAPI,
   GetCrewDetailAPI,
   GetCrewMemberAPI,
-  GetCrewMemberSignUpAPI,
   GetIsLikeCrewAPI,
 } from '@/apis/server/crew/crewAPI';
 
@@ -36,17 +35,6 @@ export const useCrewDetailQuery = (crewId: string) => {
   return { data, isLoading, error };
 };
 
-// 모임 멤버 조회
-export const useCrewMemberQuery = (crewId: string) => {
-  const { data, isLoading, error } = useQuery({
-    queryKey: crewQueryKey.crewMember(crewId),
-    queryFn: () => GetCrewMemberAPI(crewId),
-    select: (response) => response.data,
-  });
-
-  return { data, isLoading, error };
-};
-
 // 모임 좋아요 조회
 export const useCrewLikeQuery = (crewId: string) => {
   const { data, isLoading, error } = useQuery({
@@ -58,11 +46,22 @@ export const useCrewLikeQuery = (crewId: string) => {
   return { data, isLoading, error };
 };
 
+// 모임 멤버 조회
+export const useCrewMemberQuery = (crewId: string) => {
+  const { data, isLoading, error } = useQuery({
+    queryKey: crewQueryKey.crewMember(crewId, 'members'),
+    queryFn: () => GetCrewMemberAPI(crewId, 'members'),
+    select: (response) => response.data,
+  });
+
+  return { data, isLoading, error };
+};
+
 // 모임 가입 조회
 export const useCrewSignUpQuery = (crewId: string) => {
   const { data, isLoading, error } = useQuery({
-    queryKey: crewQueryKey.crewSignUp(crewId),
-    queryFn: () => GetCrewMemberSignUpAPI(crewId),
+    queryKey: crewQueryKey.crewMember(crewId, 'signup'),
+    queryFn: () => GetCrewMemberAPI(crewId, 'signup'),
     select: (response) => response.data,
   });
 
