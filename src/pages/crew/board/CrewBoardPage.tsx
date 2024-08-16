@@ -55,6 +55,7 @@ const CrewBoardPage = () => {
             <div className={cn('crew_detail')}>
               <div className={cn('header')}>
                 <CrewHeader
+                  crewId={crewId}
                   title={crewDetailData.name}
                   onClick={() => navigate('/')}
                 />

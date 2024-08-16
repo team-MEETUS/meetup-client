@@ -1,0 +1,22 @@
+.container {
+  display: flex;
+
+  .profile_image {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+  }
+
+  .introduction {
+    display: flex;
+    flex-direction: column;
+
+    .nickname {
+      @include Bold-05;
+    }
+    .intro {
+      @include Light-05;
+      color: var(--gray-500);
+    }
+  }
+}
