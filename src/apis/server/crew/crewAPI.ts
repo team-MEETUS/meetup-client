@@ -6,6 +6,7 @@ import {
   GetAllCrewAPIResponseBody,
   GetCrewMemberAPIResponseBody,
 } from '@/types/crew/crewAPIType';
+import { CrewMemberRole } from '@/types/crew/crewType';
 
 export interface GetCrewAPIResponseBody {
   crewId: string;
@@ -173,7 +174,7 @@ const PostLikeCrewAPI = async (crewId: string) => {
  */
 const PutUpdateCrewMemberAPI = async (
   crewId: string,
-  body: { memberId: number; newRoleStatus: number },
+  body: { memberId: number; newRoleStatus: string },
 ) => {
   const { data } = await api.put<ApiResponse<{ crewMemberId: number }>>(
     `/crews/${crewId}/members`,
@@ -200,8 +201,8 @@ const GetCrewMemberAPI = async (
 /**
  * @description 모임 가입 여부 조회
  */
-const GetIsCrewMemberAPI = async (crewId: string) => {
-  const { data } = await api.get<ApiResponse<boolean>>(
+const GetCrewMemberRoleAPI = async (crewId: string) => {
+  const { data } = await api.get<ApiResponse<CrewMemberRole>>(
     `/crews/${crewId}/members/me`,
   );
 
@@ -219,5 +220,5 @@ export {
   GetIsLikeCrewAPI,
   PostLikeCrewAPI,
   PutUpdateCrewMemberAPI,
-  GetIsCrewMemberAPI,
+  GetCrewMemberRoleAPI,
 };

@@ -5,6 +5,7 @@ import {
   GetAllCrewAPI,
   GetCrewDetailAPI,
   GetCrewMemberAPI,
+  GetCrewMemberRoleAPI,
   GetIsLikeCrewAPI,
 } from '@/apis/server/crew/crewAPI';
 
@@ -57,11 +58,22 @@ export const useCrewMemberQuery = (crewId: string) => {
   return { data, isLoading, error };
 };
 
-// 모임 가입 조회
+// 모임 가입 신청 조회
 export const useCrewSignUpQuery = (crewId: string) => {
   const { data, isLoading, error } = useQuery({
     queryKey: crewQueryKey.crewMember(crewId, 'signup'),
     queryFn: () => GetCrewMemberAPI(crewId, 'signup'),
+    select: (response) => response.data,
+  });
+
+  return { data, isLoading, error };
+};
+
+// 나의 모임 권한 조회
+export const useCrewMemberRoleQuery = (crewId: string) => {
+  const { data, isLoading, error } = useQuery({
+    queryKey: crewQueryKey.crewMemberRole(crewId),
+    queryFn: () => GetCrewMemberRoleAPI(crewId),
     select: (response) => response.data,
   });
 

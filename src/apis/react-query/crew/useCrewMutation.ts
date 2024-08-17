@@ -1,5 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 import crewQueryKey from '@/apis/query-key/crewQueryKey';
 import {
@@ -8,6 +9,7 @@ import {
   PostCrewMemberSignUpAPI,
   PostLikeCrewAPI,
   PutUpdateCrewAPI,
+  PutUpdateCrewMemberAPI,
 } from '@/apis/server/crew/crewAPI';
 
 export const useCrewMutation = () => {
@@ -77,7 +79,30 @@ export const useCrewMutation = () => {
 
   const postCrewMemberSignUp = useMutation({
     mutationFn: (crewId: string) => PostCrewMemberSignUpAPI(crewId),
-    onSuccess: () => {},
+    onSuccess: async (_, crewId) => {
+      await queryClient.invalidateQueries({
+        queryKey: crewQueryKey.crewMemberRole(crewId),
+      });
+
+      toast.success('모임 가입 신청이 완료되었습니다.');
+    },
+    onError: () => {},
+  });
+
+  const putUpdateCrewMember = useMutation({
+    mutationFn: (params: {
+      crewId: string;
+      body: { memberId: number; newRoleStatus: string };
+    }) => PutUpdateCrewMemberAPI(params.crewId, params.body),
+    onSuccess: async (_, params) => {
+      await queryClient.invalidateQueries({
+        queryKey: crewQueryKey.crewMember(params.crewId, 'members'),
+      });
+      await queryClient.invalidateQueries({
+        queryKey: crewQueryKey.crewMember(params.crewId, 'signup'),
+      });
+      toast.success('모임 멤버 권한이 변경되었습니다.');
+    },
     onError: () => {},
   });
 
@@ -87,5 +112,6 @@ export const useCrewMutation = () => {
     deleteCrew,
     postCrewLike,
     postCrewMemberSignUp,
+    putUpdateCrewMember,
   };
 };
