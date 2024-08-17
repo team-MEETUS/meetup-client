@@ -30,6 +30,9 @@ const CrewBoardPage = React.lazy(
 const CrewBoardRegisterPage = React.lazy(
   () => import('@/pages/crew/board/CrewBoardRegisterPage'),
 );
+const CrewManageMemberPage = React.lazy(
+  () => import('@/pages/crew/member/CrewManageMemberPage'),
+);
 const LoginPage = React.lazy(() => import('@/pages/user/login/LoginPage'));
 const HomePage = React.lazy(() => import('@/pages/home/HomePage.tsx'));
 const NotFound = React.lazy(() => import('@/pages/not-found/NotFound.tsx'));
@@ -179,6 +182,14 @@ const router = createBrowserRouter([
                 ),
               },
             ],
+          },
+          {
+            path: 'manage-member',
+            element: (
+              <Suspense fallback={<LoadingSpinner />}>
+                <CrewManageMemberPage />
+              </Suspense>
+            ),
           },
         ],
       },
