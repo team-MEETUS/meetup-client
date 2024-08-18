@@ -46,9 +46,14 @@ const AxiosInstance = (baseURL: string): Axios => {
     },
     (error: AxiosError<{ error: { code: string; message: string } }>) => {
       if (error.response && error.response.status === 401) {
-        window.location.href = '/user/login';
-        toast.error('로그인이 필요합니다.');
+        if (confirm('로그인이 필요합니다. 로그인 페이지로 이동하시겠습니까?')) {
+          window.location.href = '/user/login';
+        } else {
+          window.history.back();
+          return;
+        }
       }
+
       if (error.response && error.config) {
         // const { url } = error.config;
         // const { pathname } = window.location;
