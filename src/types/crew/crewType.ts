@@ -1,7 +1,14 @@
+import { GetMeetingListAPIResponseBody } from '@/types/crew/crewMeetingType';
+
 /* eslint-disable no-unused-vars */
 export interface CrewState {
   crewId?: string;
   boardId?: string;
+  meetingId?: string;
+}
+
+export interface CrewMeetingState extends GetMeetingListAPIResponseBody {
+  crewId?: string;
 }
 
 /**
