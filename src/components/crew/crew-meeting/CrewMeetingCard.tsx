@@ -111,14 +111,12 @@ const CrewMeetingCard = ({
         {crewMemberList && (
           <div className={cn('member_list')}>
             {crewMemberList.map((member) => (
-              <>
-                <img
-                  key={member.crewMember.crewMemberId}
-                  src={member.crewMember.member.saveImg}
-                  alt={member.crewMember.member.nickname}
-                  className={cn('member_image')}
-                />
-              </>
+              <img
+                key={member.crewMember.crewMemberId}
+                src={member.crewMember.member.saveImg}
+                alt={member.crewMember.member.nickname}
+                className={cn('member_image')}
+              />
             ))}
           </div>
         )}

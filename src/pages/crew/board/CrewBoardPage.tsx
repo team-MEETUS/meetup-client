@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
 import classNames from 'classnames/bind';
-import { NavLink, useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import { useCrewBoardListQuery } from '@/apis/react-query/crew/useCrewBoardQuery';
 import { useCrewDetailQuery } from '@/apis/react-query/crew/useCrewQuery';

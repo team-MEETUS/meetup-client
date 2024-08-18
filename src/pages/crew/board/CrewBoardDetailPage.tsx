@@ -30,14 +30,6 @@ const CrewBoardDetailPage = () => {
   const { data: crewBoardData } = useCrewBoardDetailQuery(crewId, boardId);
 
   const { PostDeleteBoard } = useCrewBoardMutation();
-  useEffect(() => {
-    const state = location.state as BoardState;
-
-    if (state.crewId) {
-      setCrewId(state.crewId);
-      setBoardId(state.boardId);
-    }
-  }, [location.state]);
 
   const menuItems: MenuItem[] = [
     {
