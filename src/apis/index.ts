@@ -44,15 +44,18 @@ const AxiosInstance = (baseURL: string): Axios => {
 
       return res;
     },
-    (error: AxiosError) => {
+    (error: AxiosError<{ error: { code: string; message: string } }>) => {
       if (error.response && error.response.status === 401) {
         window.location.href = '/user/login';
         toast.error('로그인이 필요합니다.');
       }
       if (error.response && error.config) {
-        const { url } = error.config;
-        const { pathname } = window.location;
-        console.log(`[${pathname}][${url}] : ${error.response.statusText}`);
+        // const { url } = error.config;
+        // const { pathname } = window.location;
+        const errorMessage =
+          error.response.data?.error?.message || '오류가 발생했습니다.';
+        toast.error(String(errorMessage));
+        // console.log(`[${pathname}][${url}] : ${error.response.statusText}`);
         throw new Error(error.response.statusText);
       }
       throw new Error(error.message);
