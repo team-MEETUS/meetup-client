@@ -2,8 +2,8 @@
   position: relative;
   display: flex;
   flex-direction: column;
-  padding-top: 81px;
-
+  margin-top: 81px;
+  padding: 20px;
   .header {
     position: fixed;
     top: 0;
@@ -32,5 +32,31 @@
     @media (min-width: 600px) {
       right: calc(50% - 220px);
     }
+  }
+
+  .board_list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 40px;
+  }
+
+  .board_list > * {
+    position: relative;
+    padding-bottom: 10px;
+  }
+
+  .board_list > *::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 1px;
+    background-color: var(--gray-400);
+  }
+
+  .board_list > *:last-child::after {
+    content: none;
   }
 }

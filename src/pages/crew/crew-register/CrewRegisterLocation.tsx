@@ -40,7 +40,7 @@ const CrewRegisterLocation = () => {
           (item) =>
             item.city.toLowerCase().includes(lowerCaseSearch) ||
             item.district.toLowerCase().includes(lowerCaseSearch) ||
-            item.county.toLowerCase().includes(lowerCaseSearch),
+            item.county?.toLowerCase().includes(lowerCaseSearch),
         );
 
       setFilteredData(filtered || []);

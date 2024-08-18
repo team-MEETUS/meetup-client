@@ -18,6 +18,9 @@ const CrewRegisterLocation = React.lazy(
 const CrewRegisterPage = React.lazy(
   () => import('@/pages/crew/crew-register/CrewRegisterPage'),
 );
+const CrewUpdatePage = React.lazy(
+  () => import('@/pages/crew/crew-register/CrewUpdatePage'),
+);
 const CrewBoardDetailPage = React.lazy(
   () => import('@/pages/crew/board/CrewBoardDetailPage'),
 );
@@ -27,7 +30,13 @@ const CrewBoardPage = React.lazy(
 const CrewBoardRegisterPage = React.lazy(
   () => import('@/pages/crew/board/CrewBoardRegisterPage'),
 );
+const CrewManageMemberPage = React.lazy(
+  () => import('@/pages/crew/member/CrewManageMemberPage'),
+);
 
+const CrewMeetingRegisterPage = React.lazy(
+  () => import('@/pages/crew/crew-meeting/CrewMeetingRegisterPage'),
+);
 const LoginPage = React.lazy(() => import('@/pages/user/login/LoginPage'));
 const HomePage = React.lazy(() => import('@/pages/home/HomePage.tsx'));
 const NotFound = React.lazy(() => import('@/pages/not-found/NotFound.tsx'));
@@ -161,6 +170,14 @@ const router = createBrowserRouter([
                 ),
               },
               {
+                path: 'update',
+                element: (
+                  <Suspense fallback={<LoadingSpinner />}>
+                    <CrewUpdatePage />
+                  </Suspense>
+                ),
+              },
+              {
                 path: 'location',
                 element: (
                   <Suspense fallback={<LoadingSpinner />}>
@@ -169,6 +186,30 @@ const router = createBrowserRouter([
                 ),
               },
             ],
+          },
+          {
+            path: ':crewId/manage-member',
+            element: (
+              <Suspense fallback={<LoadingSpinner />}>
+                <CrewManageMemberPage />
+              </Suspense>
+            ),
+          },
+          {
+            path: ':crewId/meeting-register',
+            element: (
+              <Suspense fallback={<LoadingSpinner />}>
+                <CrewMeetingRegisterPage />
+              </Suspense>
+            ),
+          },
+          {
+            path: ':crewId/meeting-register/:meetingId',
+            element: (
+              <Suspense fallback={<LoadingSpinner />}>
+                <CrewMeetingRegisterPage />
+              </Suspense>
+            ),
           },
         ],
       },

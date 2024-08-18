@@ -139,7 +139,7 @@ const CrewRegisterPage = () => {
   return (
     <div className={styles.container}>
       <div className={styles.header}>
-        <CommonHeader title="모임 개설" onClick={handleClickBack} />
+        <CommonHeader title="모임 개설" onBackClick={handleClickBack} />
       </div>
       <div className={styles.form}>
         <div className={styles.form_item}>
@@ -237,7 +237,7 @@ const CrewRegisterPage = () => {
             id="maxPeople"
             type="number"
             placeholder="300"
-            value={max || undefined}
+            value={max || 0}
             onChange={(e) =>
               updateMax(
                 Number(e.target.value) > 300 ? 300 : Number(e.target.value),

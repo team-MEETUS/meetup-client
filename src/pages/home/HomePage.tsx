@@ -35,7 +35,7 @@ const HomePage = () => {
   const repeatedCrewData = Array.from({ length: 1 }, () => ({
     ...crewData[0],
     // id: `${crewData[0].id}-${i}`, // 유니크한 key를 위해 id에 인덱스를 붙입니다.
-    id: 50,
+    id: 56,
   }));
 
   const handleClickCrew = (crew: CrewData) => {

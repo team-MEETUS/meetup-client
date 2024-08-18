@@ -1,6 +1,9 @@
 import api from '@/apis';
 import { ApiResponse } from '@/apis/server/type';
-import { GetAllBoardAPIResponseBody } from '@/types/crew/crewBoardType';
+import {
+  GetAllBoardAPIResponseBody,
+  PostCreateBoardBody,
+} from '@/types/crew/crewBoardType';
 
 const GetAllBoardAPI = async (crewId: string, category?: string) => {
   const { data } = await api.get<ApiResponse<GetAllBoardAPIResponseBody[]>>(
@@ -13,16 +16,28 @@ const GetAllBoardAPI = async (crewId: string, category?: string) => {
 
 const GetBoardDetailAPI = async (crewId: string, boardId: string) => {
   const { data } = await api.get<ApiResponse<GetAllBoardAPIResponseBody>>(
-    `/crews/${crewId}/boards/details/${boardId}`,
+    `/crews/${crewId}/boards/${boardId}`,
   );
 
   return data;
 };
 
-const PostCreateBoardAPI = async (crewId: string, body: FormData) => {
+const PostCreateBoardAPI = async (
+  crewId: string,
+  body: PostCreateBoardBody,
+) => {
   const { data } = await api.post<ApiResponse<{ boardId: string }>>(
     `/crews/${crewId}/boards`,
     body,
+  );
+
+  return data;
+};
+
+const PostCreateBoardImageAPI = async (crewId: string, images: FormData) => {
+  const { data } = await api.post<ApiResponse<string[]>>(
+    `/crews/${crewId}/boards/images`,
+    images,
   );
 
   return data;
@@ -57,6 +72,7 @@ export {
   GetAllBoardAPI,
   GetBoardDetailAPI,
   PostCreateBoardAPI,
+  PostCreateBoardImageAPI,
   PutUpdateBoardAPI,
   DeleteBoardAPI,
 };

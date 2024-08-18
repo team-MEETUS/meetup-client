@@ -9,3 +9,9 @@ export interface GetAllBoardAPIResponseBody {
   createDate: string;
   updateDate: string;
 }
+
+export interface PostCreateBoardBody {
+  title: string;
+  content: string;
+  category: string;
+}

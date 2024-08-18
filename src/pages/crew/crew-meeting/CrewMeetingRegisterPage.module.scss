@@ -1,0 +1,113 @@
+.container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  margin-top: 64px;
+  padding: 20px;
+
+  .header {
+    position: fixed;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    max-width: 600px;
+    z-index: 10;
+    background-color: var(--white);
+  }
+
+  .form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    .form_item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+
+      .image_upload {
+        border: 1px solid var(--orange-400);
+        border-radius: 8px;
+        color: var(--orange-400);
+        border-radius: 8px;
+        width: 100%;
+        height: 146px;
+
+        .preview_image {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          border-radius: 8px;
+        }
+
+        .no_image {
+          @include Regular-03;
+
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          gap: 10px;
+          padding: 30px;
+        }
+      }
+
+      .input {
+        @include Regular-03;
+        padding: 10px;
+        border-radius: 8px;
+        background-color: var(--gray-100);
+        max-width: 200px;
+        width: 100%;
+        border: none;
+
+        &::placeholder {
+          color: var(--gray-400);
+        }
+      }
+
+      .meeting_name {
+        width: 100%;
+        // max-width: 100%;
+      }
+
+      label {
+        @include Medium-03;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+      }
+
+      .max_people {
+        max-width: 100px;
+        text-align: center;
+      }
+    }
+
+    .location_url {
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    .submit_button {
+      @include Regular-03;
+      padding: 15px;
+      border-radius: 8px;
+      background-color: var(--orange-400);
+      color: var(--white);
+      text-align: center;
+    }
+  }
+
+  .delete_button {
+    @include Regular-03;
+    display: flex;
+    width: fit-content;
+    text-decoration: underline;
+    padding: 0 10px;
+    margin-top: 20px;
+    color: var(--gray-700);
+  }
+}

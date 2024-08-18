@@ -34,6 +34,12 @@ module.exports = {
       'warn',
       { allowConstantExport: true },
     ],
+    '@typescript-eslint/no-misused-promises': [
+      'error',
+      {
+        checksVoidReturn: false,
+      },
+    ],
     'no-console': ['warn', { allow: ['warn', 'error', 'info'] }], // console.log() use warn
     'no-unused-vars': 'error', // 사용하지 않는 변수 error
     'unused-imports/no-unused-imports': 'error', // 사용하지 않는 import error

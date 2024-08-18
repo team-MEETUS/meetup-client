@@ -11,7 +11,7 @@ interface State1 {
   name: string;
   intro: string;
   content: string;
-  max: number | null;
+  max: number;
   originalImg: string;
   saveImg: string;
   geoInfo: GetAllGeoAPIResponseBody;
@@ -24,6 +24,8 @@ interface State2 {
 }
 
 interface Action {
+  setInitialData: (data: Partial<State1 & State2>) => void;
+
   updateName: (name: State1['name']) => void;
   updateIntro: (intro: State1['intro']) => void;
   updateContent: (content: State1['content']) => void;
@@ -41,18 +43,23 @@ const useCrewRegisterStore = create<State1 & Action & State2>((set) => ({
   name: '',
   intro: '',
   content: '',
-  max: null,
+  max: 0,
   originalImg: '',
   saveImg: '',
   geoInfo: {
     geoId: null,
     city: '',
     district: '',
-    county: '',
   },
   interestBig: { interestBigId: null, name: '', icon: '' },
   interestSmall: { interestSmallId: null, name: '' },
   image: null,
+
+  setInitialData: (data) =>
+    set((state) => ({
+      ...state,
+      ...data,
+    })),
 
   updateName: (name) => set(() => ({ name })),
   updateIntro: (intro) => set(() => ({ intro })),
@@ -69,7 +76,7 @@ const useCrewRegisterStore = create<State1 & Action & State2>((set) => ({
     set({
       name: '',
       content: '',
-      max: null,
+      max: 0,
       geoInfo: {
         geoId: null,
         city: '',

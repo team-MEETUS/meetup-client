@@ -36,36 +36,48 @@ const CrewBoardPage = () => {
     });
   };
 
+  const handleClickBoardRegister = () => {
+    navigate(`/crew/${crewId}/board/register`, {
+      state: { crewId: crewId },
+    });
+  };
+
   return (
-    <div className={styles.container}>
-      {crewDetailData && (
-        <div className={cn('crew_detail')}>
-          <div className={cn('header')}>
-            <CrewHeader
-              title={crewDetailData.name}
-              onClick={() => navigate('/')}
-            />
-            <CrewNavigation id={crewId} />
+    <>
+      <div className={cn('container')}>
+        <div>
+          {crewDetailData && (
+            <div className={cn('crew_detail')}>
+              <div className={cn('header')}>
+                <CrewHeader
+                  crewId={crewId}
+                  title={crewDetailData.name}
+                  onClick={() => navigate('/')}
+                />
+                <CrewNavigation id={crewId} />
+              </div>
+            </div>
+          )}
+
+          <div className={cn('board_list')}>
+            {crewBoardData &&
+              crewBoardData.map((board) => (
+                <CrewBoardCard
+                  key={board.boardId}
+                  {...board}
+                  onClick={() => handleClickBoard(String(board.boardId))}
+                />
+              ))}
           </div>
         </div>
-      )}
-
-      {crewBoardData &&
-        crewBoardData.map((board) => (
-          <CrewBoardCard
-            key={board.boardId}
-            {...board}
-            onClick={() => handleClickBoard(String(board.boardId))}
-          />
-        ))}
-      <NavLink
-        className={styles.button_container}
-        to={`/crew/${crewId}/board/register`}
-        state={{ crewId: crewId }}
-      >
-        <CrewAddIcon />
-      </NavLink>
-    </div>
+        <span
+          className={styles.button_container}
+          onClick={handleClickBoardRegister}
+        >
+          <CrewAddIcon />
+        </span>
+      </div>
+    </>
   );
 };
 
