@@ -51,3 +51,26 @@ export const getDay = (dateString: string) => {
 
   return dayOfWeek;
 };
+
+export const setFormatDate = (date: string, time?: string) => {
+  const dateObj = new Date(date);
+
+  const timeString = time || '00:00:00';
+
+  const [hours, minutes, seconds = '00'] = timeString.split(':');
+
+  dateObj.setHours(Number(hours), Number(minutes), Number(seconds));
+
+  // ISO 8601 형식으로 변환
+  return dateObj.toISOString().slice(0, 19);
+};
+
+// 현재 날짜를 "YYYY-MM-DD" 형식으로 반환하는 함수
+export const getTodayDate = () => {
+  const today = new Date();
+  const year = today.getFullYear();
+  const month = String(today.getMonth() + 1).padStart(2, '0'); // 월은 0부터 시작하므로 +1
+  const day = String(today.getDate()).padStart(2, '0');
+
+  return `${year}-${month}-${day}`;
+};
