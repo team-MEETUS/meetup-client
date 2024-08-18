@@ -42,6 +42,7 @@ export const useCrewLikeQuery = (crewId: string) => {
     queryKey: crewQueryKey.crewLike(crewId),
     queryFn: () => GetIsLikeCrewAPI(crewId),
     select: (response) => response.data,
+    enabled: !!sessionStorage.getItem('ACCESS_TOKEN'),
   });
 
   return { data, isLoading, error };
@@ -75,6 +76,7 @@ export const useCrewMemberRoleQuery = (crewId: string) => {
     queryKey: crewQueryKey.crewMemberRole(crewId),
     queryFn: () => GetCrewMemberRoleAPI(crewId),
     select: (response) => response.data,
+    enabled: !!sessionStorage.getItem('ACCESS_TOKEN'),
   });
 
   return { data, isLoading, error };
