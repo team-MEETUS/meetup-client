@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 
 import classNames from 'classnames/bind';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 import { useCrewAlbumMutation } from '@/apis/react-query/crew/useCrewAlbumMutation';
@@ -16,6 +16,7 @@ import MoreMenuButton, {
   MenuItem,
 } from '@/components/common/more-button/MoreButton';
 import CrewHeader from '@/components/crew/crew-header/CrewHeader';
+import CrewNavigation from '@/components/crew/crew-navigation/CrewNavigation';
 import { DateType, formatDate } from '@/utils/date';
 
 import styles from './CrewAlbumListPage.module.scss';
@@ -25,6 +26,7 @@ interface AlbumState {
 }
 
 const CrewAlbumListPage = () => {
+  const navigate = useNavigate();
   const location = useLocation();
   const state = location.state as AlbumState;
   const crewId = state.crewId;
@@ -114,7 +116,12 @@ const CrewAlbumListPage = () => {
   return (
     <div className={cn('container')}>
       <div className={cn('header')}>
-        <CrewHeader title="사진첩" crewId={crewId} />
+        <CrewHeader
+          title="사진첩"
+          crewId={crewId}
+          onClick={() => navigate('/')}
+        />
+        <CrewNavigation id={crewId} />
       </div>
 
       <span className={cn('button_container')} onClick={handleAddIconClick}>
