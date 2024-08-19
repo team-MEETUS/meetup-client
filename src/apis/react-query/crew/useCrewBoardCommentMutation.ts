@@ -28,7 +28,10 @@ export const useCrewBoardCommentMutation = () => {
 
       toast.success('댓글이 작성되었습니다.');
     },
-    onError: () => {},
+    onError: (error) => {
+      toast.error('댓글 작성에 실패했습니다.');
+      toast.error(error.message);
+    },
   });
 
   const PutUpdateBoardComment = useMutation({
@@ -54,7 +57,10 @@ export const useCrewBoardCommentMutation = () => {
 
       toast.success('댓글이 수정되었습니다.');
     },
-    onError: () => {},
+    onError: (error) => {
+      toast.error('댓글 수정에 실패했습니다.');
+      toast.error(error.message);
+    },
   });
 
   const DeleteBoardComment = useMutation({
@@ -62,7 +68,6 @@ export const useCrewBoardCommentMutation = () => {
       crewId: string;
       boardId: string;
       commentId: string;
-      crewMemberId: string;
     }) =>
       DeleteBoardCommentAPI(params.crewId, params.boardId, params.commentId),
     onSuccess: async (_, params) => {
@@ -75,7 +80,10 @@ export const useCrewBoardCommentMutation = () => {
 
       toast.success('댓글이 삭제되었습니다.');
     },
-    onError: () => {},
+    onError: (error) => {
+      toast.error('댓글 삭제에 실패했습니다.');
+      toast.error(error.message);
+    },
   });
 
   return { PostCreateBoardComment, PutUpdateBoardComment, DeleteBoardComment };

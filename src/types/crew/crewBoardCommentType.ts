@@ -10,7 +10,7 @@ export interface GetBoardCommentResponseBody {
 }
 
 export interface PostBoardCommentRequestBody {
-  parentBoardCommentId: number;
+  parentBoardCommentId?: number;
   content: string;
   crewMemberId?: number;
 }
