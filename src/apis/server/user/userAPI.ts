@@ -16,10 +16,27 @@ export const PostLoginAPI = async (body: {
   return data;
 };
 
+/**
+ * @description 자체 회원가입
+ */
 export const PostCreateMemberAPI = async (body: PostCreateMemberAPIBody) => {
   const { data } = await api.post<ApiResponse<{ memberId: number }>>(
     `/members/join`,
     body,
+  );
+
+  return data;
+};
+
+/**
+ * @description 문자 인증
+ */
+export const PostPhoneCheckAPI = async (phone: string) => {
+  const { data } = await api.post<ApiResponse<{ randomNum: number }>>(
+    `/members/phoneCheck`,
+    {
+      phone,
+    },
   );
 
   return data;

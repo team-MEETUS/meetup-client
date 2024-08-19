@@ -3,7 +3,11 @@ import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 import { ApiResponse } from '@/apis/server/type';
-import { PostCreateMemberAPI, PostLoginAPI } from '@/apis/server/user/userAPI';
+import {
+  PostCreateMemberAPI,
+  PostLoginAPI,
+  PostPhoneCheckAPI,
+} from '@/apis/server/user/userAPI';
 
 export const useUserMutation = () => {
   const navigate = useNavigate();
@@ -43,8 +47,24 @@ export const useUserMutation = () => {
     onError: () => {},
   });
 
+  const postPhoneCheck = useMutation({
+    mutationFn: PostPhoneCheckAPI,
+    onSuccess: (res) => {
+      const { success, data, error }: ApiResponse<{ randomNum: number }> = res;
+
+      if (success) {
+        toast.success('인증번호가 발송되었습니다. 문자를 확인해주세요.');
+        return data.randomNum;
+      } else {
+        toast.error(error?.message);
+      }
+    },
+    onError: () => {},
+  });
+
   return {
     postLogin,
     postCreateMember,
+    postPhoneCheck,
   };
 };
