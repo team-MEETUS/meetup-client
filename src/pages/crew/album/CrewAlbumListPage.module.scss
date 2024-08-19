@@ -1,0 +1,128 @@
+.container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  margin-top: 81px;
+  padding: 20px;
+
+  .header {
+    position: fixed;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    max-width: 600px;
+    z-index: 10;
+    background-color: var(--white);
+  }
+
+  .button_container {
+    position: fixed;
+    bottom: calc(10px + 46px + env(safe-area-inset-bottom));
+    right: 30px;
+    background-color: var(--orange-500);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+
+    @media (min-width: 600px) {
+      right: calc(50% - 220px);
+    }
+  }
+
+  .image_grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+  }
+
+  .image_container {
+    position: relative;
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+}
+
+.scroll_container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  overflow: auto;
+
+  .scroll_image {
+    scroll-snap-align: start;
+    width: 100%;
+    height: 100%;
+    object-fit: fill;
+  }
+
+  .menu_button {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 10px;
+  }
+
+  .profile {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+
+    .profile_image {
+      width: 35px;
+      height: 35px;
+      border-radius: 50%;
+    }
+
+    .profile_info {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+
+      .name {
+        @include Medium-04;
+        color: var(--white);
+      }
+
+      .date {
+        @include Medium-04;
+        color: var(--gray-500);
+      }
+    }
+  }
+
+  .like_button {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    padding: 10px;
+  }
+}
+
+.close_button {
+  @include Medium-03;
+  position: absolute;
+  color: var(--white);
+  top: 0px;
+  left: 0px;
+  padding: 20px;
+}
