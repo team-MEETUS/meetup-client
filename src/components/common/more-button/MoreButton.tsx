@@ -6,7 +6,7 @@ import MoreIcon from '@/assets/icons/MoreIcon.svg?react';
 
 import styles from './MoreButton.module.scss';
 
-interface MenuItem {
+export interface MenuItem {
   label: string;
   onClick: () => void;
 }
@@ -36,20 +36,23 @@ const MoreMenu = ({ items, onClose }: MoreMenuProps) => {
 
   return (
     <div ref={menuRef} className={cn('menu')}>
-      {items.map((item, index) => (
-        <div key={index} className={cn('menu_item')} onClick={item.onClick}>
-          {item.label}
-        </div>
-      ))}
+      {items.map((item, index) =>
+        item.label ? (
+          <div key={index} className={cn('menu_item')} onClick={item.onClick}>
+            {item.label}
+          </div>
+        ) : null,
+      )}
     </div>
   );
 };
 
 interface MoreMenuButtonProps {
   items: MenuItem[];
+  fillColor?: string;
 }
 
-const MoreMenuButton = ({ items }: MoreMenuButtonProps) => {
+const MoreMenuButton = ({ items, fillColor }: MoreMenuButtonProps) => {
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
 
   const toggleMenu = () => {
@@ -63,7 +66,7 @@ const MoreMenuButton = ({ items }: MoreMenuButtonProps) => {
   return (
     <div className={cn('menu_button')}>
       <button onClick={toggleMenu}>
-        <MoreIcon />
+        <MoreIcon fill={fillColor} />
       </button>
       {isMenuOpen && <MoreMenu items={items} onClose={closeMenu} />}
     </div>
