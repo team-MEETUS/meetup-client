@@ -1,6 +1,7 @@
 import { useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
+import classNames from 'classnames/bind';
 import * as _ from 'lodash';
 import { SubmitHandler, useForm, useWatch } from 'react-hook-form';
 import { toast } from 'react-toastify';
@@ -9,8 +10,12 @@ import * as z from 'zod';
 import { useGetAllGeoDataQuery } from '@/apis/react-query/common/useGeoQuery';
 import { useUserMutation } from '@/apis/react-query/user/useUserMutation';
 import { GetAllGeoAPIResponseBody } from '@/apis/server/common/geoAPI';
+import CommonHeader from '@/components/header/CommonHeader';
+
+import styles from './SignUpPage.module.scss';
 
 const SignUpPage = () => {
+  const cn = classNames.bind(styles);
   const [isPhoneVerified, setIsPhoneVerified] = useState(false);
   const [smsCodeSent, setSmsCodeSent] = useState(false);
   const [verificationCodeServer, setVerificationCodeServer] = useState('');
@@ -168,95 +173,145 @@ const SignUpPage = () => {
   };
 
   return (
-    <div>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <div>
-          <label htmlFor="phone">핸드폰 번호</label>
-          <input
-            type="text"
-            id="phone"
-            placeholder="핸드폰 번호"
-            {...register('phone')}
-          />
-          <button type="button" onClick={handleRequestSMS}>
-            {smsCodeSent ? '인증번호 재전송' : '문자인증하기'}
-          </button>
+    <div className={cn('container')}>
+      <div className={cn('header')}>
+        <CommonHeader title="회원가입" />
+      </div>
+
+      {/* 로고 */}
+      <div className={cn('image_container')}>
+        <img
+          src={'/icons/icon-192.png'}
+          alt="Logo"
+          className={cn('logo_image')}
+        />
+      </div>
+
+      <form onSubmit={handleSubmit(onSubmit)} className={cn('form')}>
+        {/* 핸드폰 번호 */}
+        <div className={cn('form_item')}>
+          <label className={cn('label')} htmlFor="phone">
+            핸드폰 번호
+          </label>
+          <div className={cn('phone_input_container')}>
+            <input
+              className={cn('input')}
+              type="text"
+              id="phone"
+              placeholder="핸드폰 번호"
+              {...register('phone')}
+            />
+            <button className={cn('submit_button')} onClick={handleRequestSMS}>
+              {smsCodeSent ? '인증번호 재전송' : '문자인증하기'}
+            </button>
+          </div>
           {errors.phone && (
-            <p style={{ color: 'red' }}>{errors.phone.message}</p>
+            <p className={cn('error_message')}>{errors.phone.message}</p>
           )}
         </div>
 
+        {/* 인증번호 */}
         {smsCodeSent && (
-          <div>
-            <label htmlFor="verificationCode">인증번호</label>
-            <input
-              type="text"
-              id="verificationCode"
-              placeholder="인증번호"
-              value={verificationCodeClient}
-              onChange={(e) => setVerificationCodeClient(e.target.value)}
-            />
-            <button type="button" onClick={handleVerifyCode}>
-              인증번호 확인
-            </button>
+          <div className={cn('form_item')}>
+            <label className={cn('label')} htmlFor="verificationCode">
+              인증번호
+            </label>
+            <div className={cn('phone_input_container')}>
+              <input
+                className={cn('input')}
+                type="text"
+                id="verificationCode"
+                placeholder="인증번호"
+                value={verificationCodeClient}
+                onChange={(e) => setVerificationCodeClient(e.target.value)}
+              />
+              <button
+                className={cn('submit_button')}
+                onClick={handleVerifyCode}
+              >
+                인증번호 확인
+              </button>
+            </div>
           </div>
         )}
 
-        <div>
-          <label htmlFor="password">비밀번호</label>
+        {/* 비밀번호 */}
+        <div className={cn('form_item')}>
+          <label className={cn('label')} htmlFor="password">
+            비밀번호
+          </label>
           <input
+            className={cn('input')}
             type="password"
             id="password"
             placeholder="비밀번호"
             {...register('password')}
           />
           {errors.password && (
-            <p style={{ color: 'red' }}>{errors.password.message}</p>
+            <p className={cn('error_message')}>{errors.password.message}</p>
           )}
         </div>
 
-        <div>
-          <label htmlFor="checkPassword">비밀번호 확인</label>
+        {/* 비밀번호 확인 */}
+        <div className={cn('form_item')}>
+          <label className={cn('label')} htmlFor="checkPassword">
+            비밀번호 확인
+          </label>
           <input
+            className={cn('input')}
             type="password"
             id="checkPassword"
             placeholder="비밀번호 확인"
             {...register('checkPassword')}
           />
           {errors.checkPassword && (
-            <p style={{ color: 'red' }}>{errors.checkPassword.message}</p>
+            <p className={cn('error_message')}>
+              {errors.checkPassword.message}
+            </p>
           )}
         </div>
 
-        <div>
-          <label htmlFor="nickname">닉네임</label>
+        {/* 닉네임 */}
+        <div className={cn('form_item')}>
+          <label className={cn('label')} htmlFor="nickname">
+            닉네임
+          </label>
           <input
+            className={cn('input')}
             type="text"
             id="nickname"
             placeholder="닉네임"
             {...register('nickname')}
           />
           {errors.nickname && (
-            <p style={{ color: 'red' }}>{errors.nickname.message}</p>
+            <p className={cn('error_message')}>{errors.nickname.message}</p>
           )}
         </div>
 
-        <div>
-          <label htmlFor="birth">생년월일</label>
+        {/* 생년월일 */}
+        <div className={cn('form_item')}>
+          <label className={cn('label')} htmlFor="birth">
+            생년월일
+          </label>
           <input
+            className={cn('input')}
             type="date"
             id="birth"
             placeholder="YYYY-MM-DD"
             {...register('birth')}
           />
           {errors.birth && (
-            <p style={{ color: 'red' }}>{errors.birth.message}</p>
+            <p className={cn('error_message')}>{errors.birth.message}</p>
           )}
         </div>
 
-        <div>
-          <label htmlFor="gender">성별</label>
+        {/* 성별 */}
+        <div className={cn('form_item')}>
+          <label className={cn('label')} htmlFor="gender">
+            성별
+          </label>
           <select
+            className={cn('input')}
             id="gender"
             {...register('gender', {
               setValueAs: (val: string) => parseInt(val, 10),
@@ -269,19 +324,23 @@ const SignUpPage = () => {
             <option value={1}>여성</option>
           </select>
           {errors.gender && (
-            <p style={{ color: 'red' }}>{errors.gender.message}</p>
+            <p className={cn('error_message')}>{errors.gender.message}</p>
           )}
         </div>
 
-        <div>
-          <label htmlFor="geo">지역</label>
+        {/* 지역 */}
+        <div className={cn('form_item')}>
+          <label className={cn('label')} htmlFor="geo">
+            지역
+          </label>
           <input
+            className={cn('input')}
             type="text"
             id="region"
             placeholder="지역 검색"
             value={
               selectedGeo
-                ? `${selectedGeo.city} ${selectedGeo.district}`
+                ? `${selectedGeo.city} ${selectedGeo.district} ${selectedGeo.county}`
                 : searchTerm
             }
             onClick={() => setModalOpen(true)}
@@ -289,59 +348,86 @@ const SignUpPage = () => {
           />
         </div>
 
-        <button type="submit">회원가입</button>
+        <button className={cn('submit_button')} type="submit">
+          회원가입
+        </button>
       </form>
 
+      {/* 지역 검색 모달 */}
       {modalOpen && (
-        <div
-          style={{
-            position: 'fixed',
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%, -50%)',
-            padding: '20px',
-            background: 'white',
-            border: '1px solid #ccc',
-            borderRadius: '8px',
-            width: '300px',
-            maxHeight: '400px',
-            overflowY: 'auto',
-          }}
-        >
-          <h2>지역 검색</h2>
-          <input
-            type="text"
-            placeholder="지역 검색"
-            value={searchTerm}
-            onChange={(e) => {
-              setSearchTerm(e.target.value);
-              filterGeos(e.target.value);
-            }}
-          />
-          <ul
+        <>
+          {/* 딤드 배경 */}
+          <div
             style={{
+              position: 'fixed',
+              top: 0,
+              left: 0,
+              width: '100%',
+              height: '100%',
+              backgroundColor: 'rgba(0, 0, 0, 0.5)',
+              zIndex: 999,
+            }}
+            onClick={() => setModalOpen(false)}
+          />
+
+          {/* 지역 검색 모달 */}
+          <div
+            style={{
+              position: 'fixed',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+              padding: '20px',
+              background: 'white',
               border: '1px solid #ccc',
-              padding: 0,
-              margin: 0,
-              listStyleType: 'none',
+              borderRadius: '8px',
+              width: '300px',
+              height: '160px',
+              maxHeight: '400px',
+              overflowY: 'auto',
+              zIndex: 1000,
             }}
           >
-            {filteredGeos.map((geo) => (
-              <li
-                key={geo.geoId}
-                style={{
-                  padding: '8px',
-                  cursor: 'pointer',
-                  borderBottom: '1px solid #ccc',
-                }}
-                onClick={() => handleSelectGeo(geo)}
-              >
-                {geo.city} {geo.district} {geo.county ? `(${geo.county})` : ''}
-              </li>
-            ))}
-          </ul>
-          <button onClick={() => setModalOpen(false)}>닫기</button>
-        </div>
+            <h2 style={{ marginBottom: '20px' }}>지역 검색</h2>
+            <input
+              type="text"
+              placeholder="지역 검색"
+              value={searchTerm}
+              onChange={(e) => {
+                setSearchTerm(e.target.value);
+                filterGeos(e.target.value);
+              }}
+              style={{
+                textAlign: 'center',
+              }}
+            />
+            <ul
+              style={{
+                border: '1px solid #ccc',
+                padding: 0,
+                margin: 0,
+                marginBottom: '20px',
+                listStyleType: 'none',
+              }}
+            >
+              {filteredGeos.map((geo) => (
+                <li
+                  key={geo.geoId}
+                  style={{
+                    padding: '8px',
+                    cursor: 'pointer',
+                    borderBottom: '1px solid #ccc',
+                  }}
+                  onClick={() => handleSelectGeo(geo)}
+                >
+                  {geo.city} {geo.district}{' '}
+                  {geo.county ? `(${geo.county})` : ''}
+                </li>
+              ))}
+            </ul>
+            <button onClick={() => setModalOpen(false)}>닫기</button>
+          </div>
+        </>
       )}
     </div>
   );
