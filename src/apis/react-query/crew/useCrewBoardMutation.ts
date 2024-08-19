@@ -8,6 +8,7 @@ import {
   PostCreateBoardAPI,
   PostCreateBoardImageAPI,
   PutUpdateBoardAPI,
+  PutUpdateBoardPinAPI,
 } from '@/apis/server/crew/crewBoardAPI';
 import { PostCreateBoardBody } from '@/types/crew/crewBoardType';
 
@@ -57,6 +58,22 @@ export const useCrewBoardMutation = () => {
     onError: () => {},
   });
 
+  const PutUpdateBoardPin = useMutation({
+    mutationFn: (params: { crewId: string; boardId: string }) =>
+      PutUpdateBoardPinAPI(params.crewId, params.boardId),
+    onSuccess: async (_, params) => {
+      await queryClient.invalidateQueries({
+        queryKey: crewBoardQueryKey.crewBoardList(params.crewId),
+      });
+
+      toast.success('게시글이 고정되었습니다.');
+      navigate(`/crew/${params.crewId}/board/${params.boardId}`, {
+        state: { crewId: params.crewId, boardId: params.boardId },
+      });
+    },
+    onError: () => {},
+  });
+
   const PostDeleteBoard = useMutation({
     mutationFn: (params: { crewId: string; boardId: string }) =>
       DeleteBoardAPI(params.crewId, params.boardId),
@@ -77,6 +94,7 @@ export const useCrewBoardMutation = () => {
     PostCreateBoard,
     PostCreateBoardImage,
     PutUpdateBoard,
+    PutUpdateBoardPin,
     PostDeleteBoard,
   };
 };
