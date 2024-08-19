@@ -43,7 +43,7 @@ const TestPage: React.FC = () => {
       <button onClick={handlePost} disabled={isLoading}>
         {isLoading ? 'Posting...' : 'Post Data'}
       </button>
-      {postError && <div>Error: {postError.message}</div>}
+      {postError && <div>Error: {postError.message} 테스트</div>}
     </div>
   );
 };
