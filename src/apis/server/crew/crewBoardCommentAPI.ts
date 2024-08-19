@@ -8,7 +8,7 @@ import {
 } from '@/types/crew/crewBoardCommentType';
 
 const GetBoardCommentAPI = async (crewId: string, boardId: string) => {
-  const { data } = await api.get<ApiResponse<GetBoardCommentResponseBody>>(
+  const { data } = await api.get<ApiResponse<GetBoardCommentResponseBody[]>>(
     `/crews/${crewId}/boards/${boardId}/comments`,
   );
 

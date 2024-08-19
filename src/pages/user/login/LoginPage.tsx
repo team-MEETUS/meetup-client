@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import classNames from 'classnames/bind';
 import { useForm, SubmitHandler } from 'react-hook-form';
+import { toast } from 'react-toastify';
 import * as z from 'zod';
 
 import { useUserMutation } from '@/apis/react-query/user/useUserMutation';
@@ -52,9 +53,10 @@ const LoginPage = () => {
     }
   };
 
-  // useEffect(() => {
-  //   console.log(loginData);
-  // }, [loginData]);
+  const handleClickSocial = (type = 'kakao' || 'naver') => {
+    toast.info(`${type} 로그인은 준비 중인 기능입니다.`);
+    // navigate(`/login/${type}`);
+  };
 
   return (
     <div className={cn('container')}>
@@ -124,8 +126,14 @@ const LoginPage = () => {
 
         {/* 소셜 로그인 아이콘 */}
         <div className={cn('social_login')}>
-          <a href="/login/kakao" className={cn('social_icon', 'kakao')} />
-          <a href="/login/naver" className={cn('social_icon', 'naver')} />
+          <button
+            onClick={() => handleClickSocial('kakao')}
+            className={cn('social_icon', 'kakao')}
+          ></button>
+          <button
+            onClick={() => handleClickSocial('naver')}
+            className={cn('social_icon', 'naver')}
+          ></button>
         </div>
       </form>
     </div>

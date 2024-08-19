@@ -60,6 +60,17 @@ const PutUpdateBoardAPI = async (
   return data;
 };
 
+/**
+ * @description 게시글 상단 고정 API
+ */
+const PutUpdateBoardPinAPI = async (crewId: string, boardId: string) => {
+  const { data } = await api.put<ApiResponse<{ boardId: number }>>(
+    `/crews/${crewId}/boards/${boardId}/pin`,
+  );
+
+  return data;
+};
+
 const DeleteBoardAPI = async (crewId: string, boardId: string) => {
   const { data } = await api.delete<ApiResponse<{ boardId: number }>>(
     `/crews/${crewId}/boards/${boardId}`,
@@ -74,5 +85,6 @@ export {
   PostCreateBoardAPI,
   PostCreateBoardImageAPI,
   PutUpdateBoardAPI,
+  PutUpdateBoardPinAPI,
   DeleteBoardAPI,
 };

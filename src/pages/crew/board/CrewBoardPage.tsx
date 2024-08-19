@@ -16,6 +16,8 @@ interface BoardState {
   crewId: string;
 }
 
+const CATEGORIES = ['전체', '공지', '가입인사', '모임후기', '자유'];
+
 const CrewBoardPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -23,11 +25,13 @@ const CrewBoardPage = () => {
   const cn = classNames.bind(styles);
 
   const state = location.state as BoardState;
-
   const [crewId] = useState<string>(state.crewId || '');
+  const [selectedCategory, setSelectedCategory] = useState<string>('');
 
-  const { data: crewBoardData } = useCrewBoardListQuery(crewId);
-
+  const { data: crewBoardData } = useCrewBoardListQuery(
+    crewId,
+    selectedCategory === '전체' ? '' : selectedCategory,
+  );
   const { data: crewDetailData } = useCrewDetailQuery(crewId);
 
   const handleClickBoard = (boardId: string) => {
@@ -40,6 +44,10 @@ const CrewBoardPage = () => {
     navigate(`/crew/${crewId}/board/register`, {
       state: { crewId: crewId },
     });
+  };
+
+  const handleCategoryChange = (category: string) => {
+    setSelectedCategory(category);
   };
 
   return (
@@ -60,6 +68,20 @@ const CrewBoardPage = () => {
           )}
 
           <div className={cn('board_list')}>
+            <div className={cn('category_menu')}>
+              {CATEGORIES.map((category) => (
+                <button
+                  key={category}
+                  className={cn('category_button', {
+                    active: category === selectedCategory,
+                  })}
+                  onClick={() => handleCategoryChange(category)}
+                >
+                  {category}
+                </button>
+              ))}
+            </div>
+
             {crewBoardData &&
               crewBoardData.map((board) => (
                 <CrewBoardCard
