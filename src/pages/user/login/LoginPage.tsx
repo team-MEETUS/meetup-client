@@ -6,7 +6,15 @@ import * as z from 'zod';
 
 import { useUserMutation } from '@/apis/react-query/user/useUserMutation';
 
+
+import CommonHeader from '@/components/header/CommonHeader';
+
+import styles from './LoginPage.module.scss';
+import classNames from 'classnames/bind';
+import { Icons } from 'react-toastify';
+
 const LoginPage = () => {
+  const cn = classNames.bind(styles)
   const [, setValue] = useState({ phone: '', password: '' });
   const { postLogin } = useUserMutation();
 
@@ -29,6 +37,7 @@ const LoginPage = () => {
     formState: { errors },
   } = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
+    mode: 'onChange', 
     defaultValues: {
       phone: '',
       password: '',
@@ -51,33 +60,63 @@ const LoginPage = () => {
   // }, [loginData]);
 
   return (
-    <form onSubmit={(e) => void handleSubmit(onSubmit)(e)}>
-      <div>
-        <label htmlFor="phone">핸드폰 번호</label>
-        <input
-          type="text"
-          id="phone"
-          placeholder="아이디(핸드폰 번호)"
-          {...register('phone')}
-        />
-        {errors.phone && <p style={{ color: 'red' }}>{errors.phone.message}</p>}
+    <div className={cn("container")}>
+      <div className={cn('header')}>
+        <CommonHeader title="로그인" />
       </div>
 
-      <div>
-        <label htmlFor="password">비밀번호</label>
-        <input
-          type="password"
-          id="password"
-          placeholder="비밀번호"
-          {...register('password')}
-        />
-        {errors.password && (
-          <p style={{ color: 'red' }}>{errors.password.message}</p>
-        )}
+      {/* 로고 */}
+      <div className={cn('image_container')}>
+        <img src={"/icons/icon-192.png"} alt="Logo" className={cn('logo_image')} />
       </div>
 
-      <button>로그인</button>
-    </form>
+      <form onSubmit={(e) => void handleSubmit(onSubmit)(e)} className={cn('form')}>
+          {/* 핸드폰 번호 */}
+          <div className={cn('form_item')}>
+            <label className={cn('label')} htmlFor="phone">핸드폰 번호</label>
+            <input
+              className={cn('input')}
+              type="text"
+              id="phone"
+              placeholder="아이디(핸드폰 번호)"
+              {...register('phone')}
+            />
+            {errors.phone && <p className={cn('error_message')}>{errors.phone.message}</p>}
+          </div>
+        
+          {/* 비밀번호 */}
+          <div className={cn('form_item')}>
+            <label className={cn('label')} htmlFor="password">비밀번호</label>
+            <input
+              className={cn('input')}
+              type="password"
+              id="password"
+              placeholder="비밀번호"
+              {...register('password')}
+            />
+            {errors.password && (
+              <p  className={cn('error_message')}>{errors.password.message}</p>
+            )}
+        </div>
+
+        {/* 제출 버튼 */}
+        <button className={cn('submit_button')}>로그인</button>
+
+        {/* 비밀번호 찾기 및 회원가입 */}
+        <div className={cn('links_container')}>
+          <a href="/forgot-password" className={cn('link')}>비밀번호 찾기</a>
+          <a href="/sign-up" className={cn('link')}>회원가입</a>
+        </div>
+
+        {/* 소셜 로그인 아이콘 */}
+        <div className={cn('social_login')}>
+          <a href="/login/kakao" className={cn('social_icon', 'kakao')}/>
+          <a href="/login/naver" className={cn('social_icon', 'naver')}/>
+        </div>
+      </form>
+
+    </div>
+
   );
 };
 
