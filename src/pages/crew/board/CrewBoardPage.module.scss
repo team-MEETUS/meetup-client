@@ -59,4 +59,23 @@
   .board_list > *:last-child::after {
     content: none;
   }
+
+  .category_menu {
+    display: flex;
+    gap: 10px;
+
+    .category_button {
+      @include Medium-04;
+      padding: 5px;
+      border-radius: 12px;
+      background-color: var(--gray-300);
+      color: var(--gray-700);
+      transition: background-color 0.2s;
+
+      &.active {
+        background-color: var(--orange-500);
+        color: var(--white);
+      }
+    }
+  }
 }
