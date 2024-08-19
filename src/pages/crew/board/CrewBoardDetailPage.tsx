@@ -45,7 +45,7 @@ const CrewBoardDetailPage = () => {
     boardId,
   );
 
-  const { PostDeleteBoard } = useCrewBoardMutation();
+  const { PostDeleteBoard, PutUpdateBoardPin } = useCrewBoardMutation();
   const { PostCreateBoardComment, PutUpdateBoardComment, DeleteBoardComment } =
     useCrewBoardCommentMutation();
 
@@ -79,6 +79,16 @@ const CrewBoardDetailPage = () => {
         navigate(`/crew/${crewId}/board/register`, {
           state: { crewId: crewId, boardId: boardId },
         });
+      },
+    },
+    {
+      label: '고정하기',
+      onClick: async () => {
+        if (window.confirm('게시글을 고정하시겠습니까?')) {
+          await PutUpdateBoardPin.mutateAsync({ crewId, boardId });
+        } else {
+          return;
+        }
       },
     },
     {

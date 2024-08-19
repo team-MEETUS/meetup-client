@@ -67,7 +67,7 @@ export const useCrewBoardMutation = () => {
       });
 
       toast.success('게시글이 고정되었습니다.');
-      navigate(`/crew/${params.crewId}/board/${params.boardId}`, {
+      navigate(`/crew/${params.crewId}/board`, {
         state: { crewId: params.crewId, boardId: params.boardId },
       });
     },
