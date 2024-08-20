@@ -6,3 +6,10 @@ export interface PostCreateMemberAPIBody {
   gender: number;
   geoId: number;
 }
+
+export interface GetUserInfoAPIResponseBody {
+  memberId: number;
+  geoId: number;
+  nickname: string;
+  saveImg: string;
+}

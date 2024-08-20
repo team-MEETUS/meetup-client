@@ -1,6 +1,9 @@
 import api from '@/apis';
 import { ApiResponse } from '@/apis/server/type';
-import { PostCreateMemberAPIBody } from '@/types/user/userType';
+import {
+  GetUserInfoAPIResponseBody,
+  PostCreateMemberAPIBody,
+} from '@/types/user/userType';
 
 /**
  * @description 로그인
@@ -38,6 +41,13 @@ export const PostPhoneCheckAPI = async (phone: string) => {
       phone,
     },
   );
+
+  return data;
+};
+
+export const GetUserInfoAPI = async () => {
+  const { data } =
+    await api.get<ApiResponse<GetUserInfoAPIResponseBody>>(`/members/info`);
 
   return data;
 };
