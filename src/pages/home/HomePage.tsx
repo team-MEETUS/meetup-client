@@ -1,47 +1,21 @@
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
+import {
+  useActiveCrewListQuery,
+  useNewCrewListQuery,
+} from '@/apis/react-query/crew/useHomeQuery';
 import { useInterestBigQuery } from '@/apis/react-query/interest/useInterestQuery';
 import CrewAddIcon from '@/assets/icons/CrewAddIcon.svg?react';
+import CrewCard from '@/components/common/crew-card/CrewCard';
 import HomeHeader from '@/components/header/HomeHeader';
 
 import styles from './HomePage.module.scss';
 
-export interface CrewData {
-  image: string;
-  id: number;
-  name: string;
-  intro: string;
-  label: string;
-  city: string;
-  member: number;
-}
-
 const HomePage = () => {
-  const navigate = useNavigate();
-
   const { data: interestData } = useInterestBigQuery();
-  const crewData = [
-    {
-      image: 'https://via.placeholder.com/150',
-      id: 49,
-      name: '🎶💖우리동네 예체능💖🎶',
-      intro: '우리모임은..이것저것 이모저모 등등asdasdasdsad등등asdasdasdsad',
-      label: '운동/스포츠',
-      city: '노원구',
-      member: 300,
-    },
-  ];
 
-  const repeatedCrewData = Array.from({ length: 1 }, () => ({
-    ...crewData[0],
-    // id: `${crewData[0].id}-${i}`, // 유니크한 key를 위해 id에 인덱스를 붙입니다.
-    id: 56,
-  }));
-
-  const handleClickCrew = (crew: CrewData) => {
-    navigate(`/crew/${crew.id}/home`, { state: { crewId: crew.id } });
-  };
-
+  const { data: newCrewListData } = useNewCrewListQuery();
+  const { data: activeCrewListData } = useActiveCrewListQuery();
   return (
     <div className={styles.container}>
       <div className={styles.header}>
@@ -57,28 +31,15 @@ const HomePage = () => {
       </div>
 
       <div className={styles.crew_list}>
-        {repeatedCrewData.map((crew) => (
-          <div
-            key={crew.id}
-            className={styles.crew_item}
-            onClick={() => handleClickCrew(crew)}
-          >
-            <div className={styles.crew_image}>
-              <img src={crew.image} alt="crew" />
-            </div>
-            <div className={styles.crew_info}>
-              <div className={styles.crew_name}>{crew.name}</div>
-              <div className={styles.crew_intro}>{crew.intro}</div>
+        <h2 className={styles.crew_title}>새로 생긴 모임</h2>
+        {newCrewListData &&
+          newCrewListData.map((crew) => <CrewCard crew={crew} />)}
+      </div>
 
-              <div className={styles.crew_data}>
-                <div className={styles.crew_label}>{crew.label}</div>
-                <div className={styles.crew_city}>{crew.city}</div>
-                <span>·</span>
-                <div className={styles.crew_member}>멤버 {crew.member}</div>
-              </div>
-            </div>
-          </div>
-        ))}
+      <div className={styles.crew_list}>
+        <h2 className={styles.crew_title}>활동이 활발한 모임</h2>
+        {activeCrewListData &&
+          activeCrewListData.map((crew) => <CrewCard crew={crew} />)}
       </div>
       <Link
         className={styles.button_container}
