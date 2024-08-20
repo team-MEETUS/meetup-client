@@ -153,9 +153,7 @@ const CrewBoardRegister = () => {
           value={title}
           onChange={(e) => setTitle(e.target.value)}
         />
-        <span className={cn('title_category')}>
-          {category}
-        </span>
+        <span className={cn('title_category')}>{category}</span>
       </div>
       <div className={cn('editor')}>
         <Editor
