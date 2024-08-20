@@ -4,6 +4,7 @@
   flex-direction: column;
   margin-top: 81px;
   padding: 20px;
+
   .header {
     position: fixed;
     top: 0;
@@ -78,6 +79,26 @@
       &.active {
         background-color: var(--orange-500);
         color: var(--white);
+      }
+    }
+  }
+
+  //@media (max-width: 600px) {
+  //  .category_menu {
+  //    .category_button {
+  //      @include Medium-05; /* 작은 화면에서 적용할 스타일 */
+  //      padding: 4px 8px; /* 패딩을 줄여서 버튼 크기 감소 */
+  //      font-size: 12px; /* 폰트 크기 조정 */
+  //    }
+  //  }
+  //}
+
+  @media (max-width: 340px) {
+    .category_menu {
+      .category_button {
+        @include Medium-06; /* 더 작은 화면에서 적용할 스타일 */
+        padding: 4px 8px; /* 패딩을 더 줄여서 버튼 크기 감소 */
+        font-size: 12px; /* 폰트 크기 조정 */
       }
     }
   }
