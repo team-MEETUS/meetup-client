@@ -5,6 +5,8 @@ import { Stomp, CompatClient, Client } from '@stomp/stompjs';
 import CommonHeader from '@/components/header/CommonHeader';
 import axios from 'axios';
 
+import styles from './CrewChatPage.module.scss';
+
 interface ChatRespDto {
   id: number;
   data: {
@@ -12,6 +14,11 @@ interface ChatRespDto {
     senderId: string;
     receiverId: string;
     crewId: string;
+    member: {
+      memberId: string;
+      nickname: string;
+      saveImg: string;
+    };
     createDate: string;
   };
 }
@@ -90,16 +97,15 @@ const ChatPage = () => {
   // 소켓 연결
   const connect = () => {
     console.log('connect start');
-    // STOMP 클라이언트 객체를 생성하고 웹 소켓 연결
     clientRef.current = new Client({
-      brokerURL: `http://localhost:8082/ws`, // WebSocket URL
+      brokerURL: 'ws://localhost:8082/ws', // WebSocket URL should use `ws://` or `wss://` scheme
       connectHeaders: {
         Authorization: `Bearer ${token}`,
       },
-      debug: function (str) {
+      debug: (str) => {
         console.log(str);
       },
-      reconnectDelay: 5000, // 자동 재 연결
+      reconnectDelay: 5000,
       heartbeatIncoming: 4000,
       heartbeatOutgoing: 4000,
       onConnect: onConnected,
@@ -113,9 +119,6 @@ const ChatPage = () => {
         setIsConnected(false);
       },
     });
-    console.log(clientRef);
-
-    // 연결 시작
     clientRef.current.activate();
   };
 
@@ -157,22 +160,20 @@ const ChatPage = () => {
 
   // 소켓을 통해 메시지를 전송
   const sendMessage = (message: string) => {
-    // client.current가 존재하고 연결되었다면 메시지 전송
-    if (clientRef.current && subscriptionRef.current?.connected) {
-      subscriptionRef.current.send(
-        '/app/send',
-        {
-          Authorization: 'Bearer ' + token,
+    if (clientRef.current && isConnected) {
+      clientRef.current.publish({
+        destination: `/app/send`, // Use `publish` method instead of `send` for sending messages
+        headers: {
+          Authorization: `Bearer ${token}`,
           'Content-Type': 'application/json',
         },
-        // JSON 형식으로 전송한다
-        JSON.stringify({
+        body: JSON.stringify({
           crewId: crewId,
           senderId: senderId,
           receiverId: receiverId,
           message: message,
         }),
-      );
+      });
     }
   };
 
@@ -186,38 +187,45 @@ const ChatPage = () => {
   }, [message]);
 
   return (
-    <div>
+    <div className={styles.container}>
       <CommonHeader title="채팅" onBackClick={() => backIconClick()} />
-      {error && <div style={{ color: 'red' }}>{error}</div>}
+      {error && <div className={styles.errorMessage}>{error}</div>}
       {messages && messages.length > 0 ? (
-        <div style={{ marginBottom: '10px' }}>
+        <div className={styles.messageList}>
           {(messages ?? []).map((msg, idx) => (
             <div
               key={idx}
+              className={styles.message}
               style={{
                 textAlign: msg.data.senderId === senderId ? 'right' : 'left',
-                margin: '5px 0',
               }}
             >
-              <strong>{msg.data.senderId}:</strong> {msg.data.message}
+              <img className={styles.sender} src={msg.data.member.saveImg}/>
+              <span className={styles.nickname}>{msg.data.member.nickname}</span>
+              <span className={styles.content}>{msg.data.message}</span>
+              <span className={styles.date}>{msg.data.createDate}</span>
             </div>
           ))}
         </div>
       ) : (
         <div>아직 채팅이 없습니다.</div>
       )}
-      <input
-        type="text"
-        value={message}
-        onChange={(e) => setMessage(e.target.value)}
-        placeholder="메시지를 입력하세요"
-      />
-      <button
-        onClick={() => sendMessage(message)}
-        // disabled={!isConnected || !message.trim()}
-      >
-        전송
-      </button>
+      <div className={styles.input_container}>
+        <input
+          type="text"
+          value={message}
+          onChange={(e) => setMessage(e.target.value)}
+          placeholder="메시지를 입력하세요"
+          className={styles.input}
+        />
+        <button
+          onClick={() => sendMessage(message)}
+          className={styles.sendButton}
+          // disabled={!isConnected || !message.trim()}
+        >
+          전송
+        </button>
+      </div>
     </div>
   );
 };
