@@ -187,6 +187,16 @@ const ChatPage = () => {
     navigate(-1);
   };
 
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    const hours = date.getHours();
+    const minutes = date.getMinutes();
+    const period = hours >= 12 ? '오후' : '오전';
+    const formattedHours = hours % 12 || 12; // 12시간 형식으로 변환
+    const formattedMinutes = minutes < 10 ? `0${minutes}` : minutes; // 분이 한 자리 수일 경우 0 추가
+    return `${period} ${formattedHours}:${formattedMinutes}`;
+  };
+
   return (
     <div className={styles.container}>
       <CommonHeader title="채팅" onBackClick={() => backIconClick()} />
@@ -201,12 +211,22 @@ const ChatPage = () => {
                 textAlign: msg.data.senderId === senderId ? 'right' : 'left',
               }}
             >
-              <img className={styles.sender} src={msg.data.member.saveImg} />
-              <span className={styles.nickname}>
-                {msg.data.member.nickname}
-              </span>
-              <span className={styles.content}>{msg.data.message}</span>
-              <span className={styles.date}>{msg.data.createDate}</span>
+              <img
+                className={styles.sender}
+                src={msg.data.member.saveImg}
+                alt={'회원 이미지'}
+              />
+              <div className={styles.messageContent}>
+                <span className={styles.nickname}>
+                  {msg.data.member.nickname}
+                </span>
+                <div className={styles.contentWithDate}>
+                  <span className={styles.bubble}>{msg.data.message}</span>
+                  <span className={styles.date}>
+                    {formatDate(msg.data.createDate)}
+                  </span>
+                </div>
+              </div>
             </div>
           ))}
         </div>
