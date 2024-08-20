@@ -43,13 +43,19 @@ const CrewAlbumListPage = React.lazy(
 );
 const SignUpPage = React.lazy(() => import('@/pages/user/sign-up/SignUpPage'));
 const LoginPage = React.lazy(() => import('@/pages/user/login/LoginPage'));
+const ProfilePage = React.lazy(
+  () => import('@/pages/user/profile/ProfilePage'),
+);
 const HomePage = React.lazy(() => import('@/pages/home/HomePage.tsx'));
 const NotFound = React.lazy(() => import('@/pages/not-found/NotFound.tsx'));
 const TestPage = React.lazy(() => import('@/pages/test/TestPage.tsx'));
 
 const Layout = () => {
   const location = useLocation();
-  const hideBottomNav = location.pathname.startsWith('/crew');
+  const hideBottomNav =
+    location.pathname.startsWith('/crew') ||
+    location.pathname.includes('/user/login') ||
+    location.pathname.includes('/user/sign-up');
 
   return (
     <div className="container">
@@ -97,6 +103,14 @@ const router = createBrowserRouter([
             ),
           },
         ],
+      },
+      {
+        path: '/profile',
+        element: (
+          <Suspense fallback={<LoadingSpinner />}>
+            <ProfilePage />
+          </Suspense>
+        ),
       },
       {
         path: 'crew',
