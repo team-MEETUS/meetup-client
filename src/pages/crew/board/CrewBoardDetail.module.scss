@@ -104,8 +104,7 @@
 
   .commentItem {
     display: flex; /* 댓글 항목을 수평으로 정렬 */
-    justify-content: space-between; /* 양쪽 끝으로 정렬 */
-    align-items: center; /* 수직 중앙 정렬 */
+    flex-direction: column; /* 세로 방향으로 정렬 */
     padding: 10px; /* 댓글 항목 패딩 */
     border-bottom: 1px solid #eee; /* 아래쪽 테두리 */
   }
@@ -116,12 +115,29 @@
     text-align: left;
   }
 
+  .commentContent {
+    margin-left: 30px;
+    margin-top: 5px; /* 댓글과 버튼 사이의 간격을 줄임 */
+    display: flex; /* 버튼을 수평으로 정렬하기 위해 flex 사용 */
+    flex-direction: column; /* 버튼을 수평 방향으로 정렬 */
+
+    .comment_button {
+      margin-right: auto;
+      margin-left: 5px;
+      margin-top: 10px;
+    }
+  }
+
   .commentItem button {
     margin-left: 10px; /* 버튼 간의 간격 */
     background-color: transparent; /* 투명 배경 */
     border: none; /* 테두리 없음 */
     color: #007bff; /* 버튼 텍스트 색상 */
     cursor: pointer; /* 커서 포인터로 변경 */
+  }
+
+  .commentItem button:first-child {
+    margin-left: 0; /* 첫 번째 버튼의 왼쪽 여백 제거 */
   }
 
   .commentInput {
@@ -136,8 +152,9 @@
     box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
     height: 60px;
     width: 100%;
-    min-width: 500px;
+    min-width: 340px;
     max-width: 560px;
+    border-radius: 8px;
   }
 
   .commentInput input {
@@ -158,5 +175,55 @@
     border: none; /* 테두리 없음 */
     border-radius: 8px; /* 모서리 둥글게 */
     cursor: pointer; /* 커서 포인터로 변경 */
+  }
+
+  .comment_member_info {
+    display: flex; /* 수평 정렬을 위해 flex 사용 */
+    align-items: center; /* 수직 중앙 정렬 */
+    margin-bottom: 5px; /* 아래쪽 여백 */
+
+    .comment_member_image {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-right: 5px; /* 이미지와 텍스트 간의 간격 */
+    }
+
+    .comment_member_details {
+      display: flex;
+      flex-direction: column; /* 세로 방향으로 정렬 */
+      width: 100%;
+    }
+
+    .comment_nickname_role {
+      display: flex; /* 닉네임과 역할을 수평으로 정렬 */
+      align-items: center; /* 수직 중앙 정렬 */
+      width: 100%; /* 전체 너비를 사용 */
+    }
+
+    .nickname {
+      @include Medium-03;
+      margin-right: 5px; /* 닉네임과 역할 사이의 간격 */
+    }
+
+    .role {
+      @include Medium-04;
+      color: var(--blue-500);
+      margin-right: 5px; /* 역할과 카테고리 사이의 간격 */
+    }
+
+    .date {
+      @include Regular-06;
+      margin-top: 3px; /* 날짜와 위 요소 사이의 간격 */
+      align-self: flex-start; /* 날짜를 왼쪽 정렬 */
+      color: var(--gray-400);
+    }
+  }
+
+  @media (max-width: 340px) {
+    .commentInput input {
+      @include Regular-06; /* Regular-06 스타일 적용 */
+    }
   }
 }

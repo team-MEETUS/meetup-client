@@ -23,9 +23,23 @@ interface MenuItem {
   onClick: () => void;
 }
 
+interface Member {
+  memberId: string;
+  nickname: string;
+  saveImg: string;
+}
+
+interface CrewMember {
+  crewMemberId: string;
+  role: string;
+  member: Member;
+}
+
 interface Comment {
   id: number;
   content: string;
+  crewMember: CrewMember;
+  createDate: string;
   isEditing: boolean;
 }
 
@@ -59,6 +73,16 @@ const CrewBoardDetailPage = () => {
       const initialComments = crewBoardCommentList.map((comment) => ({
         id: comment.boardCommentId,
         content: comment.content,
+        crewMember: {
+          crewMemberId: comment.crewMember.crewMemberId,
+          role: comment.crewMember.role,
+          member: {
+            memberId: comment.crewMember.member.memberId,
+            nickname: comment.crewMember.member.nickname,
+            saveImg: comment.crewMember.member.saveImg,
+          },
+        },
+        createDate: comment.createDate,
         isEditing: false,
       }));
       setComments(initialComments);
@@ -218,6 +242,8 @@ const CrewBoardDetailPage = () => {
     }
   };
 
+  const myMemberId = localStorage.getItem('MEMBER_ID');
+
   return (
     <div className={styles.container}>
       <CommonHeader
@@ -280,28 +306,63 @@ const CrewBoardDetailPage = () => {
       <div className={styles.commentList} ref={commentListRef}>
         {comments.map((comment) => (
           <div key={comment.id} className={styles.commentItem}>
-            {comment.isEditing ? (
-              <>
-                <input
-                  type="text"
-                  value={editCommentContent}
-                  onChange={(e) => setEditCommentContent(e.target.value)}
-                />
-                <button onClick={() => handleSaveEditComment(comment.id)}>
-                  저장
-                </button>
-              </>
-            ) : (
-              <>
-                <p>{comment.content}</p>
-                <button onClick={() => handleEditComment(comment.id)}>
-                  수정
-                </button>
-                <button onClick={() => handleDeleteComment(comment.id)}>
-                  삭제
-                </button>
-              </>
-            )}
+            <div className={styles.comment_member_info}>
+              <img
+                src={comment.crewMember.member.saveImg}
+                className={styles.comment_member_image}
+                alt={'회원 이미지'}
+              />
+              <div className={styles.comment_member_details}>
+                <div className={styles.comment_nickname_role}>
+                  <span className={styles.nickname}>
+                    {comment.crewMember.member.nickname}
+                  </span>
+                  <span className={styles.role}>
+                    {comment.crewMember.role === 'LEADER'
+                      ? '모임장'
+                      : comment.crewMember.role === 'ADMIN'
+                        ? '운영진'
+                        : comment.crewMember.role === 'MEMBER'
+                          ? ''
+                          : comment.crewMember.role}
+                  </span>
+                  <span className={styles.date}>
+                    {formatDate(comment.createDate)}
+                  </span>
+                </div>
+              </div>
+            </div>
+            {/* 댓글 내용과 버튼을 회원 정보 아래로 이동 */}
+            <div className={styles.commentContent}>
+              {comment.isEditing ? (
+                <>
+                  <input
+                    type="text"
+                    value={editCommentContent}
+                    onChange={(e) => setEditCommentContent(e.target.value)}
+                  />
+                  <div className={styles.comment_button}>
+                    <button onClick={() => handleSaveEditComment(comment.id)}>
+                      저장
+                    </button>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <p>{comment.content}</p>
+                  {comment.crewMember.member.memberId === myMemberId && ( // Todo: 로그인된 사용자의 memberId와 비교
+                    <div className={styles.comment_button}>
+                      <button onClick={() => handleEditComment(comment.id)}>
+                        수정
+                      </button>
+                      <button onClick={() => handleDeleteComment(comment.id)}>
+                        삭제
+                      </button>
+                    </div>
+                  )}
+                </>
+              )}
+            </div>
           </div>
         ))}
       </div>
@@ -314,7 +375,9 @@ const CrewBoardDetailPage = () => {
           placeholder="댓글을 입력하세요"
           value={newComment}
           onChange={(e) => setNewComment(e.target.value)}
-          onFocus={scrollToBottom}
+          onFocus={() =>
+            commentListRef.current?.scrollIntoView({ behavior: 'smooth' })
+          }
         />
         <button onClick={handleAddComment}>댓글 추가</button>
       </div>
