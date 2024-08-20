@@ -139,18 +139,23 @@ const CrewBoardRegister = () => {
           onOptionClick={handleSaveBoard}
         />
       </div>
-      <div className={cn('title')}>
-        <input
-          type="text"
-          placeholder="Enter title here"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-        />
+      <div className={cn('category')}>
         <DropDown
           options={categoryOptions}
           value={category}
           onChange={(e) => setCategory(e.target.value)}
         />
+      </div>
+      <div className={cn('title')}>
+        <input
+          type="text"
+          placeholder="제목(20자)"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+        />
+        <span className={cn('title_category')}>
+          {category}
+        </span>
       </div>
       <div className={cn('editor')}>
         <Editor
