@@ -1,6 +1,7 @@
 import api from '@/apis';
 import { ApiResponse } from '@/apis/server/type';
 import {
+  GetUserDetailInfoResponseBody,
   GetUserInfoAPIResponseBody,
   PostCreateMemberAPIBody,
 } from '@/types/user/userType';
@@ -48,6 +49,14 @@ export const PostPhoneCheckAPI = async (phone: string) => {
 export const GetUserInfoAPI = async () => {
   const { data } =
     await api.get<ApiResponse<GetUserInfoAPIResponseBody>>(`/members/info`);
+
+  return data;
+};
+
+export const GetUserDetailInfoAPI = async (memberId: string) => {
+  const { data } = await api.get<ApiResponse<GetUserDetailInfoResponseBody>>(
+    `/members/${memberId}`,
+  );
 
   return data;
 };
