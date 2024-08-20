@@ -1,0 +1,64 @@
+.container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    margin-top: 64px;
+    padding: 20px;
+  
+    .header {
+      position: fixed;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100%;
+      max-width: 600px;
+      z-index: 10;
+      background-color: var(--white);
+    }
+
+    .profile_item {
+        display: flex;
+        width: 100%;
+        gap: 10px;
+
+        .profile_image {
+            flex: 0 0 100px;
+            height: 100px;
+        
+            img {
+              width: 100%;
+              height: 100%;
+              border-radius: 50%;
+              object-fit: cover;
+            }
+        }
+
+        .profile_info {
+            display: flex;
+            flex-direction: column;
+            align-items: baseline;
+            justify-content: center;
+            gap: 15px;
+
+            .profile_nickname {
+                @include Regular-03;
+            }
+
+            .profile_data {
+                @include Regular-04;
+                color: var(--gray-600);
+                display: flex;
+                gap: 5px;
+                align-items: center;
+            }
+
+            .profile_intro {
+                @include Regular-04;
+                text-align: left;
+            }
+        }
+          
+    }
+  
+  }
+  
