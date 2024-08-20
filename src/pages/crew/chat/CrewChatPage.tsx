@@ -1,9 +1,10 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useCallback } from 'react';
 
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import { Stomp, CompatClient, Client } from '@stomp/stompjs';
-import CommonHeader from '@/components/header/CommonHeader';
+import { Client } from '@stomp/stompjs';
 import axios from 'axios';
+import { useNavigate, useParams } from 'react-router-dom';
+
+import CommonHeader from '@/components/header/CommonHeader';
 
 import styles from './CrewChatPage.module.scss';
 
@@ -25,7 +26,6 @@ interface ChatRespDto {
 
 const ChatPage = () => {
   const navigate = useNavigate();
-  const location = useLocation();
 
   const param = useParams(); // 채널을 구분하는 식별자
   const crewId = param.crewId;
@@ -45,8 +45,26 @@ const ChatPage = () => {
   const [isConnected, setIsConnected] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
+  // 컴포넌트가 마운트될 때 connect 함수를 호출
+  useEffect(() => {
+    fetchMessages();
+    connect();
+    return () => {
+      if (clientRef.current) {
+        clientRef.current.deactivate();
+      }
+
+      setIsConnected(false);
+      if (subscriptionRef.current) {
+        subscriptionRef.current.unsubscribe();
+        subscriptionRef.current = null;
+      }
+    };
+  }, [crewId]);
+
   // 저장된 메시지 조회하고 불러오기
   const fetchMessages = async () => {
+    let response: any;
     try {
       axios.defaults.baseURL = 'http://localhost:8082';
       console.log(token);
@@ -56,22 +74,23 @@ const ChatPage = () => {
           return config;
         },
         (error) => {
-          return Promise.reject(error);
+          // return Promise.reject(error);
+          return 'aaa';
         },
       );
 
       const params: any = {};
-      let response: any;
-      if (receiverId) {
-        params.receiverId = receiverId; // receiverId가 있을 경우에만 추가
-        response = await axios.get(`/api/v1/crews/${crewId}/chats`, {
-          params,
-        });
-      } else {
-        response = await axios.get(`/api/v1/crews/${crewId}/chats`);
-      }
 
-      console.log('asdfasdfasdf222222222');
+      try {
+        if (receiverId) {
+          params.receiverId = receiverId; // receiverId가 있을 경우에만 추가
+          response = await axios.get(`/api/v1/crews/${crewId}/chats`, {
+            params,
+          });
+        } else {
+          response = await axios.get(`/api/v1/crews/${crewId}/chats`);
+        }
+      } catch (e: any) {}
 
       if (Array.isArray(response.data)) {
         const validMessages = response.data.filter(
@@ -85,11 +104,9 @@ const ChatPage = () => {
         console.error('Unexpected response format:', response.data);
       }
     } catch (error: any) {
-      console.error('메시지 가져오기 오류:', error);
-      if (error.response && error.response.status === 404) {
-        setError('토큰이 유효하지 않습니다. 다시 로그인 해주세요.');
-      } else {
-        setError('메시지를 가져오는 데 실패했습니다.');
+      console.log(response);
+      if (response.data == null) {
+        setError('채팅 내역이 없습니다');
       }
     }
   };
@@ -148,43 +165,27 @@ const ChatPage = () => {
     }
   };
 
-  // 컴포넌트가 마운트될 때 connect 함수를 호출
-  useEffect(() => {
-    fetchMessages();
-    connect();
-    return () => {
-      // 컴포넌트가 언마운트될 때 연결 해제
-      clientRef.current?.deactivate();
-    };
-  }, [token, crewId]);
-
   // 소켓을 통해 메시지를 전송
-  const sendMessage = (message: string) => {
-    if (clientRef.current && isConnected) {
+  const sendMessage = useCallback(() => {
+    console.log(senderId);
+    // client.current가 존재하고 연결되었다면 메시지 전송
+    if (isConnected && clientRef.current && message.trim()) {
       clientRef.current.publish({
-        destination: `/app/send`, // Use `publish` method instead of `send` for sending messages
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        },
+        destination: `/app/send/${crewId}`,
         body: JSON.stringify({
-          crewId: crewId,
           senderId: senderId,
           receiverId: receiverId,
-          message: message,
+          message,
+          crewId: crewId,
         }),
       });
     }
-  };
+  }, [isConnected, message, senderId, receiverId, crewId]);
 
   const backIconClick = () => {
     sessionStorage.clear();
     navigate(-1);
   };
-
-  useEffect(() => {
-    sendMessage(message);
-  }, [message]);
 
   return (
     <div className={styles.container}>
@@ -192,7 +193,7 @@ const ChatPage = () => {
       {error && <div className={styles.errorMessage}>{error}</div>}
       {messages && messages.length > 0 ? (
         <div className={styles.messageList}>
-          {(messages ?? []).map((msg, idx) => (
+          {messages.map((msg, idx) => (
             <div
               key={idx}
               className={styles.message}
@@ -200,8 +201,10 @@ const ChatPage = () => {
                 textAlign: msg.data.senderId === senderId ? 'right' : 'left',
               }}
             >
-              <img className={styles.sender} src={msg.data.member.saveImg}/>
-              <span className={styles.nickname}>{msg.data.member.nickname}</span>
+              <img className={styles.sender} src={msg.data.member.saveImg} />
+              <span className={styles.nickname}>
+                {msg.data.member.nickname}
+              </span>
               <span className={styles.content}>{msg.data.message}</span>
               <span className={styles.date}>{msg.data.createDate}</span>
             </div>
@@ -219,9 +222,9 @@ const ChatPage = () => {
           className={styles.input}
         />
         <button
-          onClick={() => sendMessage(message)}
           className={styles.sendButton}
-          // disabled={!isConnected || !message.trim()}
+          onClick={sendMessage}
+          disabled={!isConnected || !message.trim()}
         >
           전송
         </button>
