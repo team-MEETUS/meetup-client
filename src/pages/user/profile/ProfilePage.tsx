@@ -2,7 +2,6 @@ import { useState } from 'react';
 
 import classNames from 'classnames/bind';
 import { useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
 
 import MoreMenuButton, {
   MenuItem,
@@ -63,7 +62,6 @@ const ProfilePage = () => {
           resetUser();
 
           window.location.href = '/';
-          toast.success('로그아웃 되었습니다.');
         } else {
           return;
         }
@@ -79,6 +77,11 @@ const ProfilePage = () => {
     <div className={cn('container')}>
       <div className={styles.header}>
         <HomeHeader />
+        {!userInfo ? null : (
+          <div className={cn('menu_button')}>
+            <MoreMenuButton items={menuItems} />
+          </div>
+        )}
       </div>
       {!userInfo ? (
         <>
@@ -104,11 +107,6 @@ const ProfilePage = () => {
             </div>
             <div className={cn('profile_intro')}>{userInfo.intro}</div>
           </div>
-        </div>
-      )}
-      {!userInfo ? null : (
-        <div className={cn('menu_button')}>
-          <MoreMenuButton items={menuItems} />
         </div>
       )}
     </div>
