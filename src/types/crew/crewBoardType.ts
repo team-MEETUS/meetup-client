@@ -5,7 +5,17 @@ export interface GetAllBoardAPIResponseBody {
   category: string;
   hit: number;
   status: number;
-  crewMember: string;
+  totalComment: number;
+  crewMember: {
+    crewMemberId: number;
+    role: string;
+    member: {
+      memberId: number;
+      nickname: string;
+      intro: string;
+      saveImg: string;
+    };
+  };
   createDate: string;
   updateDate: string;
 }

@@ -1,7 +1,15 @@
 export interface GetBoardCommentResponseBody {
   boardCommentId: number;
   boardId: number;
-  crewMember: string;
+  crewMember: {
+    crewMemberId: string;
+    role: string;
+    member: {
+      memberId: string;
+      nickname: string;
+      saveImg: string;
+    };
+  };
   parentCommentId: number;
   content: string;
   status: number;
