@@ -15,7 +15,7 @@
     .info_left {
       display: flex; /* 내부 요소들을 수평으로 배치 */
       align-items: center; /* 수직 정렬을 중앙으로 */
-      margin-left: 20px;
+      margin-left: 5px;
 
       .member_image {
         width: 30px;
@@ -41,6 +41,8 @@
       }
     }
     .info_right {
+      @include Regular-04;
+      color: var(--gray-400);
       margin-right: 5px;
     }
   }
@@ -48,7 +50,7 @@
   .board_title {
     @include Medium-03;
     text-align: left;
-    margin-left: 20px;
+    margin-left: 5px;
     margin-bottom: 3px;
 
     .important {
@@ -59,7 +61,7 @@
   .board_content {
     @include Regular-04;
     text-align: left;
-    margin-left: 20px;
+    margin-left: 5px;
     margin-top: 10px;
     margin-bottom: 20px;
     display: flex; /* Flexbox 사용 */
@@ -82,7 +84,7 @@
       height: 100px; /* 이미지 높이 */
       object-fit: cover; /* 이미지 비율 유지 */
       border-radius: 8px;
-      margin-right: 20px;
+      margin-right: 5px;
     }
   }
 
@@ -93,7 +95,7 @@
 
     .status_left {
       .like {
-        margin-left: 20px;
+        margin-left: 5px;
       }
       .hit_number {
         color: var(--blue-500);
