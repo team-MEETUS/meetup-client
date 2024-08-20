@@ -73,8 +73,8 @@
       color: var(--gray-700);
       transition: background-color 0.2s;
       margin-bottom: 10px;
-      margin-right: -20px;
-      margin-left: 20px;
+      margin-right: -5px;
+      margin-left: 5px;
 
       &.active {
         background-color: var(--orange-500);
@@ -93,7 +93,7 @@
   //  }
   //}
 
-  @media (max-width: 340px) {
+  @media (max-width: 350px) {
     .category_menu {
       .category_button {
         @include Medium-06; /* 더 작은 화면에서 적용할 스타일 */
