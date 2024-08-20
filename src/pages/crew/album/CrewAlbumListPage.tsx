@@ -146,7 +146,7 @@ const CrewAlbumListPage = () => {
       />
 
       <div className={cn('image_grid')}>
-        {crewAlbumList &&
+        {crewAlbumList && crewAlbumList.length > 0 ? (
           crewAlbumList.map((item, index) => (
             <div key={item.albumId} className={cn('image_container')}>
               <img
@@ -155,7 +155,10 @@ const CrewAlbumListPage = () => {
                 onClick={() => handleOpenGallery(index)}
               />
             </div>
-          ))}
+          ))
+        ) : (
+          <span className={cn('no_image')}>사진이 없습니다</span>
+        )}
       </div>
 
       {isGalleryOpen && crewAlbumDetail && (

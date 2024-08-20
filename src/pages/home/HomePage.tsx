@@ -1,21 +1,39 @@
-import { Link } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+
+import { Link, useLocation } from 'react-router-dom';
 
 import {
   useActiveCrewListQuery,
   useNewCrewListQuery,
 } from '@/apis/react-query/crew/useHomeQuery';
 import { useInterestBigQuery } from '@/apis/react-query/interest/useInterestQuery';
+import { useUserInfoQuery } from '@/apis/react-query/user/useUserQuery';
 import CrewAddIcon from '@/assets/icons/CrewAddIcon.svg?react';
 import CrewCard from '@/components/common/crew-card/CrewCard';
 import HomeHeader from '@/components/header/HomeHeader';
+import useUserStore from '@/stores/user/useUserStore';
 import { CrewSelectRespDto } from '@/types/home/homeAPIType';
 
 import styles from './HomePage.module.scss';
 
 const HomePage = () => {
+  const location = useLocation();
+
+  const state = (location.state as { isLogin?: boolean }) || {};
+  const isLogin = state.isLogin ? true : false;
+
+  const [success] = useState(isLogin);
+
   const { data: interestData } = useInterestBigQuery();
   const { data: newCrewListData } = useNewCrewListQuery();
   const { data: activeCrewListData } = useActiveCrewListQuery();
+  const { data: userInfo, isSuccess: userInfoSuccess } =
+    useUserInfoQuery(success);
+
+  const { updateUser } = useUserStore((state) => ({
+    updateUser: state.updateUser,
+    resetUser: state.resetUser,
+  }));
 
   const getColumns = (data: CrewSelectRespDto[]): CrewSelectRespDto[][] => {
     const columns: CrewSelectRespDto[][] = [[], [], [], []];
@@ -29,6 +47,12 @@ const HomePage = () => {
   const activeCrewColumns = activeCrewListData
     ? getColumns(activeCrewListData)
     : [];
+
+  useEffect(() => {
+    if (isLogin && userInfoSuccess && userInfo) {
+      updateUser(userInfo);
+    }
+  }, [isLogin, userInfoSuccess, userInfo, updateUser]);
 
   return (
     <div className={styles.container}>

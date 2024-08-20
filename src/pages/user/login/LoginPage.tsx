@@ -55,7 +55,13 @@ const LoginPage = () => {
     }
   };
 
-  const handleClickLink = (type = 'findPassword' || 'sign-up') => {
+  const handleClickLink = (
+    event: React.MouseEvent<HTMLButtonElement>,
+    type = 'findPassword' || 'sign-up',
+  ) => {
+    event.preventDefault();
+    event.stopPropagation();
+
     if (type === 'findPassword') {
       toast.info('준비중인 기능입니다.');
     } else if (type === 'sign-up') {
@@ -63,7 +69,13 @@ const LoginPage = () => {
     }
   };
 
-  const handleClickSocial = (type = 'kakao' || 'naver') => {
+  const handleClickSocial = (
+    event: React.MouseEvent<HTMLButtonElement>,
+    type = 'kakao' || 'naver',
+  ) => {
+    event.preventDefault();
+    event.stopPropagation();
+
     toast.info(`${type} 로그인은 준비 중인 기능입니다.`);
     // navigate(`/login/${type}`);
   };
@@ -127,13 +139,13 @@ const LoginPage = () => {
         {/* 비밀번호 찾기 및 회원가입 */}
         <div className={cn('links_container')}>
           <button
-            onClick={() => handleClickLink('findPassword')}
+            onClick={(event) => handleClickLink(event, 'findPassword')}
             className={cn('link')}
           >
             비밀번호 찾기
           </button>
           <button
-            onClick={() => handleClickLink('sign-up')}
+            onClick={(event) => handleClickLink(event, 'sign-up')}
             className={cn('link')}
           >
             회원가입
@@ -143,11 +155,11 @@ const LoginPage = () => {
         {/* 소셜 로그인 아이콘 */}
         <div className={cn('social_login')}>
           <button
-            onClick={() => handleClickSocial('kakao')}
+            onClick={(event) => handleClickSocial(event, 'kakao')}
             className={cn('social_icon', 'kakao')}
           ></button>
           <button
-            onClick={() => handleClickSocial('naver')}
+            onClick={(event) => handleClickSocial(event, 'naver')}
             className={cn('social_icon', 'naver')}
           ></button>
         </div>

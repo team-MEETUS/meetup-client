@@ -45,13 +45,20 @@ const CrewAlbumListPage = React.lazy(
 const CrewChatPage = React.lazy(() => import('@/pages/crew/chat/CrewChatPage'));
 const SignUpPage = React.lazy(() => import('@/pages/user/sign-up/SignUpPage'));
 const LoginPage = React.lazy(() => import('@/pages/user/login/LoginPage'));
+const ProfilePage = React.lazy(
+  () => import('@/pages/user/profile/ProfilePage'),
+);
 const HomePage = React.lazy(() => import('@/pages/home/HomePage.tsx'));
+const MyCrewPage = React.lazy(() => import('@/pages/my-crew/MyCrewPage.tsx'));
 const NotFound = React.lazy(() => import('@/pages/not-found/NotFound.tsx'));
 const TestPage = React.lazy(() => import('@/pages/test/TestPage.tsx'));
 
 const Layout = () => {
   const location = useLocation();
-  const hideBottomNav = location.pathname.startsWith('/crew');
+  const hideBottomNav =
+    location.pathname.startsWith('/crew') ||
+    location.pathname.includes('/user/login') ||
+    location.pathname.includes('/user/sign-up');
 
   return (
     <div className="container">
@@ -80,6 +87,14 @@ const router = createBrowserRouter([
         ),
       },
       {
+        path: '/my-crew',
+        element: (
+          <Suspense fallback={<LoadingSpinner />}>
+            <MyCrewPage />
+          </Suspense>
+        ),
+      },
+      {
         path: '/user',
         children: [
           {
@@ -99,6 +114,14 @@ const router = createBrowserRouter([
             ),
           },
         ],
+      },
+      {
+        path: '/profile',
+        element: (
+          <Suspense fallback={<LoadingSpinner />}>
+            <ProfilePage />
+          </Suspense>
+        ),
       },
       {
         path: 'crew',
