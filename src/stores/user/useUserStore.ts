@@ -6,7 +6,7 @@ import { GetUserInfoAPIResponseBody } from '@/types/user/userType';
 
 interface Action {
   updateUser: (data: GetUserInfoAPIResponseBody) => void;
-  resetUserStore: () => void;
+  resetUser: () => void;
 }
 
 const useUserStore = create<GetUserInfoAPIResponseBody & Action>()(
@@ -29,7 +29,7 @@ const useUserStore = create<GetUserInfoAPIResponseBody & Action>()(
           ...data,
         })),
 
-      resetUserStore: () =>
+      resetUser: () =>
         set(() => ({
           memberId: 0,
           nickname: '',
@@ -45,8 +45,8 @@ const useUserStore = create<GetUserInfoAPIResponseBody & Action>()(
         })),
     }),
     {
-      name: 'user-store', // 저장소의 이름
-      storage: createJSONStorage(() => localStorage), // JSON 저장소를 로컬 스토리지로 설정
+      name: 'USER_STORE',
+      storage: createJSONStorage(() => sessionStorage),
     },
   ),
 );

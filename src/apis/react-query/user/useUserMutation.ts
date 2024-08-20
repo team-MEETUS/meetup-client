@@ -12,11 +12,6 @@ import {
 export const useUserMutation = () => {
   const navigate = useNavigate();
 
-  // const { data: userData } = useUserInfoQuery();
-
-  // const { updateUser } = useUserStore((state) => ({
-  //   updateUser: state.updateUser,
-  // }));
   const postLogin = useMutation({
     mutationFn: PostLoginAPI,
     onSuccess: (res) => {
@@ -30,10 +25,7 @@ export const useUserMutation = () => {
         sessionStorage.setItem('ACCESS_TOKEN', data.accessToken);
         localStorage.setItem('MEMBER_ID', String(data.memberId));
 
-        // if (userData) {
-        //   updateUser(userData);
-        // }
-        navigate('/');
+        navigate('/', { state: { isLogin: true } });
       } else {
         toast.error(error?.message);
       }
