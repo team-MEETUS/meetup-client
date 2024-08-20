@@ -12,9 +12,11 @@ import {
 } from '@/apis/react-query/crew/useCrewQuery';
 import PersonIcon from '@/assets/icons/PersonIcon.svg?react';
 import CrewBanner from '@/components/crew/crew-banner/CrewBanner';
+import CrewHeader from '@/components/crew/crew-header/CrewHeader';
 import CrewLabel from '@/components/crew/crew-label/CrewLabel';
 import CrewMeetingCard from '@/components/crew/crew-meeting/CrewMeetingCard';
 import CrewMemberCard from '@/components/crew/crew-member/CrewMemberCard';
+import CrewNavigation from '@/components/crew/crew-navigation/CrewNavigation';
 import CrewTitle from '@/components/crew/crew-title/CrewTitle';
 import { GetCrewMemberAPIResponseBody } from '@/types/crew/crewAPIType';
 import { CrewMemberRole } from '@/types/crew/crewType';
@@ -99,12 +101,12 @@ const CrewPage = () => {
       {crewDetailData && (
         <div className={styles.crew_detail}>
           <div className={styles.header}>
-            {/* <CrewHeader
+            <CrewHeader
               crewId={crewId}
               title={crewDetailData.name}
               onClick={() => navigate('/')}
             />
-            <CrewNavigation id={crewId} /> */}
+            <CrewNavigation id={crewId} />
           </div>
 
           <CrewBanner imgSrc={crewDetailData.saveImg} />
