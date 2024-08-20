@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 import { useLocation, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
@@ -10,6 +10,8 @@ import { useCrewBoardDetailQuery } from '@/apis/react-query/crew/useCrewBoardQue
 import MoreMenuButton from '@/components/common/more-button/MoreButton';
 import CommonHeader from '@/components/header/CommonHeader';
 import { sanitizeHTML } from '@/utils/sanitizeHTML';
+
+import styles from './CrewBoardDetail.module.scss';
 
 interface BoardState {
   crewId: string;
@@ -24,6 +26,16 @@ interface MenuItem {
 interface Comment {
   id: number;
   content: string;
+  crewMember: {
+    crewMemberId: string;
+    role: string;
+    member: {
+      memberId: string;
+      nickname: string;
+      saveImg: string;
+    };
+  };
+  createDate: string;
   isEditing: boolean;
 }
 
@@ -51,16 +63,39 @@ const CrewBoardDetailPage = () => {
   const { PostCreateBoardComment, PutUpdateBoardComment, DeleteBoardComment } =
     useCrewBoardCommentMutation();
 
+  const commentListRef = useRef<HTMLDivElement>(null);
+  const commentInputRef = useRef<HTMLInputElement>(null);
+
   useEffect(() => {
     if (crewBoardCommentList) {
       const initialComments = crewBoardCommentList.map((comment) => ({
         id: comment.boardCommentId,
         content: comment.content,
+        crewMember: {
+          crewMemberId: comment.crewMember.crewMemberId,
+          role: comment.crewMember.role,
+          member: {
+            memberId: comment.crewMember.member.memberId,
+            nickname: comment.crewMember.member.nickname,
+            saveImg: comment.crewMember.member.saveImg,
+          },
+        },
+        createDate: comment.createDate,
         isEditing: false,
       }));
       setComments(initialComments);
     }
   }, [crewBoardCommentList]);
+
+  const scrollToBottom = () => {
+    if (commentListRef.current) {
+      commentListRef.current.scrollTop = commentListRef.current.scrollHeight;
+    }
+  };
+
+  useEffect(() => {
+    scrollToBottom(); // Scroll to the bottom whenever comments change
+  }, [comments]);
 
   const menuItems: MenuItem[] = [
     {
@@ -114,7 +149,7 @@ const CrewBoardDetailPage = () => {
 
       setNewComment('');
     } catch (error) {
-      console.log(error);
+      /* empty */
     }
   };
 
@@ -147,7 +182,7 @@ const CrewBoardDetailPage = () => {
       );
       setEditCommentContent('');
     } catch (error) {
-      console.log(error);
+      /* empty */
     }
   };
 
@@ -163,13 +198,52 @@ const CrewBoardDetailPage = () => {
 
         setComments(comments.filter((comment) => comment.id !== id));
       } catch (error) {
-        console.log(error);
+        /* empty */
       }
     }
   };
 
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    const now = new Date();
+
+    // 오늘 날짜인지 확인
+    const isToday = date.toDateString() === now.toDateString();
+
+    // 날짜 포맷 설정
+    const options: Intl.DateTimeFormatOptions = {
+      month: 'long',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: true,
+    };
+
+    if (isToday) {
+      // 오늘 날짜일 경우
+      const todayOptions: Intl.DateTimeFormatOptions = {
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: true,
+      };
+      const formattedTime = new Intl.DateTimeFormat(
+        'ko-KR',
+        todayOptions,
+      ).format(date);
+      return `오늘 ${formattedTime.replace('오후', '오후 ').replace('오전', '오전 ')}`;
+    } else {
+      // 오늘이 아닐 경우
+      const formattedDate = new Intl.DateTimeFormat('ko-KR', options).format(
+        date,
+      );
+      return formattedDate.replace('오후', '오후 ').replace('오전', '오전 ');
+    }
+  };
+
+  const myMemberId = localStorage.getItem('MEMBER_ID');
+
   return (
-    <div>
+    <div className={styles.container}>
       <CommonHeader
         title="게시글"
         option={<MoreMenuButton items={menuItems} />}
@@ -177,60 +251,133 @@ const CrewBoardDetailPage = () => {
           navigate(`/crew/${crewId}/board`, { state: { crewId } })
         }
       />
-      <div>
-        {crewBoardData && (
-          <div>
-            <div>
-              <h2>{crewBoardData.title}</h2>
-              <div
-                dangerouslySetInnerHTML={{
-                  __html: sanitizeHTML(crewBoardData.content),
-                }}
-              />
+      {crewBoardData && (
+        <>
+          <div className={styles.member_info}>
+            <img
+              className={styles.member_image}
+              src={crewBoardData.crewMember.member.saveImg}
+              alt="회원 이미지"
+            />
+            <div className={styles.member_details}>
+              <div className={styles.nickname_role}>
+                <span className={styles.nickname}>
+                  {crewBoardData.crewMember.member.nickname}
+                </span>
+                <span className={styles.role}>
+                  {crewBoardData.crewMember.role === 'LEADER'
+                    ? '모임장'
+                    : crewBoardData.crewMember.role === 'ADMIN'
+                      ? '운영진'
+                      : crewBoardData.crewMember.role === 'MEMBER'
+                        ? ''
+                        : crewBoardData.crewMember.role}
+                </span>
+                <span className={styles.category}>
+                  {crewBoardData.category}
+                </span>
+              </div>
+              <span className={styles.date}>
+                {formatDate(crewBoardData.createDate)}
+              </span>
             </div>
           </div>
-        )}
+          <div className={styles.body}>
+            <h2 className={styles.title}>{crewBoardData.title}</h2>
+            <div
+              className={styles.content}
+              dangerouslySetInnerHTML={{
+                __html: sanitizeHTML(crewBoardData.content),
+              }}
+            />
+            <div className={styles.commentContainer}>
+              <span className={styles.total_comment}>
+                댓글 {crewBoardData.totalComment}개
+              </span>
+            </div>
+            <div className={styles.separator}></div>
+          </div>
+        </>
+      )}
+
+      {/* 댓글 리스트 */}
+      <div className={styles.commentList} ref={commentListRef}>
+        {comments.map((comment) => (
+          <div key={comment.id} className={styles.commentItem}>
+            <div className={styles.comment_member_info}>
+              <img
+                src={comment.crewMember.member.saveImg}
+                className={styles.comment_member_image}
+                alt={'회원 이미지'}
+              />
+              <div className={styles.comment_member_details}>
+                <div className={styles.comment_nickname_role}>
+                  <span className={styles.nickname}>
+                    {comment.crewMember.member.nickname}
+                  </span>
+                  <span className={styles.role}>
+                    {comment.crewMember.role === 'LEADER'
+                      ? '모임장'
+                      : comment.crewMember.role === 'ADMIN'
+                        ? '운영진'
+                        : comment.crewMember.role === 'MEMBER'
+                          ? ''
+                          : comment.crewMember.role}
+                  </span>
+                  <span className={styles.date}>
+                    {formatDate(comment.createDate)}
+                  </span>
+                </div>
+              </div>
+            </div>
+            {/* 댓글 내용과 버튼을 회원 정보 아래로 이동 */}
+            <div className={styles.commentContent}>
+              {comment.isEditing ? (
+                <>
+                  <input
+                    type="text"
+                    value={editCommentContent}
+                    onChange={(e) => setEditCommentContent(e.target.value)}
+                  />
+                  <div className={styles.comment_button}>
+                    <button onClick={() => handleSaveEditComment(comment.id)}>
+                      저장
+                    </button>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <p>{comment.content}</p>
+                  {comment.crewMember.member.memberId === myMemberId && ( // Todo: 로그인된 사용자의 memberId와 비교
+                    <div className={styles.comment_button}>
+                      <button onClick={() => handleEditComment(comment.id)}>
+                        수정
+                      </button>
+                      <button onClick={() => handleDeleteComment(comment.id)}>
+                        삭제
+                      </button>
+                    </div>
+                  )}
+                </>
+              )}
+            </div>
+          </div>
+        ))}
       </div>
 
       {/* 댓글 입력 */}
-      <div>
+      <div className={styles.commentInput}>
         <input
+          ref={commentInputRef}
           type="text"
           placeholder="댓글을 입력하세요"
           value={newComment}
           onChange={(e) => setNewComment(e.target.value)}
+          onFocus={() =>
+            commentListRef.current?.scrollIntoView({ behavior: 'smooth' })
+          }
         />
         <button onClick={handleAddComment}>댓글 추가</button>
-      </div>
-
-      {/* 댓글 리스트 */}
-      <div>
-        {comments.map((comment) => (
-          <div key={comment.id}>
-            {comment.isEditing ? (
-              <>
-                <input
-                  type="text"
-                  value={editCommentContent}
-                  onChange={(e) => setEditCommentContent(e.target.value)}
-                />
-                <button onClick={() => handleSaveEditComment(comment.id)}>
-                  저장
-                </button>
-              </>
-            ) : (
-              <>
-                <p>{comment.content}</p>
-                <button onClick={() => handleEditComment(comment.id)}>
-                  수정
-                </button>
-                <button onClick={() => handleDeleteComment(comment.id)}>
-                  삭제
-                </button>
-              </>
-            )}
-          </div>
-        ))}
       </div>
     </div>
   );
