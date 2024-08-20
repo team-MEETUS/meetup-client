@@ -41,6 +41,8 @@ const CrewMeetingRegisterPage = React.lazy(
 const CrewAlbumListPage = React.lazy(
   () => import('@/pages/crew/album/CrewAlbumListPage'),
 );
+
+const CrewChatPage = React.lazy(() => import('@/pages/crew/chat/CrewChatPage'));
 const SignUpPage = React.lazy(() => import('@/pages/user/sign-up/SignUpPage'));
 const LoginPage = React.lazy(() => import('@/pages/user/login/LoginPage'));
 const HomePage = React.lazy(() => import('@/pages/home/HomePage.tsx'));
@@ -150,7 +152,7 @@ const router = createBrowserRouter([
             path: ':crewId/chat',
             element: (
               <Suspense fallback={<LoadingSpinner />}>
-                <CrewPage />
+                <CrewChatPage />
               </Suspense>
             ),
           },
