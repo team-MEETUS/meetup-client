@@ -137,8 +137,8 @@ const CrewPage = () => {
         </div>
 
         <div className={cn('card_list')}>
-          {showPastMeetings
-            ? crewMeetingPastList &&
+          {showPastMeetings ? (
+            crewMeetingPastList && crewMeetingPastList.length > 0 ? (
               crewMeetingPastList.map((meeting) => (
                 <CrewMeetingCard
                   key={meeting.meetingId}
@@ -160,28 +160,34 @@ const CrewPage = () => {
                   }
                 />
               ))
-            : crewMeetingUpcomingList &&
-              crewMeetingUpcomingList.map((meeting) => (
-                <CrewMeetingCard
-                  meetingId={String(meeting.meetingId)}
-                  crewId={String(crewId)}
-                  key={meeting.meetingId}
-                  name={meeting.name}
-                  date={meeting.date}
-                  loc={meeting.loc}
-                  max={meeting.max}
-                  attend={meeting.attend}
-                  url={meeting.url}
-                  saveImg={meeting.saveImg}
-                  onClick={() =>
-                    handleMeetingCardClick(
-                      String(meeting.meetingId),
-                      meeting,
-                      true,
-                    )
-                  }
-                />
-              ))}
+            ) : (
+              <span className={cn('no_meeting')}>모임이 없습니다</span>
+            )
+          ) : crewMeetingUpcomingList && crewMeetingUpcomingList.length > 0 ? (
+            crewMeetingUpcomingList.map((meeting) => (
+              <CrewMeetingCard
+                meetingId={String(meeting.meetingId)}
+                crewId={String(crewId)}
+                key={meeting.meetingId}
+                name={meeting.name}
+                date={meeting.date}
+                loc={meeting.loc}
+                max={meeting.max}
+                attend={meeting.attend}
+                url={meeting.url}
+                saveImg={meeting.saveImg}
+                onClick={() =>
+                  handleMeetingCardClick(
+                    String(meeting.meetingId),
+                    meeting,
+                    true,
+                  )
+                }
+              />
+            ))
+          ) : (
+            <span className={cn('no_meeting')}>모임이 없습니다</span>
+          )}
         </div>
         {isAdmin ? (
           <span

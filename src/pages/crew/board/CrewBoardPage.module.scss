@@ -82,7 +82,9 @@
       }
     }
   }
-
+  .no_board {
+    color: var(--gray-500);
+  }
   //@media (max-width: 600px) {
   //  .category_menu {
   //    .category_button {
