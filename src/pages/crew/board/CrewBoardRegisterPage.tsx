@@ -128,7 +128,7 @@ const CrewBoardRegister = () => {
         editorRef.current.setContent(crewBoardDetailData.content);
       }
     }
-  }, [crewBoardDetailData]);
+  }, [crewBoardDetailData, categoryOptions]);
 
   return (
     <div className={cn('container')}>
