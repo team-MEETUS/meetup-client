@@ -18,6 +18,33 @@ const CrewCard = ({ crew, type = 'default' }: CrewCardProps) => {
     navigate(`/crew/${crewId}/home`, { state: { crewId: crewId } });
   };
 
+  // 최근 대화 시간 포맷
+  const formatLastChatTime = (lastChatTime: string) => {
+    const now = new Date();
+    const lastChatDate = new Date(lastChatTime);
+    const diff = now.getTime() - lastChatDate.getTime();
+
+    const minutes = Math.floor(diff / (1000 * 60));
+    const hours = Math.floor(diff / (1000 * 60 * 60));
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const months = Math.floor(diff / (1000 * 60 * 60 * 24 * 30));
+    const years = Math.floor(diff / (1000 * 60 * 60 * 24 * 365));
+
+    if (minutes < 1) {
+      return '방금 대화';
+    } else if (minutes < 60) {
+      return `${minutes}분 전 대화`;
+    } else if (hours < 24) {
+      return `${hours}시간 전 대화`;
+    } else if (days < 30) {
+      return `${days}일 전 대화`;
+    } else if (months < 12) {
+      return `${months}달 전 대화`;
+    } else {
+      return `${years}년 전 대화`;
+    }
+  };
+
   return (
     <div
       key={crew.crewId}
@@ -34,10 +61,17 @@ const CrewCard = ({ crew, type = 'default' }: CrewCardProps) => {
         <div className={cn('crew_data')}>
           <div className={cn('crew_label')}>{crew.interestBig.name}</div>
           <span>·</span>
-          <div>{crew.geo.city}</div>
+          <div className={cn('crew_city')}>{crew.geo.city}</div>
           <span>·</span>
           <div className={cn('crew_member')}>멤버 {crew.totalMember}</div>
-          {type === 'active' ? <span>{crew.lastChatTime}</span> : null}
+          {type === 'active' ? (
+            <>
+              <span>·</span>
+              <div className={cn('crew_chat')}>
+                {formatLastChatTime(crew.lastChatTime)}
+              </div>
+            </>
+          ) : null}
         </div>
       </div>
     </div>

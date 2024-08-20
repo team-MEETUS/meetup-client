@@ -2,82 +2,168 @@
   box-shadow: 0px 8px 24px 0px rgba(149, 157, 165, 0.2);
   padding: 16px;
   border-radius: 12px;
-  display: flex;
   background-color: var(--white);
-  margin-bottom: 16px;
-  height: 200;
-  padding: 22px 18px;
-  width: 328px;
-  width: 1;
-
-  .image_container {
-    width: 130px;
-    height: 70px;
-    margin-right: 16px;
-
-    .meeting_image {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      border-radius: 8px;
-    }
-  }
+  padding: 20px;
 
   .card_content {
-    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 
     .card_header {
       display: flex;
-      justify-content: space-between;
       align-items: center;
-      margin-bottom: 12px;
+      justify-content: space-between;
+
+      .header_info {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+      }
+
+      .meeting_date {
+        @include Medium-03;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+
+        .date {
+          color: var(--gray-800);
+        }
+
+        .d_day {
+          color: var(--red);
+        }
+
+        color: var(--red);
+      }
 
       .title {
-        font-size: 20px;
-        font-weight: bold;
+        @include Medium-03;
+      }
+
+      .cancel_button {
+        @include Medium-04;
+        border: 1px solid var(--red);
+        border-radius: 4px;
+        color: var(--red);
+        padding: 5px 10px;
       }
 
       .join_button {
-        padding: 8px 12px;
-        background-color: #007bff;
-        color: white;
-        border: none;
+        @include Medium-04;
+        border: 1px solid var(--blue-500);
         border-radius: 4px;
-        cursor: pointer;
-        font-size: 14px;
+        color: var(--blue-500);
+        padding: 5px 10px;
+      }
+    }
 
-        &.joined {
-          background-color: #dc3545;
+    .card_body {
+      @include Medium-05;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+
+      .image_container {
+        width: 80px;
+        height: 70px;
+
+        .meeting_image {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          border-radius: 8px;
         }
+      }
 
-        &:hover {
-          opacity: 0.9;
+      .info_container {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 5px;
+
+        .map_link {
+          color: var(--gray-600);
         }
       }
     }
 
-    .card-body {
-      .date,
-      .location,
-      .participants {
-        font-size: 16px;
-        margin-bottom: 8px;
-      }
+    @media (min-width: 500px) {
+      .card_body {
+        @include Medium-03;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        gap: 10px;
 
-      .participants {
-        font-weight: bold;
-        color: green;
+        .image_container {
+          width: 170px;
+          height: 160px;
 
-        &.full {
-          color: red;
+          .meeting_image {
+            width: 100%;
+            height: 100%;
+            object-fit: fill;
+          }
         }
       }
     }
-    .member_image {
-      width: 30px;
-      height: 30px;
-      border-radius: 50%;
-      object-fit: cover;
+
+    .member_list {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 3px;
+      margin-top: 10px;
+
+      .member_image {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        object-fit: cover;
+      }
+
+      .more_members {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        background-color: var(--gray-300);
+        opacity: 0.5;
+      }
+    }
+
+    @media (min-width: 500px) {
+      .member_list {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        .member_image {
+          width: 50px;
+          height: 50px;
+          border-radius: 50%;
+          object-fit: cover;
+        }
+
+        .more_members {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+
+          width: 50px;
+          height: 50px;
+          border-radius: 50%;
+          background-color: var(--gray-300);
+          opacity: 0.5;
+        }
+      }
     }
   }
 }

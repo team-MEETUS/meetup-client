@@ -122,80 +122,74 @@ const CrewPage = () => {
         </div>
       )}
 
-      {/* 모임 토글 버튼 */}
-      <div className={styles.toggle_container}>
-        <button
-          className={cn('toggle_button', { active: !showPastMeetings })}
-          onClick={toggleMeetings}
-        >
-          {showPastMeetings ? '현재 모임 보기' : '과거 모임 보기'}
-        </button>
-      </div>
-
       {/* 정기모임 */}
       <div className={styles.crew_meeting}>
-        <div className={styles.meeting_toggle}>
-          <span
-            className={cn({ active: !showPastMeetings })}
-            onClick={() => setShowPastMeetings(false)}
-          >
-            다가오는 모임
+        <div className={styles.toggle_container}>
+          <span className={styles.current_meeting}>
+            {showPastMeetings ? '지난 모임' : '진행중인 모임'}
           </span>
-          <span
-            className={cn({ active: showPastMeetings })}
-            onClick={() => setShowPastMeetings(true)}
+          <button
+            className={cn('toggle_button', { active: !showPastMeetings })}
+            onClick={toggleMeetings}
           >
-            지난 모임
-          </span>
+            {showPastMeetings ? '진행중인 모임 보기' : '지난 모임 보기'}
+          </button>
         </div>
-        {showPastMeetings
-          ? crewMeetingPastList &&
-            crewMeetingPastList.map((meeting) => (
-              <CrewMeetingCard
-                key={meeting.meetingId}
-                meetingId={String(meeting.meetingId)}
-                crewId={String(crewId)}
-                name={meeting.name}
-                date={meeting.date}
-                loc={meeting.loc}
-                max={meeting.max}
-                attend={meeting.attend}
-                url={meeting.url}
-                saveImg={meeting.saveImg}
-                onClick={() =>
-                  handleMeetingCardClick(
-                    String(meeting.meetingId),
-                    meeting,
-                    true,
-                  )
-                }
-              />
-            ))
-          : crewMeetingUpcomingList &&
-            crewMeetingUpcomingList.map((meeting) => (
-              <CrewMeetingCard
-                meetingId={String(meeting.meetingId)}
-                crewId={String(crewId)}
-                key={meeting.meetingId}
-                name={meeting.name}
-                date={meeting.date}
-                loc={meeting.loc}
-                max={meeting.max}
-                attend={meeting.attend}
-                url={meeting.url}
-                saveImg={meeting.saveImg}
-                onClick={() =>
-                  handleMeetingCardClick(
-                    String(meeting.meetingId),
-                    meeting,
-                    true,
-                  )
-                }
-              />
-            ))}
 
+        <div className={cn('card_list')}>
+          {showPastMeetings
+            ? crewMeetingPastList &&
+              crewMeetingPastList.map((meeting) => (
+                <CrewMeetingCard
+                  key={meeting.meetingId}
+                  meetingId={String(meeting.meetingId)}
+                  crewId={String(crewId)}
+                  name={meeting.name}
+                  date={meeting.date}
+                  loc={meeting.loc}
+                  max={meeting.max}
+                  attend={meeting.attend}
+                  url={meeting.url}
+                  saveImg={meeting.saveImg}
+                  onClick={() =>
+                    handleMeetingCardClick(
+                      String(meeting.meetingId),
+                      meeting,
+                      true,
+                    )
+                  }
+                />
+              ))
+            : crewMeetingUpcomingList &&
+              crewMeetingUpcomingList.map((meeting) => (
+                <CrewMeetingCard
+                  meetingId={String(meeting.meetingId)}
+                  crewId={String(crewId)}
+                  key={meeting.meetingId}
+                  name={meeting.name}
+                  date={meeting.date}
+                  loc={meeting.loc}
+                  max={meeting.max}
+                  attend={meeting.attend}
+                  url={meeting.url}
+                  saveImg={meeting.saveImg}
+                  onClick={() =>
+                    handleMeetingCardClick(
+                      String(meeting.meetingId),
+                      meeting,
+                      true,
+                    )
+                  }
+                />
+              ))}
+        </div>
         {isAdmin ? (
-          <span onClick={handleCreateMeetingClick}>정모 만들기</span>
+          <span
+            className={cn('create_meeting')}
+            onClick={handleCreateMeetingClick}
+          >
+            정모 만들기
+          </span>
         ) : null}
       </div>
 
