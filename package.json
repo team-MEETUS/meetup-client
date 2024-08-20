@@ -32,6 +32,7 @@
     "socket.io-client": "^4.7.5",
     "sockjs-client": "^1.6.1",
     "tinymce": "^7.3.0",
+    "ws": "^8.18.0",
     "yup": "^1.4.0",
     "zod": "^3.23.8",
     "zustand": "^4.5.2"
