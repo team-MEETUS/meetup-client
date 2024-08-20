@@ -3,8 +3,8 @@
   display: flex;
   flex-direction: column;
   margin-top: 96px;
-
   padding: 20px;
+  gap: 30px;
 
   .header {
     position: fixed;
@@ -33,10 +33,47 @@
     }
   }
 
-  .toggle_button {
-    border-radius: 5px;
-    padding: 10px 20px;
-    transition: background-color 0.3s;
+  .crew_meeting {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 0 10px;
+
+    .toggle_container {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      gap: 10px;
+
+      .current_meeting {
+        @include Bold-03;
+        color: var(--black);
+      }
+
+      .toggle_button {
+        @include Medium-04;
+        border-radius: 12px;
+        padding: 5px 20px;
+        transition: background-color 0.3s;
+        color: var(--gray-700);
+        border-bottom: 1px solid var(--gray-700);
+      }
+    }
+
+    .card_list {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .create_meeting {
+      @include Medium-02;
+      padding: 15px;
+      border-radius: 8px;
+      border: 1px solid var(--orange-400);
+      color: var(--orange-400);
+      text-align: center;
+    }
   }
 
   .crew_member {
