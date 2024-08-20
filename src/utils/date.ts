@@ -74,3 +74,28 @@ export const getTodayDate = () => {
 
   return `${year}-${month}-${day}`;
 };
+
+// 디데이 계산
+export const calculateDday = (date: string) => {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  const meetingDate = new Date(date);
+  meetingDate.setHours(0, 0, 0, 0);
+
+  const diffInTime = meetingDate.getTime() - today.getTime();
+  const diffInDays = Math.ceil(diffInTime / (1000 * 3600 * 24));
+
+  // 요일 배열
+  const daysOfWeek = ['일', '월', '화', '수', '목', '금', '토'];
+  const dayOfWeek = daysOfWeek[meetingDate.getDay()];
+
+  // 날짜 형식 "MM/DD(요일)"
+  const formattedDate = `${String(meetingDate.getMonth() + 1).padStart(2, '0')}/${String(meetingDate.getDate()).padStart(2, '0')}(${dayOfWeek})`;
+
+  // D-Day 계산
+  const dDay =
+    diffInDays >= 0 ? `D-${diffInDays}` : `D+${Math.abs(diffInDays)}`;
+
+  return `${formattedDate} ${dDay}`;
+};

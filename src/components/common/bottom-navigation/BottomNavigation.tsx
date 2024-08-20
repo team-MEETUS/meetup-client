@@ -30,15 +30,19 @@ const BottomNavigation = () => {
             홈
           </span>
         </Link>
-        <Link to="/crew" className={styles.nav_item}>
+        <Link to="/my-crew" className={styles.nav_item}>
           <div role="button" className={styles.nav_icon}>
             <CrewIcon
-              fill={isCurrentPath('/crew') ? 'var(--black)' : 'var(--gray-500)'}
+              fill={
+                isCurrentPath('/my-crew') ? 'var(--black)' : 'var(--gray-500)'
+              }
             />
           </div>
           <span
             className={
-              isCurrentPath('/crew') ? styles.focused_nav_text : styles.nav_text
+              isCurrentPath('/my-crew')
+                ? styles.focused_nav_text
+                : styles.nav_text
             }
           >
             내모임

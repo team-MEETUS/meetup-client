@@ -26,7 +26,7 @@ const CrewBoardPage = () => {
 
   const state = location.state as BoardState;
   const [crewId] = useState<string>(state.crewId || '');
-  const [selectedCategory, setSelectedCategory] = useState<string>('');
+  const [selectedCategory, setSelectedCategory] = useState<string>('전체');
 
   const { data: crewBoardData } = useCrewBoardListQuery(
     crewId,
@@ -82,14 +82,17 @@ const CrewBoardPage = () => {
               ))}
             </div>
 
-            {crewBoardData &&
+            {crewBoardData && crewBoardData.length > 0 ? (
               crewBoardData.map((board) => (
                 <CrewBoardCard
                   key={board.boardId}
                   {...board}
                   onClick={() => handleClickBoard(String(board.boardId))}
                 />
-              ))}
+              ))
+            ) : (
+              <span className={cn('no_board')}>게시글이 없습니다</span>
+            )}
           </div>
         </div>
         <span

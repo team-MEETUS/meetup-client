@@ -2,13 +2,14 @@ import classNames from 'classnames/bind';
 
 import { useCrewMeetingMutation } from '@/apis/react-query/crew/useCrewMeetingMutation';
 import { useCrewMeetingMemberListQuery } from '@/apis/react-query/crew/useCrewMeetingQuery';
+import MoreIcon from '@/assets/icons/MoreIcon.svg?react';
+import { calculateDday, DateType, formatDate } from '@/utils/date';
 
 import styles from './CrewMeetingCard.module.scss';
 
 interface CrewMeetingCardProps {
   meetingId: string;
   crewId: string;
-
   name: string;
   date: string;
   loc: string;
@@ -33,6 +34,8 @@ const CrewMeetingCard = ({
 }: CrewMeetingCardProps) => {
   const cn = classNames.bind(styles);
   const availableSeats = max - attend;
+
+  const maxVisibleMembers = 8;
 
   const { data: crewMemberList } = useCrewMeetingMemberListQuery(
     crewId,
@@ -66,14 +69,33 @@ const CrewMeetingCard = ({
     await postAttendMeeting.mutateAsync({ crewId, meetingId, attend: false });
   };
 
+  const handleClickUrl = (
+    event: React.MouseEvent<HTMLButtonElement>,
+    url: string,
+  ) => {
+    event.preventDefault();
+    event.stopPropagation();
+
+    if (url) {
+      window.open(url, '_blank', 'noopener,noreferrer');
+    }
+  };
+
   return (
     <div className={cn('meeting_card')} onClick={onClick}>
-      <div className={cn('image_container')}>
-        <img src={saveImg} alt={name} className={cn('meeting_image')} />
-      </div>
       <div className={cn('card_content')}>
         <div className={cn('card_header')}>
-          <h2 className={cn('title')}>{name}</h2>
+          <div className={cn('header_info')}>
+            <div className={cn('meeting_date')}>
+              <span className={cn('date')}>
+                {calculateDday(date).split(' ')[0]}
+              </span>
+              <span className={cn('d_day')}>
+                {calculateDday(date).split(' ')[1]}
+              </span>
+            </div>
+            <h2 className={cn('title')}>{name}</h2>
+          </div>
           {myMemberId &&
             (isMember ? (
               <button
@@ -89,35 +111,46 @@ const CrewMeetingCard = ({
             ))}
         </div>
         <div className={cn('card_body')}>
-          <p className={cn('date')}>일시: {date}</p>
-          <p className={cn('location')}>
-            위치: {loc}
-            {url && (
-              <a
-                href={url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className={cn('map_link')}
-              >
-                (지도보기)
-              </a>
-            )}
-          </p>
-          <p className={cn('participants')}>
-            참석 인원: {attend}/{max} (
-            {availableSeats > 0 ? `${availableSeats}명 남음` : '정원 마감'})
-          </p>
+          <div className={cn('image_container')}>
+            <img src={saveImg} alt={name} className={cn('meeting_image')} />
+          </div>
+          <div className={cn('info_container')}>
+            <span className={cn('date')}>
+              일시: {formatDate(DateType.DATE_TIME, date)}
+            </span>
+            <span className={cn('location')}>
+              위치: {loc}
+              {url && (
+                <button
+                  onClick={(event) => handleClickUrl(event, url)}
+                  className={cn('map_link')}
+                >
+                  (지도보기)
+                </button>
+              )}
+            </span>
+            <span className={cn('participants')}>
+              참석 인원: {attend}/{max} (
+              {availableSeats > 0 ? `${availableSeats}명 남음` : '정원 마감'})
+            </span>
+          </div>
         </div>
+        {/* 참석 멤버 */}
         {crewMemberList && (
           <div className={cn('member_list')}>
-            {crewMemberList.map((member) => (
+            {crewMemberList.slice(0, maxVisibleMembers).map((member, index) => (
               <img
-                key={member.crewMember.crewMemberId}
+                key={index}
                 src={member.crewMember.member.saveImg}
                 alt={member.crewMember.member.nickname}
                 className={cn('member_image')}
               />
             ))}
+            {crewMemberList.length > maxVisibleMembers && (
+              <span className={cn('more_members')}>
+                <MoreIcon />
+              </span>
+            )}
           </div>
         )}
       </div>

@@ -24,7 +24,8 @@ export const useUserMutation = () => {
       if (success) {
         sessionStorage.setItem('ACCESS_TOKEN', data.accessToken);
         localStorage.setItem('MEMBER_ID', String(data.memberId));
-        navigate('/');
+
+        navigate('/', { state: { isLogin: true } });
       } else {
         toast.error(error?.message);
       }

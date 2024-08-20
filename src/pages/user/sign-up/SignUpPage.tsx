@@ -4,6 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import classNames from 'classnames/bind';
 import * as _ from 'lodash';
 import { SubmitHandler, useForm, useWatch } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import * as z from 'zod';
 
@@ -15,6 +16,7 @@ import CommonHeader from '@/components/header/CommonHeader';
 import styles from './SignUpPage.module.scss';
 
 const SignUpPage = () => {
+  const navigate = useNavigate();
   const cn = classNames.bind(styles);
   const [isPhoneVerified, setIsPhoneVerified] = useState(false);
   const [smsCodeSent, setSmsCodeSent] = useState(false);
@@ -175,7 +177,7 @@ const SignUpPage = () => {
   return (
     <div className={cn('container')}>
       <div className={cn('header')}>
-        <CommonHeader title="회원가입" />
+        <CommonHeader title="회원가입" onBackClick={() => navigate('/')} />
       </div>
 
       {/* 로고 */}
@@ -358,38 +360,15 @@ const SignUpPage = () => {
         <>
           {/* 딤드 배경 */}
           <div
-            style={{
-              position: 'fixed',
-              top: 0,
-              left: 0,
-              width: '100%',
-              height: '100%',
-              backgroundColor: 'rgba(0, 0, 0, 0.5)',
-              zIndex: 999,
-            }}
+            className={cn('modal_background')}
             onClick={() => setModalOpen(false)}
           />
 
           {/* 지역 검색 모달 */}
-          <div
-            style={{
-              position: 'fixed',
-              top: '50%',
-              left: '50%',
-              transform: 'translate(-50%, -50%)',
-              padding: '20px',
-              background: 'white',
-              border: '1px solid #ccc',
-              borderRadius: '8px',
-              width: '300px',
-              height: '160px',
-              maxHeight: '400px',
-              overflowY: 'auto',
-              zIndex: 1000,
-            }}
-          >
-            <h2 style={{ marginBottom: '20px' }}>지역 검색</h2>
+          <div className={cn('modal')}>
+            <h2 className={cn('modal_title')}>지역 검색</h2>
             <input
+              className={cn('modal_search')}
               type="text"
               placeholder="지역 검색"
               value={searchTerm}
@@ -397,27 +376,12 @@ const SignUpPage = () => {
                 setSearchTerm(e.target.value);
                 filterGeos(e.target.value);
               }}
-              style={{
-                textAlign: 'center',
-              }}
             />
-            <ul
-              style={{
-                border: '1px solid #ccc',
-                padding: 0,
-                margin: 0,
-                marginBottom: '20px',
-                listStyleType: 'none',
-              }}
-            >
+            <ul className={cn('search_list')}>
               {filteredGeos.map((geo) => (
                 <li
+                  className={cn('search_item')}
                   key={geo.geoId}
-                  style={{
-                    padding: '8px',
-                    cursor: 'pointer',
-                    borderBottom: '1px solid #ccc',
-                  }}
                   onClick={() => handleSelectGeo(geo)}
                 >
                   {geo.city} {geo.district}{' '}
@@ -425,7 +389,12 @@ const SignUpPage = () => {
                 </li>
               ))}
             </ul>
-            <button onClick={() => setModalOpen(false)}>닫기</button>
+            <button
+              className={cn('modal_button')}
+              onClick={() => setModalOpen(false)}
+            >
+              X
+            </button>
           </div>
         </>
       )}

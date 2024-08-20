@@ -1,11 +1,34 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import axios, { Axios } from 'axios';
 import { toast } from 'react-toastify';
 
-import type { AxiosError, AxiosInstance, AxiosResponse } from 'axios';
+import type {
+  AxiosError,
+  AxiosInstance,
+  AxiosRequestTransformer,
+  AxiosResponse,
+} from 'axios';
 
 const API_URL = import.meta.env.VITE_API_URL;
+
+const dateTransformer = (data: any): any => {
+  if (data instanceof Date) {
+    // do your specific formatting here
+    return data.toLocaleString();
+  }
+  if (Array.isArray(data)) {
+    return data.map(dateTransformer);
+  }
+  if (typeof data === 'object' && data !== null) {
+    return Object.fromEntries(
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+      Object.entries(data).map(([key, value]) => [key, dateTransformer(value)]),
+    );
+  }
+  return data;
+};
 
 const AxiosInstance = (baseURL: string): Axios => {
   const instance = axios.create({
@@ -15,6 +38,10 @@ const AxiosInstance = (baseURL: string): Axios => {
       accept: 'application/json',
       Authorization: null,
     },
+    transformRequest: [
+      dateTransformer,
+      ...(axios.defaults.transformRequest as AxiosRequestTransformer[]),
+    ],
   });
 
   instance.interceptors.request.use(

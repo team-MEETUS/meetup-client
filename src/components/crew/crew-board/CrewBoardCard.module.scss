@@ -3,27 +3,89 @@
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
-  gap: 10px;
   width: 100%;
 
   .board_info {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-between; /* 요소 간의 간격을 균등하게 배치 */
+    align-items: center; /* 수직 정렬을 중앙으로 */
     width: 100%;
+    margin-bottom: 10px;
 
-    // .info_left {
-    // }
-    // .info_right {
-    // }
+    .info_left {
+      display: flex; /* 내부 요소들을 수평으로 배치 */
+      align-items: center; /* 수직 정렬을 중앙으로 */
+      margin-left: 5px;
+
+      .member_image {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        object-fit: cover;
+        margin-right: 10px; /* 이미지와 텍스트 간의 간격 */
+      }
+
+      .member_nickname {
+        @include Medium-03;
+        margin-right: 5px;
+      }
+
+      .member_role {
+        @include Medium-03;
+        &.leader {
+          color: var(--blue-500); // 모임장 색상
+        }
+        &.admin {
+          color: var(--blue-500); // 운영진 색상
+        }
+      }
+    }
+    .info_right {
+      @include Regular-04;
+      color: var(--gray-400);
+      margin-right: 5px;
+    }
   }
 
   .board_title {
     @include Medium-03;
     text-align: left;
+    margin-left: 5px;
+    margin-bottom: 3px;
+
+    .important {
+      color: var(--blue-500);
+    }
   }
 
   .board_content {
+    @include Regular-04;
     text-align: left;
+    margin-left: 5px;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    display: flex; /* Flexbox 사용 */
+    justify-content: space-between; /* 양쪽 끝으로 배치 */
+    width: 100%;
+
+    .board_text {
+      display: -webkit-box; /* Flexbox와 비슷한 박스 모델 사용 */
+      -webkit-box-orient: vertical; /* 수직 방향으로 정렬 */
+      overflow: hidden; /* 넘치는 내용 숨기기 */
+      -webkit-line-clamp: 5; /* 4줄로 제한 */
+      max-width: 80%;
+      margin-right: 10px; /* 이미지와의 간격 조정 */
+      line-height: 1.5; /* 줄 높이 설정 (필요에 따라 조정) */
+      max-height: calc(5 * 1.5em); /* 4줄 높이 제한 */
+    }
+
+    .board_image {
+      width: 140px; /* 이미지 너비 */
+      height: 100px; /* 이미지 높이 */
+      object-fit: cover; /* 이미지 비율 유지 */
+      border-radius: 8px;
+      margin-right: 5px;
+    }
   }
 
   .board_status {
@@ -31,15 +93,23 @@
     display: flex;
     justify-content: space-between;
 
-    // .status_left {
-    //   .like {
-    //   }
+    .status_left {
+      .like {
+        margin-left: 5px;
+      }
+      .hit_number {
+        color: var(--blue-500);
+      }
+      .comment {
+        margin-left: 10px;
+      }
+      .comment_number {
+        color: var(--blue-500);
+      }
+    }
 
-    //   .comment {
-    //   }
-    // }
-
-    // .status_right {
-    // }
+    .status_right {
+      margin-right: 5px;
+    }
   }
 }
