@@ -23,22 +23,18 @@ interface MenuItem {
   onClick: () => void;
 }
 
-interface Member {
-  memberId: string;
-  nickname: string;
-  saveImg: string;
-}
-
-interface CrewMember {
-  crewMemberId: string;
-  role: string;
-  member: Member;
-}
-
 interface Comment {
   id: number;
   content: string;
-  crewMember: CrewMember;
+  crewMember: {
+    crewMemberId: string;
+    role: string;
+    member: {
+      memberId: string;
+      nickname: string;
+      saveImg: string;
+    };
+  };
   createDate: string;
   isEditing: boolean;
 }
