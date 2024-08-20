@@ -2,16 +2,23 @@ import { useMutation } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
+import { useUserInfoQuery } from '@/apis/react-query/user/useUserQuery';
 import { ApiResponse } from '@/apis/server/type';
 import {
   PostCreateMemberAPI,
   PostLoginAPI,
   PostPhoneCheckAPI,
 } from '@/apis/server/user/userAPI';
+import useUserStore from '@/stores/user/useUserStore';
 
 export const useUserMutation = () => {
   const navigate = useNavigate();
 
+  const { data: userData } = useUserInfoQuery();
+
+  const { updateUser } = useUserStore((state) => ({
+    updateUser: state.updateUser,
+  }));
   const postLogin = useMutation({
     mutationFn: PostLoginAPI,
     onSuccess: (res) => {
@@ -24,6 +31,10 @@ export const useUserMutation = () => {
       if (success) {
         sessionStorage.setItem('ACCESS_TOKEN', data.accessToken);
         localStorage.setItem('MEMBER_ID', String(data.memberId));
+
+        if (userData) {
+          updateUser(userData);
+        }
         navigate('/');
       } else {
         toast.error(error?.message);
