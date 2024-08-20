@@ -74,7 +74,7 @@
         .meeting_image {
           width: 100%;
           height: 100%;
-          object-fit: fill;
+          object-fit: cover;
           border-radius: 8px;
         }
       }
@@ -87,6 +87,27 @@
 
         .map_link {
           color: var(--gray-600);
+        }
+      }
+    }
+
+    @media (min-width: 500px) {
+      .card_body {
+        @include Medium-03;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        gap: 10px;
+
+        .image_container {
+          width: 170px;
+          height: 160px;
+
+          .meeting_image {
+            width: 100%;
+            height: 100%;
+            object-fit: fill;
+          }
         }
       }
     }
@@ -115,6 +136,33 @@
         border-radius: 50%;
         background-color: var(--gray-300);
         opacity: 0.5;
+      }
+    }
+
+    @media (min-width: 500px) {
+      .member_list {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        .member_image {
+          width: 50px;
+          height: 50px;
+          border-radius: 50%;
+          object-fit: cover;
+        }
+
+        .more_members {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+
+          width: 50px;
+          height: 50px;
+          border-radius: 50%;
+          background-color: var(--gray-300);
+          opacity: 0.5;
+        }
       }
     }
   }
