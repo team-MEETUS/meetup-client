@@ -66,11 +66,14 @@
 
     .category_button {
       @include Medium-04;
-      padding: 5px;
+      padding: 5px 10px;
       border-radius: 12px;
       background-color: var(--gray-300);
       color: var(--gray-700);
       transition: background-color 0.2s;
+      margin-bottom: 10px;
+      margin-right: -20px;
+      margin-left: 20px;
 
       &.active {
         background-color: var(--orange-500);

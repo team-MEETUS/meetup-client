@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 import { useLocation, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
@@ -10,6 +10,8 @@ import { useCrewBoardDetailQuery } from '@/apis/react-query/crew/useCrewBoardQue
 import MoreMenuButton from '@/components/common/more-button/MoreButton';
 import CommonHeader from '@/components/header/CommonHeader';
 import { sanitizeHTML } from '@/utils/sanitizeHTML';
+
+import styles from './CrewBoardDetail.module.scss';
 
 interface BoardState {
   crewId: string;
@@ -49,6 +51,9 @@ const CrewBoardDetailPage = () => {
   const { PostCreateBoardComment, PutUpdateBoardComment, DeleteBoardComment } =
     useCrewBoardCommentMutation();
 
+  const commentListRef = useRef<HTMLDivElement>(null);
+  const commentInputRef = useRef<HTMLInputElement>(null);
+
   useEffect(() => {
     if (crewBoardCommentList) {
       const initialComments = crewBoardCommentList.map((comment) => ({
@@ -59,6 +64,16 @@ const CrewBoardDetailPage = () => {
       setComments(initialComments);
     }
   }, [crewBoardCommentList]);
+
+  const scrollToBottom = () => {
+    if (commentListRef.current) {
+      commentListRef.current.scrollTop = commentListRef.current.scrollHeight;
+    }
+  };
+
+  useEffect(() => {
+    scrollToBottom(); // Scroll to the bottom whenever comments change
+  }, [comments]);
 
   const menuItems: MenuItem[] = [
     {
@@ -112,7 +127,7 @@ const CrewBoardDetailPage = () => {
 
       setNewComment('');
     } catch (error) {
-      console.log(error);
+      /* empty */
     }
   };
 
@@ -145,7 +160,7 @@ const CrewBoardDetailPage = () => {
       );
       setEditCommentContent('');
     } catch (error) {
-      console.log(error);
+      /* empty */
     }
   };
 
@@ -161,13 +176,50 @@ const CrewBoardDetailPage = () => {
 
         setComments(comments.filter((comment) => comment.id !== id));
       } catch (error) {
-        console.log(error);
+        /* empty */
       }
     }
   };
 
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    const now = new Date();
+
+    // 오늘 날짜인지 확인
+    const isToday = date.toDateString() === now.toDateString();
+
+    // 날짜 포맷 설정
+    const options: Intl.DateTimeFormatOptions = {
+      month: 'long',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: true,
+    };
+
+    if (isToday) {
+      // 오늘 날짜일 경우
+      const todayOptions: Intl.DateTimeFormatOptions = {
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: true,
+      };
+      const formattedTime = new Intl.DateTimeFormat(
+        'ko-KR',
+        todayOptions,
+      ).format(date);
+      return `오늘 ${formattedTime.replace('오후', '오후 ').replace('오전', '오전 ')}`;
+    } else {
+      // 오늘이 아닐 경우
+      const formattedDate = new Intl.DateTimeFormat('ko-KR', options).format(
+        date,
+      );
+      return formattedDate.replace('오후', '오후 ').replace('오전', '오전 ');
+    }
+  };
+
   return (
-    <div>
+    <div className={styles.container}>
       <CommonHeader
         title="게시글"
         option={<MoreMenuButton items={menuItems} />}
@@ -175,36 +227,59 @@ const CrewBoardDetailPage = () => {
           navigate(`/crew/${crewId}/board`, { state: { crewId } })
         }
       />
-      <div>
-        {crewBoardData && (
-          <div>
-            <div>
-              <h2>{crewBoardData.title}</h2>
-              <div
-                dangerouslySetInnerHTML={{
-                  __html: sanitizeHTML(crewBoardData.content),
-                }}
-              />
+      {crewBoardData && (
+        <>
+          <div className={styles.member_info}>
+            <img
+              className={styles.member_image}
+              src={crewBoardData.crewMember.member.saveImg}
+              alt="회원 이미지"
+            />
+            <div className={styles.member_details}>
+              <div className={styles.nickname_role}>
+                <span className={styles.nickname}>
+                  {crewBoardData.crewMember.member.nickname}
+                </span>
+                <span className={styles.role}>
+                  {crewBoardData.crewMember.role === 'LEADER'
+                    ? '모임장'
+                    : crewBoardData.crewMember.role === 'ADMIN'
+                      ? '운영진'
+                      : crewBoardData.crewMember.role === 'MEMBER'
+                        ? ''
+                        : crewBoardData.crewMember.role}
+                </span>
+                <span className={styles.category}>
+                  {crewBoardData.category}
+                </span>
+              </div>
+              <span className={styles.date}>
+                {formatDate(crewBoardData.createDate)}
+              </span>
             </div>
           </div>
-        )}
-      </div>
-
-      {/* 댓글 입력 */}
-      <div>
-        <input
-          type="text"
-          placeholder="댓글을 입력하세요"
-          value={newComment}
-          onChange={(e) => setNewComment(e.target.value)}
-        />
-        <button onClick={handleAddComment}>댓글 추가</button>
-      </div>
+          <div className={styles.body}>
+            <h2 className={styles.title}>{crewBoardData.title}</h2>
+            <div
+              className={styles.content}
+              dangerouslySetInnerHTML={{
+                __html: sanitizeHTML(crewBoardData.content),
+              }}
+            />
+            <div className={styles.commentContainer}>
+              <span className={styles.total_comment}>
+                댓글 {crewBoardData.totalComment}개
+              </span>
+            </div>
+            <div className={styles.separator}></div>
+          </div>
+        </>
+      )}
 
       {/* 댓글 리스트 */}
-      <div>
+      <div className={styles.commentList} ref={commentListRef}>
         {comments.map((comment) => (
-          <div key={comment.id}>
+          <div key={comment.id} className={styles.commentItem}>
             {comment.isEditing ? (
               <>
                 <input
@@ -229,6 +304,19 @@ const CrewBoardDetailPage = () => {
             )}
           </div>
         ))}
+      </div>
+
+      {/* 댓글 입력 */}
+      <div className={styles.commentInput}>
+        <input
+          ref={commentInputRef}
+          type="text"
+          placeholder="댓글을 입력하세요"
+          value={newComment}
+          onChange={(e) => setNewComment(e.target.value)}
+          onFocus={scrollToBottom}
+        />
+        <button onClick={handleAddComment}>댓글 추가</button>
       </div>
     </div>
   );
