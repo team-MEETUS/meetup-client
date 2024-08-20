@@ -3,12 +3,37 @@
   flex-direction: column;
   gap: 10px;
 
+  .category {
+    display: flex;
+    justify-content: flex-start;
+    margin-left: 20px;
+    select {
+      border-radius: 20px;
+      width: 150px;
+      padding-left: 10px;
+    }
+  }
+
   .title {
     input {
       @include Medium-03;
-      width: 100%;
+      width: 80%;
+      padding-left: 10px;
+      color: var(--gray-300);
     }
     display: flex;
     justify-content: space-between;
+    margin-left: 20px;
+
+    .title_category {
+      @include Medium-05;
+      margin-top: auto;
+      margin-right: 20px;
+      color: var(--blue-500);
+    }
+  }
+
+  .editor {
+    margin: 10px 10px;
   }
 }
