@@ -377,7 +377,7 @@ const CrewBoardDetailPage = () => {
             commentListRef.current?.scrollIntoView({ behavior: 'smooth' })
           }
         />
-        <button onClick={handleAddComment}>댓글 추가</button>
+        <button onClick={handleAddComment}>등록</button>
       </div>
     </div>
   );
