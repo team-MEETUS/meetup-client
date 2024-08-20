@@ -7,9 +7,10 @@ import styles from './CrewCard.module.scss';
 
 interface CrewCardProps {
   crew: CrewSelectRespDto;
+  type?: 'default' | 'active';
 }
 
-const CrewCard = ({ crew }: CrewCardProps) => {
+const CrewCard = ({ crew, type = 'default' }: CrewCardProps) => {
   const cn = classNames.bind(styles);
   const navigate = useNavigate();
 
@@ -33,7 +34,10 @@ const CrewCard = ({ crew }: CrewCardProps) => {
         <div className={cn('crew_data')}>
           <div className={cn('crew_label')}>{crew.interestBig.name}</div>
           <span>·</span>
+          <div>{crew.geo.city}</div>
+          <span>·</span>
           <div className={cn('crew_member')}>멤버 {crew.totalMember}</div>
+          {type === 'active' ? <span>{crew.lastChatTime}</span> : null}
         </div>
       </div>
     </div>

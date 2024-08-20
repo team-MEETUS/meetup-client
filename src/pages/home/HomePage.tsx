@@ -39,7 +39,9 @@ const HomePage = () => {
       <div className={styles.crew_list}>
         <h2 className={styles.crew_title}>활동이 활발한 모임</h2>
         {activeCrewListData &&
-          activeCrewListData.map((crew) => <CrewCard crew={crew} />)}
+          activeCrewListData.map((crew) => (
+            <CrewCard type="active" crew={crew} />
+          ))}
       </div>
       <Link
         className={styles.button_container}
