@@ -6,6 +6,7 @@ import { toast } from 'react-toastify';
 
 import { useCrewAlbumMutation } from '@/apis/react-query/crew/useCrewAlbumMutation';
 import {
+  useCrewAlbumDetailQuery,
   useCrewAlbumLikeQuery,
   useCrewAlbumListQuery,
 } from '@/apis/react-query/crew/useCrewAlbumQuery';
@@ -40,9 +41,16 @@ const CrewAlbumListPage = () => {
   const [isFilled, setIsFilled] = useState<boolean>(false);
 
   const { data: crewAlbumList } = useCrewAlbumListQuery(crewId);
+  const { data: crewAlbumDetail, isSuccess: crewAlbumSuccess } =
+    useCrewAlbumDetailQuery(crewId, currentAlbumId);
+  const { data: isLiked } = useCrewAlbumLikeQuery(
+    crewId,
+    currentAlbumId,
+    crewAlbumSuccess,
+  );
+
   const { postCreateAlbum, postAlbumLike, deleteAlbum } =
     useCrewAlbumMutation();
-  const { data: isLiked } = useCrewAlbumLikeQuery(crewId, currentAlbumId);
 
   useEffect(() => {
     if (isLiked !== undefined) {
@@ -150,7 +158,7 @@ const CrewAlbumListPage = () => {
           ))}
       </div>
 
-      {isGalleryOpen && (
+      {isGalleryOpen && crewAlbumDetail && (
         <div className={cn('scroll_container')}>
           <button className={cn('close_button')} onClick={handleCloseGallery}>
             닫기
@@ -160,13 +168,13 @@ const CrewAlbumListPage = () => {
             <div className={cn('image_container')}>
               <img
                 className={cn('scroll_image')}
-                src={crewAlbumList?.[currentIndex].saveImg}
+                src={crewAlbumDetail.saveImg}
                 alt={`Slide ${currentIndex}`}
               />
             </div>
           </div>
 
-          {crewAlbumList && (
+          {crewAlbumDetail && (
             <>
               <div className={cn('menu_button')}>
                 <MoreMenuButton items={menuItems} fillColor="var(--white)" />
@@ -174,18 +182,15 @@ const CrewAlbumListPage = () => {
               <div className={cn('profile')}>
                 <img
                   className={cn('profile_image')}
-                  src={crewAlbumList[currentIndex].crewMember.member.saveImg}
+                  src={crewAlbumDetail.crewMember.member.saveImg}
                   alt="profile"
                 />
                 <div className={cn('profile_info')}>
                   <span className={cn('name')}>
-                    {crewAlbumList[currentIndex].crewMember.member.nickname}
+                    {crewAlbumDetail.crewMember.member.nickname}
                   </span>
                   <span className={cn('date')}>
-                    {formatDate(
-                      DateType.DATE_TIME,
-                      crewAlbumList[currentIndex].createDate,
-                    )}
+                    {formatDate(DateType.DATE_TIME, crewAlbumDetail.createDate)}
                   </span>
                 </div>
               </div>
@@ -193,17 +198,13 @@ const CrewAlbumListPage = () => {
                 {isFilled ? (
                   <FilledHeartIcon
                     onClick={() =>
-                      handleLikeClick(
-                        String(crewAlbumList[currentIndex].albumId),
-                      )
+                      handleLikeClick(String(crewAlbumDetail.albumId))
                     }
                   />
                 ) : (
                   <EmptyHeartIcon
                     onClick={() =>
-                      handleLikeClick(
-                        String(crewAlbumList[currentIndex].albumId),
-                      )
+                      handleLikeClick(String(crewAlbumDetail.albumId))
                     }
                     fill="white"
                   />

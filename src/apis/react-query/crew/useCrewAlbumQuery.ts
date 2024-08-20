@@ -21,23 +21,27 @@ export const useCrewAlbumListQuery = (crewId: string, page: string = '0') => {
 
 // 사진첩 상세 조회
 export const useCrewAlbumDetailQuery = (crewId: string, albumId: string) => {
-  const { data, isLoading, error } = useQuery({
+  const { data, isLoading, error, isSuccess } = useQuery({
     queryKey: crewAlbumQueryKey.crewAlbumDetail(crewId, albumId),
     queryFn: () => GetAlbumDetailAPI(crewId, albumId),
     select: (response) => response.data,
     enabled: !!crewId && !!albumId,
   });
 
-  return { data, isLoading, error };
+  return { data, isLoading, error, isSuccess };
 };
 
 // 사진첩 좋아요 조회
-export const useCrewAlbumLikeQuery = (crewId: string, albumId: string) => {
+export const useCrewAlbumLikeQuery = (
+  crewId: string,
+  albumId: string,
+  success?: boolean,
+) => {
   const { data, isLoading, error } = useQuery({
     queryKey: crewAlbumQueryKey.crewAlbumLike(crewId, albumId),
     queryFn: () => GetAlbumLikeAPI(crewId, albumId),
     select: (response) => response.data,
-    enabled: !!crewId && !!albumId,
+    enabled: !!crewId && !!albumId && success,
   });
 
   return { data, isLoading, error };

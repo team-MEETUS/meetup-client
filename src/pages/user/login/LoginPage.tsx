@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import classNames from 'classnames/bind';
 import { useForm, SubmitHandler } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import * as z from 'zod';
 
@@ -12,6 +13,7 @@ import CommonHeader from '@/components/header/CommonHeader';
 import styles from './LoginPage.module.scss';
 
 const LoginPage = () => {
+  const navigate = useNavigate();
   const cn = classNames.bind(styles);
   const [, setValue] = useState({ phone: '', password: '' });
   const { postLogin } = useUserMutation();
@@ -53,6 +55,14 @@ const LoginPage = () => {
     }
   };
 
+  const handleClickLink = (type = 'findPassword' || 'sign-up') => {
+    if (type === 'findPassword') {
+      toast.info('준비중인 기능입니다.');
+    } else if (type === 'sign-up') {
+      navigate(`/user/sign-up`);
+    }
+  };
+
   const handleClickSocial = (type = 'kakao' || 'naver') => {
     toast.info(`${type} 로그인은 준비 중인 기능입니다.`);
     // navigate(`/login/${type}`);
@@ -61,7 +71,7 @@ const LoginPage = () => {
   return (
     <div className={cn('container')}>
       <div className={cn('header')}>
-        <CommonHeader title="로그인" />
+        <CommonHeader title="로그인" onBackClick={() => navigate('/')} />
       </div>
 
       {/* 로고 */}
@@ -116,12 +126,18 @@ const LoginPage = () => {
 
         {/* 비밀번호 찾기 및 회원가입 */}
         <div className={cn('links_container')}>
-          <a href="/forgot-password" className={cn('link')}>
+          <button
+            onClick={() => handleClickLink('findPassword')}
+            className={cn('link')}
+          >
             비밀번호 찾기
-          </a>
-          <a href="/sign-up" className={cn('link')}>
+          </button>
+          <button
+            onClick={() => handleClickLink('sign-up')}
+            className={cn('link')}
+          >
             회원가입
-          </a>
+          </button>
         </div>
 
         {/* 소셜 로그인 아이콘 */}

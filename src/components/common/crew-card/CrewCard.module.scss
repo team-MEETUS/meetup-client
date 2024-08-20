@@ -1,0 +1,52 @@
+.crew_item {
+  display: flex;
+  width: 100%;
+  gap: 10px;
+
+  .crew_image {
+    width: 60px;
+    height: 60px;
+
+    img {
+      width: 100%;
+      height: 100%;
+      border-radius: 8px;
+    }
+  }
+
+  .crew_info {
+    display: flex;
+    flex-direction: column;
+    align-items: baseline;
+    justify-content: center;
+    gap: 5px;
+
+    .crew_name {
+      @include Bold-03;
+    }
+
+    .crew_intro {
+      @include Regular-04;
+      color: var(--gray-600);
+      max-width: 250px;
+      white-space: nowrap; // 한 줄로 유지
+      overflow: hidden; // 넘치는 내용 숨기기
+      text-overflow: ellipsis;
+    }
+
+    .crew_data {
+      @include Regular-04;
+      color: var(--gray-600);
+      display: flex;
+      gap: 5px;
+      align-items: center;
+
+      .crew_label {
+        background-color: var(--gray-200);
+        color: var(--gray-700);
+        padding: 4px;
+        border-radius: 8px;
+      }
+    }
+  }
+}

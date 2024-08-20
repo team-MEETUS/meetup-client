@@ -7,12 +7,13 @@ import { GetBoardCommentAPI } from '@/apis/server/crew/crewBoardCommentAPI';
 export const useCrewBoardCommentListQuery = (
   crewId: string,
   boardId: string,
+  success?: boolean,
 ) => {
   const { data, isLoading, error } = useQuery({
     queryKey: crewBoardCommentQueryKey.crewBoardCommentList(crewId, boardId),
     queryFn: () => GetBoardCommentAPI(crewId, boardId),
     select: (response) => response.data,
-    enabled: !!crewId && !!boardId,
+    enabled: !!crewId && !!boardId && success,
   });
 
   return { data, isLoading, error };

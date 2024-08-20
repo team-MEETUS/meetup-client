@@ -20,12 +20,12 @@ export const useCrewBoardListQuery = (crewId: string, category?: string) => {
 
 // 게시글 상세 조회
 export const useCrewBoardDetailQuery = (crewId: string, boardId: string) => {
-  const { data, isLoading, error } = useQuery({
+  const { data, isLoading, error, isSuccess } = useQuery({
     queryKey: crewBoardQueryKey.crewBoardDetail(crewId, boardId),
     queryFn: () => GetBoardDetailAPI(crewId, boardId),
     select: (response) => response.data,
     enabled: !!crewId && !!boardId,
   });
 
-  return { data, isLoading, error };
+  return { data, isLoading, error, isSuccess };
 };
