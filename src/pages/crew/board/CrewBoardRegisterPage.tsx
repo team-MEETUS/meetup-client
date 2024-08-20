@@ -94,6 +94,16 @@ const CrewBoardRegister = () => {
       category,
     };
 
+    if (!title.trim()) {
+      toast.error('제목은 필수 입력사항입니다.');
+      return;
+    }
+
+    if (!body.content.trim()) {
+      toast.error('본문은 필수 입력사항입니다.');
+      return;
+    }
+
     if (boardId) {
       // 수정 상태인 경우
       await PutUpdateBoard.mutateAsync({
@@ -118,7 +128,7 @@ const CrewBoardRegister = () => {
         editorRef.current.setContent(crewBoardDetailData.content);
       }
     }
-  }, [crewBoardDetailData]);
+  }, [crewBoardDetailData, categoryOptions]);
 
   return (
     <div className={cn('container')}>

@@ -26,7 +26,7 @@ const CrewBoardPage = () => {
 
   const state = location.state as BoardState;
   const [crewId] = useState<string>(state.crewId || '');
-  const [selectedCategory, setSelectedCategory] = useState<string>('');
+  const [selectedCategory, setSelectedCategory] = useState<string>('전체');
 
   const { data: crewBoardData } = useCrewBoardListQuery(
     crewId,
