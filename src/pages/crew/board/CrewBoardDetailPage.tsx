@@ -39,10 +39,12 @@ const CrewBoardDetailPage = () => {
   const [newComment, setNewComment] = useState<string>('');
   const [editCommentContent, setEditCommentContent] = useState<string>('');
 
-  const { data: crewBoardData } = useCrewBoardDetailQuery(crewId, boardId);
+  const { data: crewBoardData, error: crewBoardError } =
+    useCrewBoardDetailQuery(crewId, boardId);
   const { data: crewBoardCommentList } = useCrewBoardCommentListQuery(
     crewId,
     boardId,
+    !!crewBoardError,
   );
 
   const { PostDeleteBoard, PutUpdateBoardPin } = useCrewBoardMutation();
