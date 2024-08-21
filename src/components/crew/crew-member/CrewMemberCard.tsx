@@ -50,7 +50,7 @@ const CrewMemberCard = ({
                 crewId,
                 body: {
                   memberId: memberData.memberId,
-                  newRoleStatus: CrewMemberRole.MEMBER,
+                  newRoleStatus: CrewMemberRole.LEADER,
                 },
               }),
           },

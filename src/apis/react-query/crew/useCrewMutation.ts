@@ -11,6 +11,7 @@ import {
   PutUpdateCrewAPI,
   PutUpdateCrewMemberAPI,
 } from '@/apis/server/crew/crewAPI';
+import { CrewMemberRole } from '@/types/crew/crewType';
 
 export const useCrewMutation = () => {
   const navigate = useNavigate();
@@ -92,7 +93,7 @@ export const useCrewMutation = () => {
   const putUpdateCrewMember = useMutation({
     mutationFn: (params: {
       crewId: string;
-      body: { memberId: number; newRoleStatus: string };
+      body: { memberId: number; newRoleStatus: CrewMemberRole };
     }) => PutUpdateCrewMemberAPI(params.crewId, params.body),
     onSuccess: async (_, params) => {
       await queryClient.invalidateQueries({
@@ -101,7 +102,15 @@ export const useCrewMutation = () => {
       await queryClient.invalidateQueries({
         queryKey: crewQueryKey.crewMember(params.crewId, 'signup'),
       });
-      toast.success('모임 멤버 권한이 변경되었습니다.');
+      await queryClient.invalidateQueries({
+        queryKey: crewQueryKey.crewMemberRole(params.crewId),
+      });
+      if (params.body.newRoleStatus === CrewMemberRole.DEPARTED) {
+        toast.info('모임 탈퇴가 완료되었습니다.');
+        navigate('/');
+      } else {
+        toast.success('모임 멤버 권한이 변경되었습니다.');
+      }
     },
     onError: () => {},
   });
