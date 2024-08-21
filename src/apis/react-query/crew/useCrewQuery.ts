@@ -11,9 +11,9 @@ import {
 
 // 모임 목록 조회
 export const useCrewListQuery = (params: {
-  city?: string;
   interestBigId?: number;
   interestSmallId?: number;
+  page?: number;
 }) => {
   const { data, isLoading, error } = useQuery({
     queryKey: crewQueryKey.crewList(params),

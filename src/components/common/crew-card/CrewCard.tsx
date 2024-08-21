@@ -71,7 +71,7 @@ const CrewCard = ({ crew, type = 'default' }: CrewCardProps) => {
             <>
               <span>·</span>
               <div className={cn('crew_chat')}>
-                {formatLastChatTime(crew.lastChatTime)}
+                {crew.lastChatTime && formatLastChatTime(crew.lastChatTime)}
               </div>
             </>
           ) : null}

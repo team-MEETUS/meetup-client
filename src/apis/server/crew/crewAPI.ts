@@ -7,46 +7,7 @@ import {
   GetCrewMemberAPIResponseBody,
 } from '@/types/crew/crewAPIType';
 import { CrewMemberRole } from '@/types/crew/crewType';
-
-export interface GetCrewAPIResponseBody {
-  crewId: string;
-  name: string;
-  intro: string;
-  content: string;
-  max: number;
-  originalImg: string;
-  saveImg: string;
-  totalMember: number;
-  totalLike: number;
-  createDate: string;
-  updateDate: string;
-
-  geo: {
-    geoId: number;
-    city: string;
-    district: string;
-    county: string;
-    latitude: string;
-    longitude: string;
-  };
-
-  interestBig: {
-    interestBigId: number;
-    name: string;
-    icon: string;
-  };
-
-  interestSmall: {
-    interestSmallId: number;
-    name: string;
-
-    interestBig: {
-      interestBigId: number;
-      name: string;
-      icon: string;
-    };
-  };
-}
+import { CrewSelectRespDto } from '@/types/home/homeAPIType';
 
 interface PostAddCrewAPI {
   name: string;
@@ -80,8 +41,8 @@ const GetAllCrewAPI = async (body: {
   interestSmallId?: number;
   page?: number;
 }) => {
-  const { data } = await api.post<ApiResponse<GetAllCrewAPIResponseBody[]>>(
-    `/crews`,
+  const { data } = await api.post<ApiResponse<CrewSelectRespDto[]>>(
+    `/crews/interests`,
     body,
   );
 

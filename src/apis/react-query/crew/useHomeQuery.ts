@@ -5,6 +5,7 @@ import {
   GetActiveCrewListAPI,
   GetMyCrewListAPI,
   GetNewCrewListAPI,
+  GetNotificationAPI,
   GetSearchCrewAPI,
 } from '@/apis/server/home/homeAPI';
 
@@ -43,6 +44,17 @@ export const useMyCrewListQuery = () => {
     queryKey: homeQueryKey.myCrewList(),
     queryFn: () => GetMyCrewListAPI(),
     select: (response) => response.data,
+  });
+
+  return { data, isLoading, error };
+};
+
+export const useNotificationListQuery = (success: boolean) => {
+  const { data, isLoading, error } = useQuery({
+    queryKey: homeQueryKey.notificationList(),
+    queryFn: () => GetNotificationAPI(),
+    select: (response) => response.data,
+    enabled: success,
   });
 
   return { data, isLoading, error };

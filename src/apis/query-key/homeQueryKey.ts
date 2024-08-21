@@ -7,4 +7,5 @@ export default {
     page,
   ],
   myCrewList: () => [`/crews/me`],
+  notificationList: () => [`/notifications`],
 };
