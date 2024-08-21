@@ -1,11 +1,10 @@
-import { useEffect, useRef, useState, useCallback } from 'react';
+import { useEffect, useRef, useState, useCallback, useMemo } from "react";
 
 import { useNavigate, useParams } from 'react-router-dom';
 import { Client } from '@stomp/stompjs';
 import axios from 'axios';
 import CommonHeader from '@/components/header/CommonHeader';
 import CrewNavigation from '@/components/crew/crew-navigation/CrewNavigation';
-import CrewHeader from '@/components/crew/crew-header/CrewHeader';
 
 import styles from './CrewChatPage.module.scss';
 import MoreMenuButton, {
@@ -51,8 +50,9 @@ const ChatPage = () => {
   const [isConnected, setIsConnected] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
+  const VITE_API_URL = useMemo(() => import.meta.env.VITE_API_URL, []);
   // axios 기본 설정
-  axios.defaults.baseURL = 'http://localhost:8082';
+  axios.defaults.baseURL = `${VITE_API_URL}`;
   axios.interceptors.request.use(
     (config) => {
       config.headers['Authorization'] = `Bearer ${token}`;
@@ -84,11 +84,11 @@ const ChatPage = () => {
 
       if (receiverId) {
         params.receiverId = receiverId; // receiverId가 있을 경우에만 추가
-        response = await axios.get(`/api/v1/crews/${crewId}/chats`, {
+        response = await axios.get(`/crews/${crewId}/chats`, {
           params,
         });
       } else {
-        response = await axios.get(`/api/v1/crews/${crewId}/chats`);
+        response = await axios.get(`/crews/${crewId}/chats`);
       }
 
       if (Array.isArray(response.data)) {
@@ -107,11 +107,12 @@ const ChatPage = () => {
     }
   };
 
+  const VITE_API_WS_URL = useMemo(() => import.meta.env.VITE_API_WS_URL, []);
   // 소켓 연결
   const connect = () => {
     console.log('connect start');
     clientRef.current = new Client({
-      brokerURL: 'ws://localhost:8082/ws', // WebSocket URL should use `ws://` or `wss://` scheme
+      brokerURL: `${VITE_API_WS_URL}`,
       connectHeaders: {
         Authorization: `Bearer ${token}`,
       },
@@ -275,8 +276,8 @@ const ChatPage = () => {
 
   return (
     <div className={styles.container}>
-      <div>
-        <CrewHeader
+      <div className={styles.header}>
+        <CommonHeader
           title="채팅"
           crewId={crewId}
           onClick={() => navigate('/')}
