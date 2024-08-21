@@ -27,8 +27,17 @@ const NotificationButton = ({
   };
 
   const handleClickMessage = (url: string) => {
-    navigate(url);
+    const parts = url.split('/').filter((part) => part);
+    const crewId = parts[1];
+    const boardId = parts[3] || null;
+
+    parts.length === 3
+      ? navigate(`${parts[0]}/${parts[1]}/${parts[2]}`, { state: { crewId } })
+      : navigate(`${parts[0]}/${parts[1]}/${parts[2]}/${parts[3]}`, {
+          state: { crewId, boardId },
+        });
   };
+
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
