@@ -25,11 +25,17 @@ export const enum NotificationType {
 }
 
 export interface GetNotificationResponseBody {
-  notificationCount: number;
-  addComment: {
-    notificationId: string;
-    message: string;
-    type: NotificationType;
-    url: string;
-  };
+  notificationId: number;
+  message: string;
+  url: string;
+  type: NotificationType;
+  createDate: string;
+}
+
+export interface GetSubscribedNotificationResponseBody {
+  notificationId?: string;
+  message?: string;
+  url?: string;
+  type?: NotificationType;
+  notificationCount?: number;
 }

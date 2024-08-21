@@ -1,6 +1,11 @@
+import { HttpStatusCode } from 'axios';
+
 import api from '@/apis';
 import { ApiResponse } from '@/apis/server/type';
-import { CrewSelectRespDto } from '@/types/home/homeAPIType';
+import {
+  CrewSelectRespDto,
+  GetNotificationResponseBody,
+} from '@/types/home/homeAPIType';
 
 /**
  * @description 홈 새로 생긴 모임 조회
@@ -49,6 +54,21 @@ export const GetSearchCrewAPI = async (keyword: string, page: string = '1') => {
  */
 export const GetMyCrewListAPI = async () => {
   const { data } = await api.get<ApiResponse<CrewSelectRespDto[]>>(`/crews/me`);
+
+  return data;
+};
+
+export const GetNotificationAPI = async () => {
+  const { data } =
+    await api.get<ApiResponse<GetNotificationResponseBody[]>>('/notifications');
+
+  return data;
+};
+
+export const PutNotificationReadAPI = async (notificationId: string) => {
+  const { data } = await api.put<ApiResponse<HttpStatusCode>>(
+    `/notifications/${notificationId}`,
+  );
 
   return data;
 };
