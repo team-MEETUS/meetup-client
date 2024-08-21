@@ -17,7 +17,7 @@ export interface CrewSelectRespDto {
     interestBigId: number;
     name: string;
   };
-  lastChatTime: string;
+  lastChatTime?: string;
 }
 
 export const enum NotificationType {
