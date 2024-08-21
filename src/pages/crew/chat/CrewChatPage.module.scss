@@ -1,0 +1,155 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  height: 100vh;
+
+  .errorMessage {
+    color: red;
+    margin-bottom: 10px;
+  }
+
+  .messageList {
+    margin-bottom: 10px;
+
+    .dateSeparator {
+      @include Regular-04;
+      color: white;
+      background-color: var(--gray-300);
+      padding: 5px 0;
+      margin: 0 auto;
+      max-width: 220px;
+      border-radius: 20px;
+    }
+
+    .message_left {
+      margin: 5px 0;
+      padding: 10px 20px;
+      display: flex;
+      align-items: center; /* 수평 정렬을 위해 중앙 정렬 */
+      text-align: left; /* 기본 텍스트 정렬 */
+      max-width: 80%;
+
+      .contentWithDate_left {
+        display: flex; /* 수평 정렬 */
+        width: 100%; /* 전체 너비 사용 */
+      }
+
+      .contentWithDate_right {
+        display: none;
+      }
+
+      .sender {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        object-fit: cover;
+        //margin-right: 10px; /* 이미지와 텍스트 간의 간격 */
+      }
+
+      .messageContent {
+        display: flex;
+        flex-direction: column; /* 세로 방향으로 정렬 */
+        margin-left: 10px; /* 이미지와 내용 간의 간격 */
+
+        .nickname {
+          @include Bold-04;
+          margin-bottom: 3px; /* 닉네임과 내용 간의 간격 */
+          margin-left: 3px;
+        }
+
+        .bubble {
+          @include Regular-04;
+          background-color: var(--gray-200); /* 말풍선 배경색 */
+          border-radius: 15px; /* 모서리 둥글기 */
+          padding: 10px 15px; /* 내부 여백 */
+          position: relative; /* 포지션 설정 */
+          //min-width: 50%;
+          max-width: 70%; /* 최대 너비 설정 */
+          word-wrap: break-word; /* 긴 단어 줄바꿈 */
+        }
+
+        .date {
+          @include Light-05;
+          color: var(--gray-400); /* 날짜 색상 조정 */
+          margin-left: 10px; /* 날짜와 내용 간의 간격 */
+          align-self: end; /* 수직 중앙 정렬 */
+        }
+      }
+    }
+
+    .message_right {
+      margin-left: auto;
+      padding: 10px 20px;
+      display: flex;
+      align-items: center; /* 수평 정렬을 위해 중앙 정렬 */
+      justify-content: flex-end;
+      text-align: left; /* 기본 텍스트 정렬 */
+      max-width: 80%;
+
+      .contentWithDate_left {
+        display: none;
+      }
+
+      .contentWithDate_right {
+        display: flex; /* 수평 정렬 */
+        width: 100%; /* 전체 너비 사용 */
+        justify-content: flex-end;
+      }
+
+      .sender {
+        display: none;
+      }
+
+      .messageContent {
+        display: flex;
+        flex-direction: column; /* 세로 방향으로 정렬 */
+        margin-left: 10px; /* 이미지와 내용 간의 간격 */
+
+        .nickname {
+          display: none;
+        }
+
+        .bubble {
+          @include Regular-04;
+          background-color: var(--blue-100); /* 말풍선 배경색 */
+          border-radius: 15px; /* 모서리 둥글기 */
+          padding: 10px 15px; /* 내부 여백 */
+          position: relative; /* 포지션 설정 */
+          //min-width: 50%;
+          max-width: 70%; /* 최대 너비 설정 */
+          word-wrap: break-word; /* 긴 단어 줄바꿈 */
+        }
+
+        .date {
+          @include Light-05;
+          color: var(--gray-400); /* 날짜 색상 조정 */
+          margin-right: 10px; /* 날짜와 내용 간의 간격 */
+          align-self: end; /* 수직 중앙 정렬 */
+        }
+      }
+    }
+  }
+
+  .input_container {
+    display: flex;
+    margin: 0 20px 10px 20px;
+  }
+
+  .input {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+  }
+
+  .sendButton {
+    padding: 10px 15px;
+    margin-left: 10px;
+    background-color: var(--blue-500);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+}
