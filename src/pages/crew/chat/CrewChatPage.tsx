@@ -1,4 +1,5 @@
-import { useEffect, useRef, useState, useCallback, useMemo } from "react";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { useEffect, useRef, useState, useCallback, useMemo } from 'react';
 
 import { useNavigate, useParams } from 'react-router-dom';
 import { Client } from '@stomp/stompjs';
@@ -7,9 +8,6 @@ import CommonHeader from '@/components/header/CommonHeader';
 import CrewNavigation from '@/components/crew/crew-navigation/CrewNavigation';
 
 import styles from './CrewChatPage.module.scss';
-import MoreMenuButton, {
-  MenuItem,
-} from '@/components/common/more-button/MoreButton';
 import UserImageIcon from '@/components/common/user-imageIcon/UserImageIcon';
 
 interface ChatRespDto {
