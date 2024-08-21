@@ -48,7 +48,7 @@ const CrewInterestBigPage = () => {
   return (
     <div className={cn('container')}>
       <div className={cn('header')}>
-        <CommonHeader title={name} onBackClick={handleClickBack} />
+        {name && <CommonHeader title={name} onBackClick={handleClickBack} />}
       </div>
 
       {/* 상세 관심사 선택 */}
@@ -79,12 +79,15 @@ const CrewInterestBigPage = () => {
 
       {/* 관심사 별 모임 */}
       <div className={cn('crew_list')}>
-        {interestData &&
+        {interestData && interestData.length > 0 ? (
           interestData.map((crew) => (
             <div key={crew.crewId}>
               <CrewCard crew={crew} />
             </div>
-          ))}
+          ))
+        ) : (
+          <span>결과가 없습니다.</span>
+        )}
       </div>
 
       {/* 모임 등록 버튼 */}

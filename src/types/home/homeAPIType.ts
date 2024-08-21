@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 export interface CrewSelectRespDto {
   crewId: number;
   name: string;
@@ -16,5 +17,19 @@ export interface CrewSelectRespDto {
     interestBigId: number;
     name: string;
   };
-  lastChatTime: string;
+  lastChatTime?: string;
+}
+
+export const enum NotificationType {
+  COMMENT = 'COMMENT',
+}
+
+export interface GetNotificationResponseBody {
+  notificationCount: number;
+  addComment: {
+    notificationId: string;
+    message: string;
+    type: NotificationType;
+    url: string;
+  };
 }
