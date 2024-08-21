@@ -8,7 +8,7 @@ import CommonHeader from '@/components/header/CommonHeader';
 
 import styles from './CrewInterestBigPage.module.scss';
 
-const HomePage = () => {
+const CrewInterestBigPage = () => {
   const cn = classNames.bind(styles);
   const navigate = useNavigate();
   const location = useLocation();
@@ -53,4 +53,4 @@ const HomePage = () => {
   );
 };
 
-export default HomePage;
+export default CrewInterestBigPage;
