@@ -2,11 +2,16 @@ import { useEffect, useRef, useState, useCallback } from 'react';
 
 import { Client } from '@stomp/stompjs';
 import axios from 'axios';
+<<<<<<< HEAD
 import { useNavigate, useParams } from 'react-router-dom';
 
 import CommonHeader from '@/components/header/CommonHeader';
 
 import styles from './CrewChatPage.module.scss';
+=======
+import CrewNavigation from '@/components/crew/crew-navigation/CrewNavigation';
+import CrewHeader from '@/components/crew/crew-header/CrewHeader';
+>>>>>>> e03c65eb17c6e21340deb42c3d0290c8bc72daa2
 
 interface ChatRespDto {
   data: {
