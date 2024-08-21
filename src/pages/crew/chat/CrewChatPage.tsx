@@ -4,6 +4,8 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { Client } from '@stomp/stompjs';
 import CommonHeader from '@/components/header/CommonHeader';
 import axios from 'axios';
+import CrewNavigation from '@/components/crew/crew-navigation/CrewNavigation';
+import CrewHeader from '@/components/crew/crew-header/CrewHeader';
 
 interface ChatRespDto {
   data: {
@@ -184,7 +186,14 @@ const ChatPage = () => {
 
   return (
     <div>
-      <CommonHeader title="채팅" onBackClick={() => backIconClick()} />
+      <div>
+        <CrewHeader
+          title="채팅"
+          crewId={crewId}
+          onClick={() => navigate('/')}
+        />
+        <CrewNavigation id={crewId} />
+      </div>
       {error && <div style={{ color: 'red' }}>{error}</div>}
       {messages && messages.length > 0 ? (
         <div style={{ marginBottom: '10px' }}>
