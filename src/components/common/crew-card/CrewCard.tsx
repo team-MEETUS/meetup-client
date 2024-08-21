@@ -18,10 +18,13 @@ const CrewCard = ({ crew, type = 'default' }: CrewCardProps) => {
     navigate(`/crew/${crewId}/home`, { state: { crewId: crewId } });
   };
 
-  // 최근 대화 시간 포맷
   const formatLastChatTime = (lastChatTime: string) => {
     const now = new Date();
-    const lastChatDate = new Date(lastChatTime);
+    const lastChatDate = new Date(
+      new Date(lastChatTime).toLocaleString('en-US', {
+        timeZone: 'Asia/Seoul',
+      }),
+    );
     const diff = now.getTime() - lastChatDate.getTime();
 
     const minutes = Math.floor(diff / (1000 * 60));

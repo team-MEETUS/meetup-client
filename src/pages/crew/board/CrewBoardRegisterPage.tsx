@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { useMemo } from 'react';
 
 import { Editor } from '@tinymce/tinymce-react';
 import classNames from 'classnames/bind';
@@ -22,12 +23,15 @@ const CrewBoardRegister = () => {
   const state = location.state as CrewState;
 
   // 드롭다운 옵션
-  const categoryOptions = [
-    { value: '공지', label: '공지' },
-    { value: '가입인사', label: '가입인사' },
-    { value: '모임후기', label: '모임후기' },
-    { value: '자유', label: '자유' },
-  ];
+  const categoryOptions = useMemo(
+    () => [
+      { value: '공지', label: '공지' },
+      { value: '가입인사', label: '가입인사' },
+      { value: '모임후기', label: '모임후기' },
+      { value: '자유', label: '자유' },
+    ],
+    [],
+  );
 
   const [crewId] = useState<string>(state.crewId || '');
   const [boardId] = useState<string>(state.boardId || '');
