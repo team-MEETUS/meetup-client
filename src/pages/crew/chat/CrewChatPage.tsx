@@ -135,7 +135,7 @@ const ChatPage = () => {
     if (!subscriptionRef.current) {
       setIsConnected(true);
       subscriptionRef.current = clientRef.current.subscribe(
-        '/topic/messages',
+        `/topic/messages/${crewId}`,
         onMessageReceived,
       );
     }
@@ -255,7 +255,7 @@ const ChatPage = () => {
 
   return (
     <div className={styles.container}>
-      <div>
+      <div className={styles.header}>
         <CrewHeader
           title="채팅"
           crewId={crewId}
