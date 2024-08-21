@@ -8,6 +8,10 @@ import CrewNavigation from '@/components/crew/crew-navigation/CrewNavigation';
 import CrewHeader from '@/components/crew/crew-header/CrewHeader';
 
 import styles from './CrewChatPage.module.scss';
+import MoreMenuButton, {
+  MenuItem,
+} from '@/components/common/more-button/MoreButton';
+import UserImageIcon from '@/components/common/user-imageIcon/UserImageIcon';
 
 interface ChatRespDto {
   data: {
@@ -16,6 +20,7 @@ interface ChatRespDto {
     senderId: string;
     receiverId: string;
     crewId: string;
+    crewMemberRole: string;
     member: {
       memberId: string;
       nickname: string;
@@ -135,7 +140,7 @@ const ChatPage = () => {
     if (!subscriptionRef.current) {
       setIsConnected(true);
       subscriptionRef.current = clientRef.current.subscribe(
-        '/topic/messages',
+        `/topic/messages/${crewId}`,
         onMessageReceived,
       );
     }
@@ -158,8 +163,6 @@ const ChatPage = () => {
 
   // 소켓을 통해 메시지를 전송
   const sendMessage = useCallback(() => {
-    console.log(senderId);
-
     // client.current가 존재하고 연결되었다면 메시지 전송
     if (isConnected && clientRef.current && message.trim()) {
       const chatMessage = { senderId, receiverId, message, crewId };
@@ -175,16 +178,15 @@ const ChatPage = () => {
     }
   }, [isConnected, message, senderId, receiverId, crewId]);
 
-  const backIconClick = () => {
-    sessionStorage.clear();
-    navigate(-1);
-  };
-
   const disconnect = () => {
     if (clientRef.current) {
       clientRef.current.deactivate();
     }
     setIsConnected(false);
+  };
+
+  const memberModal = () => {
+    console.log('hi');
   };
 
   // 메시지의 시간을 "HH:MM" 형식으로 변환하는 함수
@@ -202,6 +204,26 @@ const ChatPage = () => {
     let lastDate = null;
 
     return messages.map((msg, idx) => {
+      const memberRole = msg.data.crewMemberRole;
+      const menuItem: MenuItem[] = [
+        {
+          label: '1:1 메시지',
+          onClick: () => {},
+        },
+      ];
+
+      // 조건에 따라 관리자나 리더에게만 추가되는 메뉴 항목
+      if (memberRole === 'LEADER' || memberRole === 'ADMIN') {
+        menuItem.push({
+          label: `${msg.data.member.nickname} ${memberRole}`,
+          onClick: () => {
+            navigate(`/profile`, {
+              state: { crewId },
+            });
+          },
+        });
+      }
+
       const messageDate = new Date(msg.data.createDate);
       const messageDateString = messageDate.toLocaleDateString(); // "YYYY-MM-DD" 형식
       const messageDateDisplay = messageDate.toLocaleDateString('ko-KR', {
@@ -218,18 +240,16 @@ const ChatPage = () => {
       return (
         <div key={idx}>
           {showDate && (
-            <div className={styles.dateSeparator}>
-              {messageDateDisplay}
-            </div>
+            <div className={styles.dateSeparator}>{messageDateDisplay}</div>
           )}
           <div
-            className={msg.data.member.memberId != myMemberId ? styles.message_left : styles.message_right}
+            className={
+              msg.data.member.memberId != myMemberId
+                ? styles.message_left
+                : styles.message_right
+            }
           >
-            <img
-              className={styles.sender}
-              src={msg.data.member.saveImg}
-              alt={'회원 이미지'}
-            />
+            <UserImageIcon items={menuItem} image={msg.data.member.saveImg} />
             <div className={styles.messageContent}>
               <span className={styles.nickname}>
                 {msg.data.member.nickname}
@@ -259,15 +279,13 @@ const ChatPage = () => {
         <CrewHeader
           title="채팅"
           crewId={crewId}
-          onClick={() => navigate("/")}
+          onClick={() => navigate('/')}
         />
         <CrewNavigation id={crewId} />
       </div>
       {error && <div className={styles.errorMessage}>{error}</div>}
       {messages && messages.length > 0 ? (
-        <div className={styles.messageList}>
-          {renderMessages()}
-        </div>
+        <div className={styles.messageList}>{renderMessages()}</div>
       ) : (
         <div>아직 채팅이 없습니다.</div>
       )}
