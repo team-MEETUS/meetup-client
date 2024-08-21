@@ -81,7 +81,7 @@ const GetAllCrewAPI = async (body: {
   page?: number;
 }) => {
   const { data } = await api.post<ApiResponse<GetAllCrewAPIResponseBody[]>>(
-    `/crews`,
+    `/crews/interests`,
     body,
   );
 

@@ -3,6 +3,7 @@ import { CrewMemberRole } from '@/types/crew/crewType';
 export interface GetAllCrewAPIResponseBody {
   crewId: string;
   name: string;
+  intro: string;
   content: string;
   max: number;
   originalImg: string;
