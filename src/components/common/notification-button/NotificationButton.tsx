@@ -76,7 +76,7 @@ const NotificationButton = ({
               </div>
             ))
           ) : (
-            <div className={cn('no_notification')}>No notifications</div>
+            <div className={cn('no_notification')}>알림이 없습니다.</div>
           )}
         </div>
       )}
