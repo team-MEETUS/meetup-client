@@ -76,7 +76,7 @@ const ProfilePage = () => {
   return (
     <div className={cn('container')}>
       <div className={styles.header}>
-        <HomeHeader />
+        <HomeHeader type="profile" />
         {!userInfo ? null : (
           <div className={cn('menu_button')}>
             <MoreMenuButton items={menuItems} />

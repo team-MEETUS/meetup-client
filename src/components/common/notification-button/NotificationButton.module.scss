@@ -1,0 +1,47 @@
+.container {
+  .notification_button {
+    position: relative;
+    .notification_total {
+      @include Light-06;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      width: 20px;
+      height: 20px;
+      background-color: var(--red);
+      color: var(--white);
+      position: absolute;
+      border-radius: 50%;
+      top: -7px;
+      right: -7px;
+      z-index: 1000;
+    }
+  }
+
+  .notification_list {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    width: 300px;
+    max-height: 400px;
+    overflow-y: auto;
+    background-color: white;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    padding: 10px;
+    z-index: 1000;
+  }
+
+  .notification_item {
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+    cursor: pointer;
+  }
+
+  .no_notification {
+    padding: 10px;
+    text-align: center;
+    color: #999;
+  }
+}
