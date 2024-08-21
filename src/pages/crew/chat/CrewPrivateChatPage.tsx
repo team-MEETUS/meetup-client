@@ -25,28 +25,19 @@ interface ChatRespDto {
   };
 }
 
-const ChatPage = () => {
+const CrewPrivateChatPage = () => {
   const navigate = useNavigate();
-  const param = useParams();
-  const crewId = param.crewId;
-  const [selectedReceiverId, setSelectedReceiverId] = useState<string | null>(
-    null,
-  );
+  const { crewId, receiverId } = useParams();
+  const [messages, setMessages] = useState<ChatRespDto[] | null>([]);
+  const [message, setMessage] = useState<string>('');
+  const [isConnected, setIsConnected] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
+
   const senderId = localStorage.getItem('MEMBER_ID');
   const token = sessionStorage.getItem('ACCESS_TOKEN');
 
   const clientRef: React.MutableRefObject<null> = useRef(null);
   const subscriptionRef: React.MutableRefObject<null> = useRef(null);
-
-  const [menuVisibility, setMenuVisibility] = useState<{
-    [key: string]: boolean;
-  }>({});
-  const menuRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
-
-  const [messages, setMessages] = useState<ChatRespDto[] | null>([]);
-  const [message, setMessage] = useState<string>('');
-  const [isConnected, setIsConnected] = useState<boolean>(false);
-  const [error, setError] = useState<string | null>(null);
 
   const VITE_API_URL = useMemo(() => import.meta.env.VITE_API_URL, []);
   axios.defaults.baseURL = `${VITE_API_URL}`;
@@ -61,8 +52,10 @@ const ChatPage = () => {
   );
 
   useEffect(() => {
-    fetchMessages();
-    connect();
+    if (receiverId && crewId) {
+      fetchMessages();
+      connect();
+    }
     return () => {
       disconnect();
       if (subscriptionRef.current) {
@@ -70,12 +63,14 @@ const ChatPage = () => {
         subscriptionRef.current = null;
       }
     };
-  }, [crewId]);
+  }, [receiverId, crewId]);
 
   const fetchMessages = async () => {
     let response: any;
     try {
-      response = await axios.get(`/crews/${crewId}/chats`);
+      response = await axios.get(`/crews/${crewId}/chats`, {
+        params: { receiverId },
+      });
       if (Array.isArray(response.data)) {
         const validMessages = response.data.filter(
           (msg) =>
@@ -146,12 +141,7 @@ const ChatPage = () => {
 
   const sendMessage = useCallback(() => {
     if (isConnected && clientRef.current && message.trim()) {
-      const chatMessage = {
-        senderId,
-        receiverId: selectedReceiverId,
-        message,
-        crewId,
-      };
+      const chatMessage = { senderId, receiverId, message, crewId };
       clientRef.current.publish({
         destination: `/app/send/${crewId}`,
         body: JSON.stringify(chatMessage),
@@ -162,7 +152,7 @@ const ChatPage = () => {
         '클라이언트가 연결되어 있지 않거나 메시지가 비어 있습니다.',
       );
     }
-  }, [isConnected, message, senderId, selectedReceiverId, crewId]);
+  }, [isConnected, message, senderId, receiverId, crewId]);
 
   const disconnect = () => {
     if (clientRef.current) {
@@ -170,34 +160,6 @@ const ChatPage = () => {
     }
     setIsConnected(false);
   };
-
-  const toggleMenu = (messageId: string) => {
-    setMenuVisibility((prev) => ({
-      ...prev,
-      [messageId]: !prev[messageId],
-    }));
-  };
-
-  const handleClickOutside = (event: MouseEvent) => {
-    Object.keys(menuRefs.current).forEach((messageId) => {
-      if (
-        menuRefs.current[messageId] &&
-        !menuRefs.current[messageId].contains(event.target as Node)
-      ) {
-        setMenuVisibility((prev) => ({
-          ...prev,
-          [messageId]: false,
-        }));
-      }
-    });
-  };
-
-  useEffect(() => {
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, []);
 
   const formatTime = (dateString) => {
     const date = new Date(dateString);
@@ -208,43 +170,12 @@ const ChatPage = () => {
 
   const myMemberId = localStorage.getItem('MEMBER_ID');
 
-  const handlePrivateMessage = (receiverId: string) => {
-    navigate(`/crew/${crewId}/chat/${receiverId}`);
-  };
-
   const renderMessages = () => {
     let lastDate = null;
 
     return messages.map((msg, idx) => {
-      const isVisible = menuVisibility[msg.data.id];
-      const memberRole = msg.data.crewMemberRole;
-      const menuItem: MenuItem[] = [
-        {
-          label: '1:1 메시지',
-          onClick: () => handlePrivateMessage(msg.data.member.memberId),
-        },
-      ];
-
-      if (memberRole === 'LEADER' || memberRole === 'ADMIN') {
-        menuItem.push({
-          label: `${msg.data.member.nickname} ${memberRole}`,
-          onClick: () => {
-            navigate(`/profile`, {
-              state: { crewId },
-            });
-          },
-        });
-      }
-
       const messageDate = new Date(msg.data.createDate);
       const messageDateString = messageDate.toLocaleDateString();
-      const messageDateDisplay = messageDate.toLocaleDateString('ko-KR', {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
-        weekday: 'long',
-      });
-
       const showDate = lastDate !== messageDateString;
       lastDate = messageDateString;
 
@@ -264,36 +195,7 @@ const ChatPage = () => {
               src={msg.data.member.saveImg}
               alt=""
               className={styles.sender}
-              onClick={() => toggleMenu(msg.data.id)}
             />
-            {isVisible && (
-              <div
-                className={styles.menu}
-                ref={(el) => (menuRefs.current[msg.data.id] = el)}
-              >
-                <ul>
-                  {msg.data.crewMemberRole === 'LEADER' ||
-                  msg.data.crewMemberRole === 'ADMIN' ? (
-                    <>
-                      <li
-                        onClick={() =>
-                          handlePrivateMessage(msg.data.member.memberId)
-                        }
-                      >
-                        1:1 메시지
-                      </li>
-                      <li onClick={() => console.log('프로필 보기')}>
-                        프로필 보기
-                      </li>
-                    </>
-                  ) : (
-                    <li onClick={() => console.log('프로필 보기')}>
-                      프로필 보기
-                    </li>
-                  )}
-                </ul>
-              </div>
-            )}
             <div className={styles.messageContent}>
               <span className={styles.nickname}>
                 {msg.data.member.nickname}
@@ -321,9 +223,9 @@ const ChatPage = () => {
     <div className={styles.container}>
       <div className={styles.header}>
         <CommonHeader
-          title="채팅"
+          title="1:1 채팅"
           crewId={crewId}
-          onClick={() => navigate('/')}
+          onClick={() => navigate(`/crew/${crewId}`)}
         />
         <CrewNavigation id={crewId} />
       </div>
@@ -353,4 +255,4 @@ const ChatPage = () => {
   );
 };
 
-export default ChatPage;
+export default CrewPrivateChatPage;
