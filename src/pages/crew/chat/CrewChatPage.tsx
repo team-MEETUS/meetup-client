@@ -186,14 +186,70 @@ const ChatPage = () => {
     setIsConnected(false);
   };
 
-  const formatDate = (dateString) => {
+  // 메시지의 시간을 "HH:MM" 형식으로 변환하는 함수
+  const formatTime = (dateString) => {
     const date = new Date(dateString);
-    const hours = date.getHours();
-    const minutes = date.getMinutes();
-    const period = hours >= 12 ? '오후' : '오전';
-    const formattedHours = hours % 12 || 12; // 12시간 형식으로 변환
-    const formattedMinutes = minutes < 10 ? `0${minutes}` : minutes; // 분이 한 자리 수일 경우 0 추가
-    return `${period} ${formattedHours}:${formattedMinutes}`;
+    const hours = String(date.getHours()).padStart(2, '0');
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+    return `${hours}:${minutes}`;
+  };
+
+  const myMemberId = localStorage.getItem('MEMBER_ID');
+
+  // 메시지의 날짜를 확인하고, 날짜가 바뀌었을 때만 표시하는 함수
+  const renderMessages = () => {
+    let lastDate = null;
+
+    return messages.map((msg, idx) => {
+      const messageDate = new Date(msg.data.createDate);
+      const messageDateString = messageDate.toLocaleDateString(); // "YYYY-MM-DD" 형식
+      const messageDateDisplay = messageDate.toLocaleDateString('ko-KR', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        weekday: 'long',
+      });
+
+      // 날짜가 바뀌었는지 확인
+      const showDate = lastDate !== messageDateString;
+      lastDate = messageDateString;
+
+      return (
+        <div key={idx}>
+          {showDate && (
+            <div className={styles.dateSeparator}>
+              {messageDateDisplay}
+            </div>
+          )}
+          <div
+            className={msg.data.member.memberId != myMemberId ? styles.message_left : styles.message_right}
+          >
+            <img
+              className={styles.sender}
+              src={msg.data.member.saveImg}
+              alt={'회원 이미지'}
+            />
+            <div className={styles.messageContent}>
+              <span className={styles.nickname}>
+                {msg.data.member.nickname}
+              </span>
+              <div className={styles.contentWithDate_left}>
+                <span className={styles.bubble}>{msg.data.message}</span>
+                <span className={styles.date}>
+                  {formatTime(msg.data.createDate)}
+                </span>
+              </div>
+              <div className={styles.contentWithDate_right}>
+                <span className={styles.date}>
+                  {formatTime(msg.data.createDate)}
+                </span>
+                <span className={styles.bubble}>{msg.data.message}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      );
+    });
   };
 
   return (
@@ -202,32 +258,7 @@ const ChatPage = () => {
       {error && <div className={styles.errorMessage}>{error}</div>}
       {messages && messages.length > 0 ? (
         <div className={styles.messageList}>
-          {messages.map((msg, idx) => (
-            <div
-              key={idx}
-              className={styles.message}
-              style={{
-                textAlign: msg.data.senderId === senderId ? 'right' : 'left',
-              }}
-            >
-              <img
-                className={styles.sender}
-                src={msg.data.member.saveImg}
-                alt={'회원 이미지'}
-              />
-              <div className={styles.messageContent}>
-                <span className={styles.nickname}>
-                  {msg.data.member.nickname}
-                </span>
-                <div className={styles.contentWithDate}>
-                  <span className={styles.bubble}>{msg.data.message}</span>
-                  <span className={styles.date}>
-                    {formatDate(msg.data.createDate)}
-                  </span>
-                </div>
-              </div>
-            </div>
-          ))}
+          {renderMessages()}
         </div>
       ) : (
         <div>아직 채팅이 없습니다.</div>
