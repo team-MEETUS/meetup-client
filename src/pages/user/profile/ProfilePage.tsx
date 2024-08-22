@@ -3,6 +3,7 @@ import { useState } from 'react';
 import classNames from 'classnames/bind';
 import { useNavigate } from 'react-router-dom';
 
+import CrewCard from '@/components/common/crew-card/CrewCard';
 import MoreMenuButton, {
   MenuItem,
 } from '@/components/common/more-button/MoreButton';
@@ -10,7 +11,6 @@ import HomeHeader from '@/components/header/HomeHeader';
 import useUserStore from '@/stores/user/useUserStore';
 
 import styles from './ProfilePage.module.scss';
-import CrewCard from '@/components/common/crew-card/CrewCard';
 
 interface UserInfo {
   memberId: number;
