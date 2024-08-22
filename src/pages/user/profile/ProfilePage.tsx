@@ -179,6 +179,14 @@ const ProfilePage = () => {
     ],
   ];
 
+  const formatDate = (dateString: string) => {
+    const year = dateString.substring(0, 4);
+    const month = dateString.substring(4, 6);
+    const day = dateString.substring(6, 8);
+
+    return `${year}. ${parseInt(month, 10)}. ${parseInt(day, 10)}`;
+  };
+
   return (
     <div className={cn('container')}>
       <div className={styles.header}>
@@ -197,7 +205,7 @@ const ProfilePage = () => {
           </button>
         </>
       ) : (
-        <div className={cn('container')}>
+        <div className={cn('container_body')}>
           <div className={cn('profile_item')}>
             <div className={cn('profile_image')}>
               <img src={userInfo.saveImg} alt="프로필 이미지" />
@@ -207,15 +215,13 @@ const ProfilePage = () => {
               <div className={cn('profile_data')}>
                 <div className={cn('profile_city')}>
                   {userInfo.geo.city} {userInfo.geo.district}{' '}
-                  {userInfo.geo.county}
                 </div>
                 <span>·</span>
-                <div className={cn('profile_birth')}>{userInfo.birth}</div>
+                <div className={cn('profile_birth')}>{formatDate(userInfo.birth)}</div>
               </div>
               <div className={cn('profile_intro')}>{userInfo.intro}</div>
             </div>
           </div>
-          <div>1</div>
           {/* 찜한 모임 하드코딩 */}
           <div className={styles.crew_list}>
             <h2 className={styles.crew_title}>찜한 모임</h2>
