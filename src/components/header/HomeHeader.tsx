@@ -7,6 +7,7 @@ import classNames from 'classnames/bind';
 import { EventSourcePolyfill } from 'event-source-polyfill';
 import { toast } from 'react-toastify';
 
+import homeQueryKey from '@/apis/query-key/homeQueryKey';
 import { useNotificationListQuery } from '@/apis/react-query/crew/useHomeQuery';
 import ChevronRightIcon from '@/assets/icons/ChevronRightIcon.svg?react';
 import NotificationButton from '@/components/common/notification-button/NotificationButton';
@@ -59,12 +60,14 @@ const HomeHeader = ({ type = 'default' }: HomeHeaderProps) => {
         },
       );
 
-      eventSource.addEventListener('notification', (e) => {
+      eventSource.addEventListener('notification', async (e) => {
         const data: GetSubscribedNotificationResponseBody = JSON.parse(e.data);
         if (!data.message) {
           setNotification(data.notificationCount);
           // 쿼리 무효화로 알림 목록 갱신
-          queryClient.invalidateQueries(['notificationList']);
+          await queryClient.invalidateQueries({
+            queryKey: homeQueryKey.notificationList(),
+          });
         } else {
           toast.info(sanitizeHTML(data.message));
         }
@@ -104,12 +107,10 @@ const HomeHeader = ({ type = 'default' }: HomeHeaderProps) => {
       </div>
       {type === 'profile' ? null : (
         <div className={cn('header_right')}>
-          {notificationList && (
-            <NotificationButton
-              notifications={notificationList}
-              total={notification}
-            />
-          )}
+          <NotificationButton
+            notifications={notificationList ?? []}
+            total={notification}
+          />
         </div>
       )}
     </header>
