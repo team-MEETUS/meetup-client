@@ -4,7 +4,6 @@
   flex-direction: column;
   justify-content: space-between;
   position: relative;
-  height: 100vh;
 
   .member_info {
     display: flex; /* 수평 정렬을 위해 flex 사용 */
@@ -155,7 +154,6 @@
     min-width: 340px;
     max-width: 560px;
     border-radius: 8px;
-    //margin-bottom: 10px;
   }
 
   .commentInput input {
