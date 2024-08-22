@@ -295,9 +295,20 @@ const ChatPage = () => {
               </div>
             )}
             <div className={styles.messageContent}>
-              <span className={styles.nickname}>
-                {msg.data.member.nickname}
-              </span>
+              <div className={styles.member_info}>
+                <span className={styles.nickname}>
+                  {msg.data.member.nickname}
+                </span>
+                <span className={styles.role}>
+                  {msg.data.crewMemberRole === 'LEADER'
+                    ? '모임장'
+                    : msg.data.crewMemberRole === 'ADMIN'
+                      ? '운영진'
+                      : msg.data.crewMemberRole === 'MEMBER'
+                        ? ''
+                        : msg.data.crewMemberRole}
+                </span>
+              </div>
               <div className={styles.contentWithDate_left}>
                 <span className={styles.bubble}>{msg.data.message}</span>
                 <span className={styles.date}>
