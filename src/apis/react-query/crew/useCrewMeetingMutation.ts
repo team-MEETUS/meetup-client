@@ -53,7 +53,10 @@ export const useCrewMeetingMutation = () => {
           params.meetingId,
         ),
       });
-      toast.success('모임 참여가 완료되었습니다.');
+
+      params.attend
+        ? toast.success('모임 참여가 완료되었습니다.')
+        : toast.success('모임 참여가 취소되었습니다.');
     },
     onError: () => {},
   });
