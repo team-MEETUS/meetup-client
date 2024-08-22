@@ -1,10 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useRef, useState, useCallback, useMemo } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+
 import { Client } from '@stomp/stompjs';
 import axios from 'axios';
-import CommonHeader from '@/components/header/CommonHeader';
+import { useNavigate, useParams } from 'react-router-dom';
+
 import CrewNavigation from '@/components/crew/crew-navigation/CrewNavigation';
+import CommonHeader from '@/components/header/CommonHeader';
 
 import styles from './CrewChatPage.module.scss';
 
@@ -115,10 +117,15 @@ const CrewPrivateChatPage = () => {
   };
 
   const onConnected = () => {
+    let url = `${crewId}/${senderId}/${receiverId}`;
+    if (Number(senderId) > Number(receiverId)) {
+      url = `${crewId}/${receiverId}/${senderId}`;
+    }
+
     if (!subscriptionRef.current) {
       setIsConnected(true);
       subscriptionRef.current = clientRef.current.subscribe(
-        `/topic/messages/private/${crewId}/${receiverId}`,
+        `/topic/messages/private/${url}`,
         onMessageReceived,
       );
     }
@@ -140,10 +147,15 @@ const CrewPrivateChatPage = () => {
   };
 
   const sendMessage = useCallback(() => {
+    let url = `${crewId}/${senderId}/${receiverId}`;
+    if (Number(senderId) > Number(receiverId)) {
+      url = `${crewId}/${receiverId}/${senderId}`;
+    }
+
     if (isConnected && clientRef.current && message.trim()) {
       const chatMessage = { senderId, receiverId, message, crewId };
       clientRef.current.publish({
-        destination: `/app/send/private/${crewId}/${receiverId}`,
+        destination: `/app/send/private/${url}`,
         body: JSON.stringify(chatMessage),
       });
       setMessage('');

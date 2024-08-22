@@ -1,10 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useRef, useState, useCallback, useMemo } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+
 import { Client } from '@stomp/stompjs';
 import axios from 'axios';
-import CommonHeader from '@/components/header/CommonHeader';
+import { useNavigate, useParams } from 'react-router-dom';
+
 import CrewNavigation from '@/components/crew/crew-navigation/CrewNavigation';
+import CommonHeader from '@/components/header/CommonHeader';
 
 import styles from './CrewChatPage.module.scss';
 
@@ -209,7 +211,7 @@ const ChatPage = () => {
   const myMemberId = localStorage.getItem('MEMBER_ID');
 
   const handlePrivateMessage = (receiverId: string) => {
-    navigate(`/crew/${crewId}/chat/${receiverId}`);
+    navigate(`/crew/${crewId}/chat/${senderId}/${receiverId}`);
   };
 
   const renderMessages = () => {
