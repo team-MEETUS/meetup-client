@@ -209,7 +209,7 @@ const ChatPage = () => {
   const myMemberId = localStorage.getItem('MEMBER_ID');
 
   const handlePrivateMessage = (receiverId: string) => {
-    navigate(`/crew/${crewId}/chat/${receiverId}`);
+    navigate(`/crew/${crewId}/chat/${senderId}/${receiverId}`);
   };
 
   const renderMessages = () => {

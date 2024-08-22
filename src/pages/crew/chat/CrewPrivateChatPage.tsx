@@ -115,10 +115,15 @@ const CrewPrivateChatPage = () => {
   };
 
   const onConnected = () => {
+    let url = `${crewId}/${senderId}/${receiverId}`;
+    if (Number(senderId) > Number(receiverId)) {
+      url = `${crewId}/${receiverId}/${senderId}`;
+    }
+
     if (!subscriptionRef.current) {
       setIsConnected(true);
       subscriptionRef.current = clientRef.current.subscribe(
-        `/topic/messages/private/${crewId}/${receiverId}`,
+        `/topic/messages/private/${url}`,
         onMessageReceived,
       );
     }
@@ -140,10 +145,15 @@ const CrewPrivateChatPage = () => {
   };
 
   const sendMessage = useCallback(() => {
+    let url = `${crewId}/${senderId}/${receiverId}`;
+    if (Number(senderId) > Number(receiverId)) {
+      url = `${crewId}/${receiverId}/${senderId}`;
+    }
+
     if (isConnected && clientRef.current && message.trim()) {
       const chatMessage = { senderId, receiverId, message, crewId };
       clientRef.current.publish({
-        destination: `/app/send/private/${crewId}/${receiverId}`,
+        destination: `/app/send/private/${url}`,
         body: JSON.stringify(chatMessage),
       });
       setMessage('');
