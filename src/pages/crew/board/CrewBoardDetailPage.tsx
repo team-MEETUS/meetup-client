@@ -244,13 +244,15 @@ const CrewBoardDetailPage = () => {
 
   return (
     <div className={styles.container}>
-      <CommonHeader
-        title="게시글"
-        option={<MoreMenuButton items={menuItems} />}
-        onBackClick={() =>
-          navigate(`/crew/${crewId}/board`, { state: { crewId } })
-        }
-      />
+      <div className={styles.header}>
+        <CommonHeader
+          title="게시글"
+          option={<MoreMenuButton items={menuItems} />}
+          onBackClick={() =>
+            navigate(`/crew/${crewId}/board`, { state: { crewId } })
+          }
+        />
+      </div>
       {crewBoardData && (
         <>
           <div className={styles.member_info}>
