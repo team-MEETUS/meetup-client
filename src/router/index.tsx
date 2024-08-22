@@ -266,7 +266,7 @@ const router = createBrowserRouter([
             ),
           },
           {
-            path: ':interestBig',
+            path: '',
             element: (
               <Suspense fallback={<LoadingSpinner />}>
                 <CrewInterestBigPage />

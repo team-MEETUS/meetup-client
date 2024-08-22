@@ -55,8 +55,8 @@ const HomePage = () => {
     }
   }, [isLogin, userInfoSuccess, userInfo, updateUser]);
 
-  const handleInterestClick = (interestId: number, name: string) => {
-    navigate(`/crew/interestBigId?interestId=${interestId}&name=${name}`);
+  const handleInterestClick = (interestBigId: number, name: string) => {
+    navigate(`/crew?interestBigId=${interestBigId}&name=${name}`);
   };
 
   return (
