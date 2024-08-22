@@ -118,7 +118,7 @@ const CrewPrivateChatPage = () => {
     if (!subscriptionRef.current) {
       setIsConnected(true);
       subscriptionRef.current = clientRef.current.subscribe(
-        `/topic/messages/${crewId}`,
+        `/topic/messages/private/${crewId}/${receiverId}`,
         onMessageReceived,
       );
     }
@@ -143,7 +143,7 @@ const CrewPrivateChatPage = () => {
     if (isConnected && clientRef.current && message.trim()) {
       const chatMessage = { senderId, receiverId, message, crewId };
       clientRef.current.publish({
-        destination: `/app/send/${crewId}`,
+        destination: `/app/send/private/${crewId}/${receiverId}`,
         body: JSON.stringify(chatMessage),
       });
       setMessage('');

@@ -102,7 +102,7 @@ const ChatPage = () => {
       debug: (str) => {
         console.log(str);
       },
-      reconnectDelay: 5000,
+      reconnectDelay: 60000,
       heartbeatIncoming: 4000,
       heartbeatOutgoing: 4000,
       onConnect: onConnected,
@@ -123,7 +123,7 @@ const ChatPage = () => {
     if (!subscriptionRef.current) {
       setIsConnected(true);
       subscriptionRef.current = clientRef.current.subscribe(
-        `/topic/messages/${crewId}`,
+        `/topic/messages/group/${crewId}`,
         onMessageReceived,
       );
     }
@@ -153,7 +153,7 @@ const ChatPage = () => {
         crewId,
       };
       clientRef.current.publish({
-        destination: `/app/send/${crewId}`,
+        destination: `/app/send/group/${crewId}`,
         body: JSON.stringify(chatMessage),
       });
       setMessage('');
