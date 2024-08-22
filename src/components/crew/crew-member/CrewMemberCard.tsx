@@ -32,9 +32,13 @@ const CrewMemberCard = ({
 }: CrewMemberCardProps) => {
   const cn = classNames.bind(style);
   const { putUpdateCrewMember } = useCrewMutation();
+  const myMemberId = localStorage.getItem('MEMBER_ID');
 
   // 역할에 따른 메뉴 아이템 설정
   const getMenuItems = () => {
+    // 로그인 사용자의 경우 버튼 표시를 하지않음
+    if (myMemberId === String(memberData.memberId)) return [];
+
     switch (myRole) {
       // 모임장의 경우
       case CrewMemberRole.LEADER:
@@ -122,7 +126,11 @@ const CrewMemberCard = ({
           {
             style: 'ADMIN',
             label:
-              role === CrewMemberRole.ADMIN ? '운영진 해제' : '운영진 임명',
+              role === CrewMemberRole.LEADER || role === CrewMemberRole.PENDING
+                ? ''
+                : role === CrewMemberRole.ADMIN
+                  ? '운영진 해제'
+                  : '운영진 임명',
             onClick: async () =>
               await putUpdateCrewMember.mutateAsync({
                 crewId,
