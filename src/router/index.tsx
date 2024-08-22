@@ -42,6 +42,11 @@ const CrewAlbumListPage = React.lazy(
   () => import('@/pages/crew/album/CrewAlbumListPage'),
 );
 
+const CrewChatPage = React.lazy(() => import('@/pages/crew/chat/CrewChatPage'));
+const CrewPrivateChatPage = React.lazy(
+  () => import('@/pages/crew/chat/CrewPrivateChatPage'),
+);
+
 const CrewInterestBigPage = React.lazy(
   () => import('@/pages/crew/crew-interest/CrewInterestBigPage'),
 );
@@ -178,7 +183,15 @@ const router = createBrowserRouter([
             path: ':crewId/chat',
             element: (
               <Suspense fallback={<LoadingSpinner />}>
-                <CrewPage />
+                <CrewChatPage />
+              </Suspense>
+            ),
+          },
+          {
+            path: ':crewId/chat/:receiverId',
+            element: (
+              <Suspense fallback={<LoadingSpinner />}>
+                <CrewPrivateChatPage />
               </Suspense>
             ),
           },
