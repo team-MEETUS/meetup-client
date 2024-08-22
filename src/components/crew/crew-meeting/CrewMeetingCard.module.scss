@@ -63,7 +63,7 @@
     .card_body {
       @include Medium-05;
       display: flex;
-      justify-content: center;
+      justify-content: flex-start;
       align-items: center;
       gap: 10px;
 
@@ -142,7 +142,7 @@
     @media (min-width: 500px) {
       .member_list {
         display: flex;
-        justify-content: space-between;
+        justify-content: flex-start;
         align-items: center;
 
         .member_image {

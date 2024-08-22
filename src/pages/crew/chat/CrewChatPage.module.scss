@@ -65,10 +65,19 @@
         flex-direction: column; /* 세로 방향으로 정렬 */
         margin-left: 10px; /* 이미지와 내용 간의 간격 */
 
-        .nickname {
-          @include Bold-04;
-          margin-bottom: 3px; /* 닉네임과 내용 간의 간격 */
-          margin-left: 3px;
+        .member_info {
+          .nickname {
+            @include Bold-04;
+            margin-bottom: 3px; /* 닉네임과 내용 간의 간격 */
+            margin-left: 3px;
+          }
+
+          .role {
+            @include Bold-04;
+            color: var(--blue-500);
+            margin-left: 5px;
+          }
+          margin-bottom: 2px;
         }
 
         .bubble {
@@ -144,6 +153,10 @@
         margin-left: 10px; /* 이미지와 내용 간의 간격 */
 
         .nickname {
+          display: none;
+        }
+
+        .role {
           display: none;
         }
 
