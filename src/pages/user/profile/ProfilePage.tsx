@@ -215,7 +215,6 @@ const ProfilePage = () => {
               <div className={cn('profile_intro')}>{userInfo.intro}</div>
             </div>
           </div>
-          <div>1</div>
           {/* 찜한 모임 하드코딩 */}
           <div className={styles.crew_list}>
             <h2 className={styles.crew_title}>찜한 모임</h2>
