@@ -273,7 +273,7 @@ const CrewBoardDetailPage = () => {
                       ? '운영진'
                       : crewBoardData.crewMember.role === 'MEMBER'
                         ? ''
-                        : crewBoardData.crewMember.role}
+                        : ''}
                 </span>
                 <span className={styles.category}>
                   {crewBoardData.category}

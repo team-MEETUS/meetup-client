@@ -20,6 +20,7 @@ import CrewNavigation from '@/components/crew/crew-navigation/CrewNavigation';
 import CrewTitle from '@/components/crew/crew-title/CrewTitle';
 import { GetCrewMemberAPIResponseBody } from '@/types/crew/crewAPIType';
 import { CrewMemberRole } from '@/types/crew/crewType';
+import { sanitizeHTML } from '@/utils/sanitizeHTML';
 
 import styles from './CrewPage.module.scss';
 
@@ -117,7 +118,14 @@ const CrewPage = () => {
               <CrewLabel text={`멤버 ${crewDetailData.totalMember}`} />
             </div>
             <CrewTitle title={crewDetailData.name} />
-            <div>{crewDetailData.content}</div>
+            <div
+              className={styles.content}
+              dangerouslySetInnerHTML={{
+                __html: sanitizeHTML(
+                  crewDetailData.content.replace(/\n/g, '<br>'),
+                ),
+              }}
+            />
           </div>
         </div>
       )}
@@ -141,6 +149,7 @@ const CrewPage = () => {
             crewMeetingPastList && crewMeetingPastList.length > 0 ? (
               crewMeetingPastList.map((meeting) => (
                 <CrewMeetingCard
+                  meetingType="past"
                   key={meeting.meetingId}
                   meetingId={String(meeting.meetingId)}
                   crewId={String(crewId)}

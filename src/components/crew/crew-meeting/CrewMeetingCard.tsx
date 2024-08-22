@@ -8,6 +8,7 @@ import { calculateDday, DateType, formatDate } from '@/utils/date';
 import styles from './CrewMeetingCard.module.scss';
 
 interface CrewMeetingCardProps {
+  meetingType?: 'upcoming' | 'past';
   meetingId: string;
   crewId: string;
   name: string;
@@ -21,6 +22,7 @@ interface CrewMeetingCardProps {
 }
 
 const CrewMeetingCard = ({
+  meetingType = 'upcoming',
   meetingId,
   crewId,
   name,
@@ -82,7 +84,10 @@ const CrewMeetingCard = ({
   };
 
   return (
-    <div className={cn('meeting_card')} onClick={onClick}>
+    <div
+      className={cn('meeting_card')}
+      onClick={meetingType !== 'past' ? onClick : undefined}
+    >
       <div className={cn('card_content')}>
         <div className={cn('card_header')}>
           <div className={cn('header_info')}>
@@ -96,7 +101,8 @@ const CrewMeetingCard = ({
             </div>
             <h2 className={cn('title')}>{name}</h2>
           </div>
-          {myMemberId &&
+          {meetingType !== 'past' &&
+            myMemberId &&
             (isMember ? (
               <button
                 className={cn('cancel_button')}

@@ -3,6 +3,7 @@ import { useState, useRef, useEffect } from 'react';
 import classNames from 'classnames/bind';
 import { useNavigate } from 'react-router-dom';
 
+import { useHomeMutation } from '@/apis/react-query/crew/useHomeMutation';
 import NotificationIcon from '@/assets/icons/NotificationIcon.svg?react';
 import { GetNotificationResponseBody } from '@/types/home/homeAPIType';
 
@@ -19,6 +20,8 @@ const NotificationButton = ({
 }: NotificationButtonProps) => {
   const cn = classNames.bind(styles);
   const navigate = useNavigate();
+
+  const { putNotificationRead } = useHomeMutation();
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const dropdownRef = useRef<HTMLDivElement | null>(null);
 
@@ -26,16 +29,27 @@ const NotificationButton = ({
     setIsOpen(!isOpen);
   };
 
-  const handleClickMessage = (url: string) => {
+  const handleClickMessage = async (url: string, notificationId: string) => {
     const parts = url.split('/').filter((part) => part);
     const crewId = parts[1];
     const boardId = parts[3] || null;
 
-    parts.length === 3
-      ? navigate(`${parts[0]}/${parts[1]}/${parts[2]}`, { state: { crewId } })
-      : navigate(`${parts[0]}/${parts[1]}/${parts[2]}/${parts[3]}`, {
+    switch (parts.length) {
+      case 2:
+        navigate(`${parts[0]}/${parts[1]}/home`, { state: { crewId } });
+        break;
+
+      case 3:
+        navigate(`${parts[0]}/${parts[1]}/${parts[2]}`, { state: { crewId } });
+        break;
+
+      case 4:
+        navigate(`${parts[0]}/${parts[1]}/${parts[2]}/${parts[3]}`, {
           state: { crewId, boardId },
         });
+        break;
+    }
+    await putNotificationRead.mutateAsync(notificationId);
   };
 
   useEffect(() => {
@@ -77,8 +91,11 @@ const NotificationButton = ({
               <div
                 key={notification.notificationId}
                 className={cn('notification_item')}
-                onClick={() => {
-                  handleClickMessage(notification.url);
+                onClick={async () => {
+                  await handleClickMessage(
+                    notification.url,
+                    String(notification.notificationId),
+                  );
                 }}
               >
                 {notification.message}
