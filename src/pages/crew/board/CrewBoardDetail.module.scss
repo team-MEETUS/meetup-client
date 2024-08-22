@@ -5,10 +5,22 @@
   justify-content: space-between;
   position: relative;
 
+  .header {
+    position: fixed;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    max-width: 600px;
+    z-index: 10;
+    background-color: var(--white);
+  }
+
   .member_info {
     display: flex; /* 수평 정렬을 위해 flex 사용 */
     align-items: center; /* 수직 중앙 정렬 */
     margin-bottom: 15px; /* 아래쪽 여백 */
+    padding-top: 50px;
 
     .member_image {
       width: 50px;
@@ -94,7 +106,7 @@
   }
 
   .commentList {
-    flex-grow: 1;
+    //flex-grow: 1;
     margin-top: -20px;
     margin-left: 10px;
     margin-right: 10px;

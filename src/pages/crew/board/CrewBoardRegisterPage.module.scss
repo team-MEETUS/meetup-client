@@ -3,6 +3,17 @@
   flex-direction: column;
   gap: 10px;
 
+  .header {
+    position: fixed;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    max-width: 600px;
+    z-index: 10;
+    background-color: var(--white);
+  }
+
   .category {
     display: flex;
     justify-content: flex-start;
@@ -12,6 +23,7 @@
       width: 150px;
       padding-left: 10px;
     }
+    padding-top: 70px;
   }
 
   .title {
@@ -19,7 +31,7 @@
       @include Medium-03;
       width: 80%;
       padding-left: 10px;
-      color: var(--gray-300);
+      color: var(--black);
     }
     display: flex;
     justify-content: space-between;
