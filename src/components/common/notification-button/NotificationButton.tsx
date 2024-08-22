@@ -48,6 +48,12 @@ const NotificationButton = ({
           state: { crewId, boardId },
         });
         break;
+
+      default:
+        navigate(`${url}`, {
+          state: { crewId, boardId },
+        });
+        break;
     }
     await putNotificationRead.mutateAsync(notificationId);
   };
