@@ -117,4 +117,3 @@ const HomeHeader = ({ type = 'default' }: HomeHeaderProps) => {
 };
 
 export default HomeHeader;
-
