@@ -188,7 +188,7 @@ const router = createBrowserRouter([
             ),
           },
           {
-            path: ':crewId/chat/:receiverId',
+            path: ':crewId/chat/:senderId/:receiverId',
             element: (
               <Suspense fallback={<LoadingSpinner />}>
                 <CrewPrivateChatPage />
