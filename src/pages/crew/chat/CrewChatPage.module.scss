@@ -33,13 +33,16 @@
     flex-direction: column-reverse;
 
     .not_comment {
+      margin-bottom: 0; 
+      overflow-y: auto;
+      flex-grow: 1;
       color: var(--gray-400);
     }
 
     .messageList {
       margin-bottom: 0; 
-    overflow-y: auto;
-    flex-grow: 1;
+      overflow-y: auto;
+      flex-grow: 1;
 
   
       .dateSeparator {
