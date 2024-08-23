@@ -181,8 +181,8 @@ const ProfilePage = () => {
 
   const formatDate = (dateString: string) => {
     const year = dateString.substring(0, 4);
-    const month = dateString.substring(4, 6);
-    const day = dateString.substring(6, 8);
+    const month = dateString.substring(5, 7);
+    const day = dateString.substring(8, 10);
 
     return `${year}. ${parseInt(month, 10)}. ${parseInt(day, 10)}`;
   };
