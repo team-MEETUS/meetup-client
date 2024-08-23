@@ -19,6 +19,7 @@ import MoreMenuButton, {
 import CrewHeader from '@/components/crew/crew-header/CrewHeader';
 import CrewNavigation from '@/components/crew/crew-navigation/CrewNavigation';
 import { DateType, formatDate } from '@/utils/date';
+import { useCrewDetailQuery } from '@/apis/react-query/crew/useCrewQuery';
 
 import styles from './CrewAlbumListPage.module.scss';
 
@@ -48,6 +49,7 @@ const CrewAlbumListPage = () => {
     currentAlbumId,
     crewAlbumSuccess,
   );
+  const { data: crewDetailData } = useCrewDetailQuery(crewId);
 
   const { postCreateAlbum, postAlbumLike, deleteAlbum } =
     useCrewAlbumMutation();
@@ -125,7 +127,7 @@ const CrewAlbumListPage = () => {
     <div className={cn('container')}>
       <div className={cn('header')}>
         <CrewHeader
-          title="사진첩"
+          title={crewDetailData.name}
           crewId={crewId}
           onClick={() => navigate('/')}
         />
