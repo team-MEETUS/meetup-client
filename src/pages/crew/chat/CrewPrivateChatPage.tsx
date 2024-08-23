@@ -41,6 +41,8 @@ const CrewPrivateChatPage = () => {
   const clientRef: React.MutableRefObject<null> = useRef(null);
   const subscriptionRef: React.MutableRefObject<null> = useRef(null);
 
+  const messagesEndRef = useRef<HTMLDivElement | null>(null); // 스크롤을 제일 아래로 이동시키기 위한 ref
+
   const VITE_API_URL = useMemo(() => import.meta.env.VITE_API_URL, []);
   axios.defaults.baseURL = `${VITE_API_URL}`;
   axios.interceptors.request.use(
@@ -52,6 +54,17 @@ const CrewPrivateChatPage = () => {
       return Promise.reject(error);
     },
   );
+
+  // 스크롤 하단으로 내리기
+  const scrollToBottom = () => {
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
 
   useEffect(() => {
     if (receiverId && crewId) {
@@ -185,50 +198,63 @@ const CrewPrivateChatPage = () => {
   const renderMessages = () => {
     let lastDate = null;
 
-    return messages.map((msg, idx) => {
-      const messageDate = new Date(msg.data.createDate);
-      const messageDateString = messageDate.toLocaleDateString();
-      const showDate = lastDate !== messageDateString;
-      lastDate = messageDateString;
+    return (
+      <>
+        {messages.map((msg, idx) => {
+          const messageDate = new Date(msg.data.createDate);
+          const messageDateString = messageDate.toLocaleDateString();
+          const showDate = lastDate !== messageDateString;
+          lastDate = messageDateString;
 
-      return (
-        <div key={idx}>
-          {showDate && (
-            <div className={styles.dateSeparator}>{messageDateString}</div>
-          )}
-          <div
-            className={
-              msg.data.member.memberId != myMemberId
-                ? styles.message_left
-                : styles.message_right
-            }
-          >
-            <img
-              src={msg.data.member.saveImg}
-              alt=""
-              className={styles.sender}
-            />
-            <div className={styles.messageContent}>
-              <span className={styles.nickname}>
-                {msg.data.member.nickname}
-              </span>
-              <div className={styles.contentWithDate_left}>
-                <span className={styles.bubble}>{msg.data.message}</span>
-                <span className={styles.date}>
-                  {formatTime(msg.data.createDate)}
-                </span>
-              </div>
-              <div className={styles.contentWithDate_right}>
-                <span className={styles.date}>
-                  {formatTime(msg.data.createDate)}
-                </span>
-                <span className={styles.bubble}>{msg.data.message}</span>
+          return (
+            <div key={idx}>
+              {showDate && (
+                <div className={styles.dateSeparator}>{messageDateString}</div>
+              )}
+              <div
+                className={
+                  msg.data.member.memberId != myMemberId
+                    ? styles.message_left
+                    : styles.message_right
+                }
+              >
+                <img
+                  src={msg.data.member.saveImg}
+                  alt=""
+                  className={styles.sender}
+                />
+                <div className={styles.messageContent}>
+                  <span className={styles.nickname}>
+                    {msg.data.member.nickname}
+                  </span>
+                  <div className={styles.contentWithDate_left}>
+                    <span className={styles.bubble}>{msg.data.message}</span>
+                    <span className={styles.date}>
+                      {formatTime(msg.data.createDate)}
+                    </span>
+                  </div>
+                  <div className={styles.contentWithDate_right}>
+                    <span className={styles.date}>
+                      {formatTime(msg.data.createDate)}
+                    </span>
+                    <span className={styles.bubble}>{msg.data.message}</span>
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
-        </div>
-      );
-    });
+          );
+        })}
+        {/* 스크롤이 자동으로 마지막 메시지로 이동 */}
+        <div ref={messagesEndRef} />
+      </>
+    );
+  };
+
+  // 엔터키 입력을 감지하여 메시지 전송
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      sendMessage();
+    }
   };
 
   return (
@@ -242,16 +268,19 @@ const CrewPrivateChatPage = () => {
         <CrewNavigation id={crewId} />
       </div>
       {error && <div className={styles.errorMessage}>{error}</div>}
-      {messages && messages.length > 0 ? (
-        <div className={styles.messageList}>{renderMessages()}</div>
-      ) : (
-        <div>아직 채팅이 없습니다.</div>
-      )}
+      <div className={styles.chat_container}>
+        {messages && messages.length > 0 ? (
+          <div className={styles.messageList}>{renderMessages()}</div>
+        ) : (
+          <div>아직 채팅이 없습니다.</div>
+        )}
+      </div>
       <div className={styles.input_container}>
         <input
           type="text"
           value={message}
           onChange={(e) => setMessage(e.target.value)}
+          onKeyPress={handleKeyPress} // 엔터키 입력 감지 이벤트 추가
           placeholder="메시지를 입력하세요"
           className={styles.input}
         />
