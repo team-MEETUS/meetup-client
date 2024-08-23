@@ -77,33 +77,53 @@ const ProfilePage = () => {
   const newCrewColumns = [
     [
       {
-        crewId: 58,
-        name: '모두의 마블 모두해',
-        intro: '모두의 마블 랭커',
-        max: 300,
-        originalImg:
-          'EWakP_GctO03UctEtUhpEoHCx0W8Jz2QzeXMocnVZh0qfYJB8l-5q7A3T6egufpAX_xHsvtSdEsjD5xDAPpKAw.jpg',
+        crewId: 34,
+        name: '✈️투.게.더 Together',
+        intro: '✈️투.게.더 Together 신입모집중 ❤️',
+        max: 50,
+        originalImg: 'KakaoTalk_20240823_030814194.jpg',
         saveImg:
-          'https://meetup-server-bucket.s3.ap-northeast-2.amazonaws.com/4ccd9425-3EWakP_GctO03UctEtUhpEoHCx0W8Jz2QzeXMocnVZh0qfYJB8l-5q7A3T6egufpAX_xHsvtSdEsjD5xDAPpKAw.jpg',
-        totalMember: 4,
+          'https://meetup-server-bucket.s3.ap-northeast-2.amazonaws.com/88eeb095-dKakaoTalk_20240823_030814194.jpg',
+        totalMember: 2,
         totalLike: 0,
         geo: {
-          geoId: 11110108,
+          geoId: 11590101,
+          city: '서울특별시',
+          district: '동작구',
+        },
+        interestBig: {
+          interestBigId: 1,
+          name: '아웃도어/여행',
+        },
+      },
+      {
+        crewId: 30,
+        name: '💣 TEAM 핵폭탄 💣',
+        intro: '내맘대로 백패킹 🎒',
+        max: 50,
+        originalImg: 'KakaoTalk_20240823_023557552.jpg',
+        saveImg:
+          'https://meetup-server-bucket.s3.ap-northeast-2.amazonaws.com/babde1c5-aKakaoTalk_20240823_023557552.jpg',
+        totalMember: 1,
+        totalLike: 0,
+        geo: {
+          geoId: 11110102,
           city: '서울특별시',
           district: '종로구',
         },
         interestBig: {
-          interestBigId: 8,
-          name: '게임/오락',
+          interestBigId: 1,
+          name: '아웃도어/여행',
         },
       },
       {
-        crewId: 49,
-        name: '등산가자',
-        intro: '등산을 사랑하는 모임',
-        max: 100,
-        originalImg: 'default.png',
-        saveImg: '/images/default.png',
+        crewId: 26,
+        name: '(미라클모닝)굿모닝 유스 💙',
+        intro: '자기계발에 미치고픈 2030 오전 스터디',
+        max: 10,
+        originalImg: 'KakaoTalk_20240822_154952624_04.jpg',
+        saveImg:
+          'https://meetup-server-bucket.s3.ap-northeast-2.amazonaws.com/ec677312-fKakaoTalk_20240822_154952624_04.jpg',
         totalMember: 1,
         totalLike: 0,
         geo: {
@@ -112,68 +132,48 @@ const ProfilePage = () => {
           district: '노원구',
         },
         interestBig: {
-          interestBigId: 1,
-          name: '아웃도어/여행',
+          interestBigId: 10,
+          name: '자기계발',
         },
       },
       {
-        crewId: 33,
-        name: '스펀지밥',
-        intro: '뚱이',
-        max: 10,
-        originalImg: '695348_663606_3628.jpg',
+        crewId: 22,
+        name: '[토링] 한중 언어교류 보드게임🎲',
+        intro: '안녕하세요😁',
+        max: 50,
+        originalImg: 'KakaoTalk_20240822_154739693_10.jpg',
         saveImg:
-          'https://meetup-server-bucket.s3.ap-northeast-2.amazonaws.com/32a5891d-a695348_663606_3628.jpg',
-        totalMember: 0,
+          'https://meetup-server-bucket.s3.ap-northeast-2.amazonaws.com/02857d0c-fKakaoTalk_20240822_154739693_10.jpg',
+        totalMember: 1,
         totalLike: 0,
         geo: {
-          geoId: 11110156,
+          geoId: 11680108,
           city: '서울특별시',
-          district: '종로구',
+          district: '강남구',
         },
         interestBig: {
-          interestBigId: 1,
-          name: '아웃도어/여행',
+          interestBigId: 5,
+          name: '외국/언어',
         },
       },
       {
-        crewId: 46,
-        name: 'ㅇㅇ1',
-        intro: '1123123',
-        max: 20,
-        originalImg: 'after.jpg',
+        crewId: 18,
+        name: '🔥 Kali 영어 모임 오픈!',
+        intro: '🌏 "Express yourself, Be involved!"',
+        max: 50,
+        originalImg: 'KakaoTalk_20240822_154739693_16.jpg',
         saveImg:
-          'https://meetup-server-bucket.s3.ap-northeast-2.amazonaws.com/f4acd647-cafter.jpg',
-        totalMember: 0,
+          'https://meetup-server-bucket.s3.ap-northeast-2.amazonaws.com/fae5731c-2KakaoTalk_20240822_154739693_16.jpg',
+        totalMember: 2,
         totalLike: 0,
         geo: {
-          geoId: 11440127,
-          city: '서울특별시',
-          district: '마포구',
-        },
-        interestBig: {
-          interestBigId: 3,
-          name: '인문학/책/글',
-        },
-      },
-      {
-        crewId: 42,
-        name: 'ㅇㅇ1',
-        intro: '1123123',
-        max: 20,
-        originalImg: 'after.jpg',
-        saveImg:
-          'https://meetup-server-bucket.s3.ap-northeast-2.amazonaws.com/ca303d13-bafter.jpg',
-        totalMember: 0,
-        totalLike: 0,
-        geo: {
-          geoId: 11440127,
+          geoId: 11440120,
           city: '서울특별시',
           district: '마포구',
         },
         interestBig: {
-          interestBigId: 1,
-          name: '아웃도어/여행',
+          interestBigId: 5,
+          name: '외국/언어',
         },
       },
     ],
@@ -224,7 +224,7 @@ const ProfilePage = () => {
               <div className={cn('profile_intro')}>{userInfo.intro}</div>
             </div>
           </div>
-          {/* 찜한 모임 하드코딩 */}
+          {/* 찜한 모임 하드 */}
           <div className={styles.crew_list}>
             <h2 className={styles.crew_title}>찜한 모임</h2>
             <div className={styles.crew_section}>
