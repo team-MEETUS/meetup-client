@@ -81,22 +81,6 @@ const HomePage = () => {
         ))}
       </div>
 
-      {/* 새로 생긴 모임 */}
-      <div className={styles.crew_list}>
-        <h2 className={styles.crew_title}>새로 생긴 모임</h2>
-        <div className={styles.crew_section}>
-          {newCrewColumns.map((column, columnIndex) => (
-            <div key={columnIndex} className={styles.crew_column}>
-              {column.map((crew) => (
-                <div key={crew.crewId} className={styles.crew_item}>
-                  <CrewCard crew={crew} />
-                </div>
-              ))}
-            </div>
-          ))}
-        </div>
-      </div>
-
       {/* 활동이 활발한 모임 */}
       <div className={styles.crew_list}>
         <h2 className={styles.crew_title}>활동이 활발한 모임</h2>
@@ -106,6 +90,22 @@ const HomePage = () => {
               {column.map((crew) => (
                 <div key={crew.crewId} className={styles.crew_item}>
                   <CrewCard type="active" crew={crew} />
+                </div>
+              ))}
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* 새로 생긴 모임 */}
+      <div className={styles.crew_list}>
+        <h2 className={styles.crew_title}>새로 생긴 모임</h2>
+        <div className={styles.crew_section}>
+          {newCrewColumns.map((column, columnIndex) => (
+            <div key={columnIndex} className={styles.crew_column}>
+              {column.map((crew) => (
+                <div key={crew.crewId} className={styles.crew_item}>
+                  <CrewCard crew={crew} />
                 </div>
               ))}
             </div>
