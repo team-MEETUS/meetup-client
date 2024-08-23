@@ -8,7 +8,6 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useCrewDetailQuery } from '@/apis/react-query/crew/useCrewQuery';
 import CrewHeader from '@/components/crew/crew-header/CrewHeader';
 import CrewNavigation from '@/components/crew/crew-navigation/CrewNavigation';
-import CommonHeader from '@/components/header/CommonHeader';
 
 import styles from './CrewChatPage.module.scss';
 
@@ -362,11 +361,13 @@ const ChatPage = () => {
   return (
     <div className={styles.container}>
       <div className={styles.header}>
-        <CrewHeader
-          crewId={crewId}
-          title={crewDetailData.name}
-          onClick={() => navigate('/')}
-        />
+        {crewDetailData && (
+          <CrewHeader
+            crewId={crewId}
+            title={crewDetailData.name}
+            onClick={() => navigate('/')}
+          />
+        )}
         <CrewNavigation id={crewId} />
       </div>
       {error && <div className={styles.errorMessage}>{error}</div>}
