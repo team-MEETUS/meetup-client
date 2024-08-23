@@ -242,6 +242,13 @@ const CrewBoardDetailPage = () => {
 
   const myMemberId = localStorage.getItem('MEMBER_ID');
 
+  // 엔터키 입력을 감지하여 메시지 전송
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      handleAddComment();
+    }
+  };
+
   return (
     <div className={styles.container}>
       <div className={styles.header}>
@@ -375,6 +382,7 @@ const CrewBoardDetailPage = () => {
           placeholder="댓글을 입력하세요"
           value={newComment}
           onChange={(e) => setNewComment(e.target.value)}
+          onKeyPress={handleKeyPress} // 엔터키 입력 감지 이벤트 추가
           onFocus={() =>
             commentListRef.current?.scrollIntoView({ behavior: 'smooth' })
           }
