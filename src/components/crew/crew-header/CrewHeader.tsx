@@ -43,6 +43,10 @@ const CrewHeader = ({ crewId, title, onClick }: CrewHeaderProps) => {
     await postCrewLike.mutateAsync(crewId);
   };
 
+  const onClickShare = () => {
+    toast.info('해당 기능은 준비중입니다.');
+  };
+
   const menuItems: MenuItem[] = [
     {
       label: crewMemberRole === CrewMemberRole.LEADER ? '모임 삭제' : '',
@@ -112,7 +116,7 @@ const CrewHeader = ({ crewId, title, onClick }: CrewHeaderProps) => {
         ) : (
           <EmptyHeartIcon onClick={toggleHeart} />
         )}
-        <ShareIcon />
+        <ShareIcon onClick={onClickShare} />
         <MoreMenuButton items={menuItems} />
       </div>
     </header>
