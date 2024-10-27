@@ -2,9 +2,10 @@ import { HttpStatusCode } from 'axios';
 
 import api from '@/apis';
 import { ApiResponse } from '@/apis/server/type';
-import {
+import type {
   GetAllCrewAPIResponseBody,
   GetCrewMemberAPIResponseBody,
+  GetMyLikeCrewAPI,
 } from '@/types/crew/crewAPIType';
 import { CrewMemberRole } from '@/types/crew/crewType';
 import { CrewSelectRespDto } from '@/types/home/homeAPIType';
@@ -170,6 +171,16 @@ const GetCrewMemberRoleAPI = async (crewId: string) => {
   return data;
 };
 
+/**
+ * @description 내가 찜한 모임 조회
+ */
+const GetMyLikeCrewAPI = async () => {
+  const { data } =
+    await api.get<ApiResponse<GetMyLikeCrewAPI[]>>(`/crews/likes`);
+
+  return data;
+};
+
 export {
   GetAllCrewAPI,
   GetCrewDetailAPI,
@@ -182,4 +193,5 @@ export {
   PostLikeCrewAPI,
   PutUpdateCrewMemberAPI,
   GetCrewMemberRoleAPI,
+  GetMyLikeCrewAPI,
 };
