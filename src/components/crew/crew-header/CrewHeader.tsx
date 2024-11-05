@@ -58,11 +58,7 @@ const CrewHeader = ({ crewId, title, onClick }: CrewHeaderProps) => {
       },
     },
     {
-      label:
-        crewMemberRole === CrewMemberRole.LEADER ||
-        crewMemberRole === CrewMemberRole.ADMIN
-          ? '모임 수정'
-          : '',
+      label: crewMemberRole === CrewMemberRole.LEADER ? '모임 수정' : '',
       onClick: () => {
         navigate(`/crew/register/update`, {
           state: { isEditing: true, crewId },
