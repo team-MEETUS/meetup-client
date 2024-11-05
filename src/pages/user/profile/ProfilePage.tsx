@@ -3,6 +3,7 @@ import { useState } from 'react';
 import classNames from 'classnames/bind';
 import { useNavigate } from 'react-router-dom';
 
+import { useMyLikeCrewAPI } from '@/apis/react-query/crew/useCrewQuery';
 import CrewCard from '@/components/common/crew-card/CrewCard';
 import MoreMenuButton, {
   MenuItem,
@@ -32,6 +33,8 @@ interface StoredUser {
 const ProfilePage = () => {
   const cn = classNames.bind(styles);
   const navigate = useNavigate();
+
+  const { data: myLikeCrewData } = useMyLikeCrewAPI();
 
   const [userInfo] = useState<UserInfo | null>(() => {
     const storedUserString = sessionStorage.getItem('USER_STORE');
@@ -74,111 +77,6 @@ const ProfilePage = () => {
     navigate('/user/login');
   };
 
-  const newCrewColumns = [
-    [
-      {
-        crewId: 34,
-        name: '✈️투.게.더 Together',
-        intro: '✈️투.게.더 Together 신입모집중 ❤️',
-        max: 50,
-        originalImg: 'KakaoTalk_20240823_030814194.jpg',
-        saveImg:
-          'https://meetup-server-bucket.s3.ap-northeast-2.amazonaws.com/88eeb095-dKakaoTalk_20240823_030814194.jpg',
-        totalMember: 2,
-        totalLike: 0,
-        geo: {
-          geoId: 11590101,
-          city: '서울특별시',
-          district: '동작구',
-        },
-        interestBig: {
-          interestBigId: 1,
-          name: '아웃도어/여행',
-        },
-      },
-      {
-        crewId: 30,
-        name: '💣 TEAM 핵폭탄 💣',
-        intro: '내맘대로 백패킹 🎒',
-        max: 50,
-        originalImg: 'KakaoTalk_20240823_023557552.jpg',
-        saveImg:
-          'https://meetup-server-bucket.s3.ap-northeast-2.amazonaws.com/babde1c5-aKakaoTalk_20240823_023557552.jpg',
-        totalMember: 1,
-        totalLike: 0,
-        geo: {
-          geoId: 11110102,
-          city: '서울특별시',
-          district: '종로구',
-        },
-        interestBig: {
-          interestBigId: 1,
-          name: '아웃도어/여행',
-        },
-      },
-      {
-        crewId: 26,
-        name: '(미라클모닝)굿모닝 유스 💙',
-        intro: '자기계발에 미치고픈 2030 오전 스터디',
-        max: 10,
-        originalImg: 'KakaoTalk_20240822_154952624_04.jpg',
-        saveImg:
-          'https://meetup-server-bucket.s3.ap-northeast-2.amazonaws.com/ec677312-fKakaoTalk_20240822_154952624_04.jpg',
-        totalMember: 1,
-        totalLike: 0,
-        geo: {
-          geoId: 11350106,
-          city: '서울특별시',
-          district: '노원구',
-        },
-        interestBig: {
-          interestBigId: 10,
-          name: '자기계발',
-        },
-      },
-      {
-        crewId: 22,
-        name: '[토링] 한중 언어교류 보드게임🎲',
-        intro: '안녕하세요😁',
-        max: 50,
-        originalImg: 'KakaoTalk_20240822_154739693_10.jpg',
-        saveImg:
-          'https://meetup-server-bucket.s3.ap-northeast-2.amazonaws.com/02857d0c-fKakaoTalk_20240822_154739693_10.jpg',
-        totalMember: 1,
-        totalLike: 0,
-        geo: {
-          geoId: 11680108,
-          city: '서울특별시',
-          district: '강남구',
-        },
-        interestBig: {
-          interestBigId: 5,
-          name: '외국/언어',
-        },
-      },
-      {
-        crewId: 18,
-        name: '🔥 Kali 영어 모임 오픈!',
-        intro: '🌏 "Express yourself, Be involved!"',
-        max: 50,
-        originalImg: 'KakaoTalk_20240822_154739693_16.jpg',
-        saveImg:
-          'https://meetup-server-bucket.s3.ap-northeast-2.amazonaws.com/fae5731c-2KakaoTalk_20240822_154739693_16.jpg',
-        totalMember: 2,
-        totalLike: 0,
-        geo: {
-          geoId: 11440120,
-          city: '서울특별시',
-          district: '마포구',
-        },
-        interestBig: {
-          interestBigId: 5,
-          name: '외국/언어',
-        },
-      },
-    ],
-  ];
-
   const formatDate = (dateString: string) => {
     const year = dateString.substring(0, 4);
     const month = dateString.substring(5, 7);
@@ -220,23 +118,20 @@ const ProfilePage = () => {
                 <div className={cn('profile_birth')}>
                   {formatDate(userInfo.birth)}
                 </div>
+                <div className={cn('profile_birth')}>
+                  {formatDate(userInfo.birth)}
+                </div>
               </div>
               <div className={cn('profile_intro')}>{userInfo.intro}</div>
             </div>
           </div>
-          {/* 찜한 모임 하드 */}
           <div className={styles.crew_list}>
             <h2 className={styles.crew_title}>찜한 모임</h2>
             <div className={styles.crew_section}>
-              {newCrewColumns.map((column, columnIndex) => (
-                <div key={columnIndex} className={styles.crew_column}>
-                  {column.map((crew) => (
-                    <div key={crew.crewId} className={styles.crew_item}>
-                      <CrewCard crew={crew} />
-                    </div>
-                  ))}
-                </div>
-              ))}
+              {myLikeCrewData &&
+                myLikeCrewData.map((crew) => (
+                  <CrewCard crew={crew} key={crew.crewId} />
+                ))}
             </div>
           </div>
           {/* // */}

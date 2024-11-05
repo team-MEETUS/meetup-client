@@ -7,6 +7,7 @@ import {
   GetCrewMemberAPI,
   GetCrewMemberRoleAPI,
   GetIsLikeCrewAPI,
+  GetMyLikeCrewAPI,
 } from '@/apis/server/crew/crewAPI';
 
 // 모임 목록 조회
@@ -77,6 +78,16 @@ export const useCrewMemberRoleQuery = (crewId: string) => {
     queryFn: () => GetCrewMemberRoleAPI(crewId),
     select: (response) => response.data,
     enabled: !!sessionStorage.getItem('ACCESS_TOKEN'),
+  });
+
+  return { data, isLoading, error };
+};
+
+export const useMyLikeCrewAPI = () => {
+  const { data, isLoading, error } = useQuery({
+    queryKey: crewQueryKey.crewMyLike(),
+    queryFn: () => GetMyLikeCrewAPI(),
+    select: (response) => response.data,
   });
 
   return { data, isLoading, error };

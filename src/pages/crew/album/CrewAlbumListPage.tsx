@@ -10,6 +10,7 @@ import {
   useCrewAlbumLikeQuery,
   useCrewAlbumListQuery,
 } from '@/apis/react-query/crew/useCrewAlbumQuery';
+import { useCrewDetailQuery } from '@/apis/react-query/crew/useCrewQuery';
 import CrewAddIcon from '@/assets/icons/CrewAddIcon.svg?react';
 import EmptyHeartIcon from '@/assets/icons/EmptyHeartIcon.svg?react';
 import FilledHeartIcon from '@/assets/icons/FilledHeartIcon.svg?react';
@@ -19,7 +20,6 @@ import MoreMenuButton, {
 import CrewHeader from '@/components/crew/crew-header/CrewHeader';
 import CrewNavigation from '@/components/crew/crew-navigation/CrewNavigation';
 import { DateType, formatDate } from '@/utils/date';
-import { useCrewDetailQuery } from '@/apis/react-query/crew/useCrewQuery';
 
 import styles from './CrewAlbumListPage.module.scss';
 
@@ -126,11 +126,13 @@ const CrewAlbumListPage = () => {
   return (
     <div className={cn('container')}>
       <div className={cn('header')}>
-        <CrewHeader
-          title={crewDetailData.name}
-          crewId={crewId}
-          onClick={() => navigate('/')}
-        />
+        {crewDetailData && (
+          <CrewHeader
+            title={crewDetailData.name}
+            crewId={crewId}
+            onClick={() => navigate('/')}
+          />
+        )}
         <CrewNavigation id={crewId} />
       </div>
 
