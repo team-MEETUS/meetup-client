@@ -107,7 +107,10 @@ const CrewPage = () => {
               title={crewDetailData.name}
               onClick={() => navigate('/')}
             />
-            <CrewNavigation id={crewId} />
+            <CrewNavigation
+              id={crewId}
+              isMember={crewMemberRole ? true : false}
+            />
           </div>
 
           <CrewBanner imgSrc={crewDetailData.saveImg} />
