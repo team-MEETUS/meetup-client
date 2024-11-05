@@ -5,11 +5,13 @@ import { useEffect, useMemo, useState } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
 import classNames from 'classnames/bind';
 import { EventSourcePolyfill } from 'event-source-polyfill';
+import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 import homeQueryKey from '@/apis/query-key/homeQueryKey';
 import { useNotificationListQuery } from '@/apis/react-query/crew/useHomeQuery';
 import ChevronRightIcon from '@/assets/icons/ChevronRightIcon.svg?react';
+import SearchIcon from '@/assets/icons/SearchIcon.svg?react';
 import NotificationButton from '@/components/common/notification-button/NotificationButton';
 import useUserStore from '@/stores/user/useUserStore';
 import { GetSubscribedNotificationResponseBody } from '@/types/home/homeAPIType';
@@ -22,6 +24,7 @@ interface HomeHeaderProps {
 }
 const HomeHeader = ({ type = 'default' }: HomeHeaderProps) => {
   const cn = classNames.bind(styles);
+  const navigate = useNavigate();
   const queryClient = useQueryClient();
 
   const [notification, setNotification] = useState<number>(0);
@@ -61,15 +64,21 @@ const HomeHeader = ({ type = 'default' }: HomeHeaderProps) => {
       );
 
       eventSource.addEventListener('notification', async (e) => {
-        const data: GetSubscribedNotificationResponseBody = JSON.parse(e.data);
-        if (!data.message) {
+        const messageEvent = e as MessageEvent;
+
+        const data: GetSubscribedNotificationResponseBody = JSON.parse(
+          messageEvent.data,
+        );
+        if (!data.message && data.notificationCount) {
           setNotification(data.notificationCount);
           // 쿼리 무효화로 알림 목록 갱신
           await queryClient.invalidateQueries({
             queryKey: homeQueryKey.notificationList(),
           });
         } else {
-          toast.info(sanitizeHTML(data.message));
+          if (data.message) {
+            toast.info(sanitizeHTML(data.message));
+          }
         }
       });
 
@@ -107,6 +116,7 @@ const HomeHeader = ({ type = 'default' }: HomeHeaderProps) => {
       </div>
       {type === 'profile' ? null : (
         <div className={cn('header_right')}>
+          <SearchIcon onClick={() => navigate('/search')} />
           <NotificationButton
             notifications={notificationList ?? []}
             total={notification}
