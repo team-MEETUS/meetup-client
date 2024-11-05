@@ -34,8 +34,6 @@ const ProfilePage = () => {
   const cn = classNames.bind(styles);
   const navigate = useNavigate();
 
-  const { data: myLikeCrewData } = useMyLikeCrewAPI();
-
   const [userInfo] = useState<UserInfo | null>(() => {
     const storedUserString = sessionStorage.getItem('USER_STORE');
     if (!storedUserString) return null;
@@ -51,9 +49,12 @@ const ProfilePage = () => {
       return null;
     }
   });
+
   const { resetUser } = useUserStore((state) => ({
     resetUser: state.resetUser,
   }));
+
+  const { data: myLikeCrewData } = useMyLikeCrewAPI(userInfo ? true : false);
 
   const menuItems: MenuItem[] = [
     {

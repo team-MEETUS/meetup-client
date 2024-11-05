@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query';
+import { skipToken, useQuery } from '@tanstack/react-query';
 
 import crewQueryKey from '@/apis/query-key/crewQueryKey';
 import {
@@ -83,10 +83,10 @@ export const useCrewMemberRoleQuery = (crewId: string) => {
   return { data, isLoading, error };
 };
 
-export const useMyLikeCrewAPI = () => {
+export const useMyLikeCrewAPI = (isLogin: boolean) => {
   const { data, isLoading, error } = useQuery({
     queryKey: crewQueryKey.crewMyLike(),
-    queryFn: () => GetMyLikeCrewAPI(),
+    queryFn: isLogin ? () => GetMyLikeCrewAPI() : skipToken,
     select: (response) => response.data,
   });
 
