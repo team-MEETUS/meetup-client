@@ -1,3 +1,5 @@
+import { useState } from 'react';
+
 import classNames from 'classnames/bind';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 
@@ -18,6 +20,8 @@ const CrewInterestBigPage = () => {
   const interestBigId = queryParams.get('interestBigId');
   const interestSmallId = queryParams.get('interestSmallId');
   const name = queryParams.get('name');
+
+  const [interestBigName] = useState<string>(name || '전체');
 
   const { data: interestData } = useCrewListQuery({
     interestBigId: Number(interestBigId),
@@ -56,19 +60,17 @@ const CrewInterestBigPage = () => {
         <div
           className={styles.interest_item}
           onClick={() =>
-            handleInterestBigClick(
-              Number(interestBigId),
-              interestData[0].interestBig.name,
-            )
+            handleInterestBigClick(Number(interestBigId), interestBigName)
           }
         >
-          <span className={cn('interest_name')}>전체</span>
+          <span className={cn('interest_name')}>{interestBigName}</span>
         </div>
         {interestSmallData?.map((interest) => (
           <div
             key={interest.interestSmallId}
             className={styles.interest_item}
             onClick={() =>
+              interest.interestSmallId !== null &&
               handleInterestSmallClick(interest.interestSmallId, interest.name)
             }
           >
