@@ -119,9 +119,6 @@ const ProfilePage = () => {
                 <div className={cn('profile_birth')}>
                   {formatDate(userInfo.birth)}
                 </div>
-                <div className={cn('profile_birth')}>
-                  {formatDate(userInfo.birth)}
-                </div>
               </div>
               <div className={cn('profile_intro')}>{userInfo.intro}</div>
             </div>
