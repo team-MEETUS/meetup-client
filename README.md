@@ -1,4 +1,4 @@
-# 🎉 MEETUP - 지역기반 모임 플랫폼
+# 🎉 MEETUP - 지역 기반 모임 플랫폼
 
 <p align="center">
   <img src="/public/icons/icon-512.png" alt="Meetup Logo" width="200"/>
@@ -9,7 +9,7 @@ MEETUP은 다양한 **취미**와 **관심사**를 가진 사람들이 모여 �
 
 > MEETUP은 **함께하는 즐거움**과 **공동체 형성**을 지향합니다.
 
----
+<hr>
 
 ### 📍 지역 기반 모임의 장점
 
